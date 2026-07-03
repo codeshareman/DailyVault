@@ -3,4 +3,13 @@
 .obsidian/workspace-mobile.json
 .obsidian/cache/
 .obsidian/plugins/*/data.json
+!.obsidian/plugins/quickadd/data.json
+!.obsidian/plugins/templater-obsidian/data.json
+!.obsidian/plugins/calendar/data.json
+!.obsidian/plugins/dataview/data.json
 .trash/
+.obsidian/plugins/*/main.js
+.obsidian/plugins/*/styles.css
+Server/node_modules/
+Server/logs/audit/*.jsonl
+Server/.env

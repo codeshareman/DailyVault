@@ -1,3 +1,14 @@
 # Summaries
 
-从 Daily、Clippings、Resources、Notes 和 Investing reports 汇总出的周/月/年回顾。
+从 Daily、Sources、Clippings 和 Notes 汇总出的周/月/季/年回顾。
+
+回顾重点：
+
+- 本周期完成了什么。
+- 重要输入和输出是什么。
+- 看了、听了、学了、去了、练了什么。
+- 哪些兴趣正在增强，哪些值得继续挖掘。
+- 健身、路线、身体状态有什么变化。
+- 哪些待办迁移、放弃或变成长期项目。
+- 哪些内容适合公开到博客或 API。
+- 下个周期最重要的目标是什么。

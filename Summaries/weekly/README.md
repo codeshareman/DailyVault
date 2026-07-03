@@ -1,10 +1,3 @@
 # Weekly Summaries
 
-每周从 `Daily/` 汇总：
-
-- 本周主线
-- 重要输入
-- 投资观察
-- ZNorth candidates
-- Nervia promotion candidates
-- 下周动作
+每周复盘：主线、完成、生活片段、兴趣信号、训练、下周 Top 3。

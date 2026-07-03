@@ -1,0 +1,51 @@
+{
+  "command_timeout": 5,
+  "templates_folder": "Templates",
+  "templates_pairs": [
+    [
+      "",
+      ""
+    ]
+  ],
+  "trigger_on_file_creation": true,
+  "auto_jump_to_cursor": false,
+  "enable_system_commands": false,
+  "shell_path": "",
+  "user_scripts_folder": "",
+  "enable_folder_templates": true,
+  "folder_templates": [
+    {
+      "folder": "Daily",
+      "template": "Templates/daily.md"
+    },
+    {
+      "folder": "Notes",
+      "template": "Templates/note.md"
+    },
+    {
+      "folder": "Sources/inbox",
+      "template": "Templates/source.md"
+    },
+    {
+      "folder": "Summaries/weekly",
+      "template": "Templates/weekly-review.md"
+    },
+    {
+      "folder": "Summaries/monthly",
+      "template": "Templates/monthly-review.md"
+    },
+    {
+      "folder": "Summaries/quarterly",
+      "template": "Templates/quarterly-review.md"
+    },
+    {
+      "folder": "Summaries/yearly",
+      "template": "Templates/yearly-review.md"
+    }
+  ],
+  "syntax_highlighting": true,
+  "syntax_highlighting_mobile": false,
+  "enabled_templates_hotkeys": [],
+  "startup_templates": [],
+  "enable_ribbon_icon": true
+}

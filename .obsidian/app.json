@@ -1,0 +1,16 @@
+{
+  "promptDelete": false,
+  "strictLineBreaks": true,
+  "tabSize": 3,
+  "showLineNumber": false,
+  "spellcheck": true,
+  "legacyEditor": false,
+  "foldIndent": true,
+  "defaultViewMode": "source",
+  "focusNewTab": true,
+  "autoPairMarkdown": true,
+  "autoPairBrackets": true,
+  "autoConvertHtml": true,
+  "readableLineLength": false,
+  "livePreview": false
+}
