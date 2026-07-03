@@ -23,6 +23,83 @@ It should also preserve personal life signals:
 
 Domain-specific research belongs in separate projects with their own workflows. DailyVault keeps general daily execution, personal capture, life timeline, source metadata, learning, review, and public-shareable life data.
 
+## User guide / 怎么使用
+
+### 每天只做三件事
+
+1. 打开或创建 `Daily/YYYYMMDD.md`。
+2. 先写自然语言：今天做了什么、输入了什么、输出了什么、看/读/听/学/去/练/用了什么、明天第一步。
+3. 只有当一条记录值得长期保留、复盘统计或未来公开时，再链接到 `Sources/`、`Notes/` 或 `Clippings/`。
+
+空白可以留空；不要为了填满模板而编内容。Daily 是人的日记和时间线，不是表单。
+
+### Daily 怎么写
+
+推荐写法：
+
+```markdown
+## 输入
+- 读了 [[Sources/reading/20260703-frontend-state|Frontend State Article]]：一句真正有用的收获。
+- 临时看了一篇文章，还不确定有没有价值。
+
+## Life Timeline
+- 看了
+  - [[Sources/watching/20260703-react-debugging|React Debugging Video]]
+- 练了
+  - 肩颈活动 15 分钟，感觉右肩轻松一点。
+
+## 学到 / 复盘
+- 学到：取消请求和忽略过期响应不是一回事。
+- 明天第一步：先补最小复现，再改组件状态。
+```
+
+避免写法：
+
+```markdown
+- 一整串面向统计的字段，而不是人能直接读的句子。
+- 名称写在外面，后面再跟一个裸链接。
+```
+
+也就是：正文保持可读；如果要链接，使用 `[[path|可读名称]]`，让名称和链接在同一个 Markdown link 里。
+
+### 什么时候放到哪里
+
+| 你手里有什么 | 放哪里 | 用法 |
+| --- | --- | --- |
+| 今天发生的事、计划、复盘、生活片段 | `Daily/YYYYMMDD.md` | 先写这里；这是主线。 |
+| 一个 URL、视频、书、工具、地点、活动、训练记录 | `Sources/` | 需要 metadata、分类、评分、公开候选时再建。 |
+| Web Clipper 自动抓下来的网页正文 | `Clippings/` | 这是原文快照；不会自动关联 Daily/Sources。需要时再手动引用或整理成 Source。 |
+| 闪念、问题、半成品想法 | `Notes/` | 可以 messy；之后再决定放弃、补充或迁移。 |
+| 没想清楚的任务/想法 | `Inbox.md` | 临时收纳，之后再 triage。 |
+| 周/月/季度/年度复盘 | `Summaries/` | 从 Daily 和 Sources 的证据生成。 |
+| 准备公开到博客/API 的内容 | `Exports/` | 只导出明确 `visibility: summary/public` 的内容。 |
+
+### 最小工作流
+
+- 早上：写 `今日主线` 和 `Top 3`。
+- 白天：在 `做了什么`、`输入`、`输出`、`Life Timeline` 里随手追加。
+- 遇到链接：先贴在 Daily；如果值得保留，对 AI 说“把这个链接整理成 Source”。如果是 Web Clipper 已抓取的内容，告诉 AI 具体 clipping 文件名或链接。
+- 有想法但没成型：放 `Notes/` 或 `Inbox.md`，不要塞进 Daily 模板结构里硬整理。
+- 晚上：对 AI 说“帮我做 daily closeout / 今日收尾”，再补 `明天第一步`。
+- 每周：用 `Templates/weekly-review.md` 从 Daily 和 Sources 生成复盘。
+
+### 可以直接对 AI 说的话
+
+- “帮我创建今天的 Daily，并保持简单。”
+- “把这个链接整理成 Source，链接回今天。”
+- “把 `Clippings/某篇文章.md` 整理成 Source，链接回今天。”
+- “这个东西应该放 Daily、Note、Source 还是 Inbox？”
+- “帮我做今天收尾，不要编没有证据的内容。”
+- “基于本周 Daily 和 Sources 生成周复盘。”
+- “找出可以公开到 blog/API 的 summary 级内容。”
+
+### 判断标准
+
+- Daily 是否打开就能写？如果不能，模板太重。
+- 一条记录半年后是否还能看懂？如果不能，链接或摘要太少。
+- 是否需要统计、分类、公开、安全过滤？如果需要，放到 Sources/Exports，不要污染 Daily 正文。
+- AI 是否能根据文件路径和 frontmatter 追溯证据？如果不能，补链接；不要补事实。
+
 ## Structure
 
 ```text
@@ -58,12 +135,12 @@ Use date folders only for rare attachment bundles. Do not make `Daily/YYYYMMDD/c
 
 `Sources/` stores AI-assisted metadata for links, media, events, tools, training/body records, places, and datasets. It supports the Daily timeline; it does not replace it.
 
-The intended workflow is simple: give AI a link, and AI reads the public source, fills observable metadata, classifies it, tags it, scores it, summarizes it, links it to Daily, and creates or proposes a Source record. If the source is private, blocked, or unreadable, AI states the limitation and only uses user-provided facts.
+The intended workflow is simple: give AI a link, or explicitly point it to a clipping file, and AI reads that source, fills observable metadata, classifies it, tags it, scores it, summarizes it, links it to Daily, and creates or proposes a Source record. Web Clipper itself only writes raw files into `Clippings/`; it does not create that association automatically. If the source is private, blocked, or unreadable, AI states the limitation and only uses user-provided facts.
 
 A source can come from:
 
 - a manual link or note;
-- an Obsidian Web Clipper capture;
+- an Obsidian Web Clipper capture that the user explicitly points to;
 - a watched/read/listened item;
 - a course, document, tool, repo, or workflow;
 - a place, route, event, trip, or training/body record.
@@ -79,7 +156,7 @@ See `Sources/README.md` and `Templates/source.md`.
 - Write the Daily note first in natural language; blanks are fine.
 - Keep the default page short enough to open and write immediately.
 - Use `Top 3`, input, output, did, Life Timeline, learning/review, and migration as the daily spine.
-- Add Dataview inline fields only when a row should be queried later.
+- Use readable `[[path|name]]` links in Daily; put queryable metadata in Sources frontmatter instead of Daily inline fields.
 - Keep scoring, export fields, and detailed classification out of the Daily page; AI may fill them in Source records during link intake or review.
 
 ## Templates

@@ -18,8 +18,8 @@ DailyVault is a personal daily operating system and date-first life timeline. `D
 
 - `Daily/`: one daily file per day. Canonical human-authored date record: plan, life timeline, execution log, watched/read/listened/visited/trained records, learning, reflection, task migration. AI reads this first.
 - `Inbox.md`: unprocessed tasks, ideas, questions, and temporary captures.
-- `Clippings/`: Obsidian Web Clipper output. The plugin format is the source of truth; do not use a local clipping template.
-- `Sources/`: optional structured records for links, media, events, places, training/body records, tools, and datasets. Every useful source should link back to a Daily date.
+- `Clippings/`: Obsidian Web Clipper output. The plugin writes raw captures directly here; it does not automatically associate them with Daily or Sources. The plugin format is the source of truth; do not use a local clipping template.
+- `Sources/`: optional structured records for links, media, events, places, training/body records, tools, and datasets. Every useful source should link back to a Daily date; it may link to a clipping only when the user provides or AI can identify the specific clipping file.
 - `Notes/`: fleeting thoughts, personal notes, rough thinking, early ideas.
 - `Summaries/`: weekly/monthly/quarterly/yearly reviews.
 - `Exports/`: future public/blog/API export contracts and generated public payloads.
@@ -69,7 +69,7 @@ Use when the user gives a URL, captured item, file, movie/book/event/workout/too
 
 Process:
 
-1. Read the public URL or linked local capture first. If the page is private, blocked, or unreadable, state the limitation and only use user-provided facts.
+1. Read the public URL or the user-specified local capture first. Do not assume every file in `Clippings/` has a Daily or Source relationship. If the page is private, blocked, or unreadable, state the limitation and only use user-provided facts.
 2. Classify by intent: `source_type`, `category`, target folder under `Sources/`, tags, and `interest_tags`.
 3. Fill observable metadata: title, canonical_url, site/platform, author/creator, published_at, updated_at, language, source_ref/raw_source_path when available.
 4. Summarize the source, explain why it may matter, recommend next action, and assign AI recommendation scores 1-5: quality, relevance, actionability, memory, public. Mark uncertain values as `[推断]`; leave unknown fields blank instead of inventing.

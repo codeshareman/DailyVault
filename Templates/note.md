@@ -23,7 +23,7 @@ reviewed: false
 
 ## 关联
 
-- Daily: [[Daily/{{date:YYYYMMDD}}]]
+- Daily: [[Daily/{{date:YYYYMMDD}}|{{date:YYYY-MM-DD}}]]
 - Source:
 
 ## 下一步

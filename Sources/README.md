@@ -4,7 +4,7 @@
 
 Core user experience: the user can give one URL, and AI should read the public source, classify it, fill all observable metadata, score it, summarize it, link it to Daily, and create or propose the Source record. Unknown fields stay blank; uncertain conclusions are marked `[推断]` in the note body.
 
-`Clippings/` stores raw Obsidian Web Clipper captures. `Sources/` stores the cleaned, classified, linked source record.
+`Clippings/` stores raw Obsidian Web Clipper captures. Web Clipper writes directly to `Clippings/` and does not automatically create a Daily or Source association; `Sources/` is a later cleaned, classified, linked source record only when the clipping proves useful.
 
 ## Directory layout
 
@@ -25,10 +25,10 @@ Sources/
 
 ## Link intake workflow
 
-When the user gives a link and asks to save, classify, or 整理成 Source:
+When the user gives a link, a clipping path, or asks to save/classify/整理成 Source:
 
-1. Read the public URL or local clipping first.
-2. If the page is private, blocked, or unreadable, say so and only use user-provided facts.
+1. Read the public URL or the user-specified local clipping first. Do not assume every clipping already has a Daily or Source relationship.
+2. If the page is private, blocked, unreadable, or the clipping path is unknown, say so and only use user-provided facts.
 3. Choose `source_type`, `category`, target folder, filename, tags, and `interest_tags`.
 4. Fill observable metadata: title, canonical_url, site/platform, author/creator, published_at, updated_at, captured_at, language, source_ref/raw_source_path if available.
 5. Summarize the source and extract key points.

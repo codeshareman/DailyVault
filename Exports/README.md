@@ -77,3 +77,13 @@ GET /api/summaries/yearly?year=2026
 - Remove private people names, private addresses, private health details, and sensitive work details unless explicitly approved.
 - Keep `daily_path` first and `source_path` when available for traceability.
 - AI may propose exports, but the user decides what becomes public.
+
+## Export preflight metrics
+
+Before publishing or generating API payloads, verify:
+
+- public record count by `visibility` (`summary` / `public` only);
+- source category coverage: reading, watching, listening, learning, tools, places, events, fitness when applicable;
+- excluded private paths include raw Daily, Notes, Clippings, private fitness/body details, and unresolved Sources/inbox records;
+- every exported record keeps `daily_path` and `source_path` for traceability;
+- no private people names, private addresses, sensitive work details, or sensitive health details are present unless explicitly approved.

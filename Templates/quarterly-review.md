@@ -47,21 +47,67 @@ reviewed: false
 
 -
 
-## 可选：Dataview 证据
+## Dataview 证据
+
+### Daily 覆盖
 
 ```dataview
-TABLE month AS Month, length(rows) AS Days
+TABLE length(rows) AS Days
 FROM "Daily"
 WHERE note_type = "daily-log" AND quarter = this.quarter
 GROUP BY month
 SORT month ASC
 ```
 
+### Sources 生活/输入分类统计
+
 ```dataview
-TABLE L.event_type AS Type, length(rows) AS Count
-FROM "Daily"
-FLATTEN file.lists AS L
-WHERE quarter = this.quarter AND L.event_type
-GROUP BY L.event_type
+TABLE length(rows) AS Count
+FROM "Sources"
+WHERE quarter = this.quarter AND note_type = "source"
+GROUP BY category
+SORT length(rows) DESC
+```
+
+```dataview
+TABLE length(rows) AS Count
+FROM "Sources"
+WHERE quarter = this.quarter AND note_type = "source"
+GROUP BY source_type
+SORT length(rows) DESC
+```
+
+```dataview
+TABLE length(rows) AS Count
+FROM "Sources"
+WHERE quarter = this.quarter AND note_type = "source"
+GROUP BY visibility
+SORT length(rows) DESC
+```
+### Source 兴趣与公开候选
+
+```dataview
+TABLE length(rows) AS Count
+FROM "Sources"
+FLATTEN interest_tags AS interest
+WHERE quarter = this.quarter AND note_type = "source" AND interest
+GROUP BY interest
+SORT length(rows) DESC
+```
+
+```dataview
+TABLE title, category, source_type, public_score, visibility, daily_path
+FROM "Sources"
+WHERE quarter = this.quarter AND note_type = "source" AND contains(list("summary", "public"), visibility)
+SORT public_score DESC, date DESC
+```
+
+### Notes 状态
+
+```dataview
+TABLE length(rows) AS Count
+FROM "Notes"
+WHERE quarter = this.quarter AND note_type = "fleeting-note"
+GROUP BY status
 SORT length(rows) DESC
 ```
