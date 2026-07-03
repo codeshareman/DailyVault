@@ -46,6 +46,25 @@ reviewed: false
 
 ## Dataview 证据
 
+### 本周 Daily 快速跳转
+
+```dataview
+LIST
+FROM "Daily"
+WHERE note_type = "daily-log" AND week = this.week
+SORT date ASC
+```
+
+### 本周完成 / 未完成任务
+
+```dataview
+TASK
+FROM "Daily"
+WHERE week = this.week
+GROUP BY file.link
+SORT file.name ASC
+```
+
 ### Daily 覆盖
 
 ```dataview

@@ -31,6 +31,40 @@
       "setFileExistsBehavior": true
     },
     {
+      "id": "dailyvault-append-today",
+      "name": "追加到今天",
+      "type": "Capture",
+      "command": true,
+      "captureToActiveFile": false,
+      "captureToFileName": "Daily/{{DATE:YYYYMMDD}}.md",
+      "createFileIfItDoesntExist": {
+        "enabled": false,
+        "createWithTemplate": false,
+        "template": ""
+      },
+      "format": {
+        "enabled": true,
+        "format": "- {{VALUE}}"
+      },
+      "insertAfter": {
+        "enabled": true,
+        "after": "## 做了什么",
+        "insertAtEnd": true,
+        "considerSubsections": false,
+        "createIfNotFound": false,
+        "createIfNotFoundLocation": "top"
+      },
+      "prepend": false,
+      "task": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": false,
+      "openFileInMode": "default"
+    },
+    {
       "id": "dailyvault-capture-note",
       "name": "记录闪念",
       "type": "Template",
