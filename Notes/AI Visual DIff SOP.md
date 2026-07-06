@@ -16,440 +16,283 @@ related_daily: "[[Daily/20260706]]"
 reviewed: false
 ---
 
-# AI Visual DIff SOP
+# AI Visual Diff SOP
 
-## 内容
+## 背景
 
-## 关联
+- AI Browser 迭代很快，不能把流程绑死在某一个 Agent 上。
+- Applitools、Percy 这类商业 SaaS 能解决问题，但成本和锁定风险都偏高。
+- 这套流程要服务长期演进的 AI 开发平台，因此底座优先选择开源、自托管、可替换的工具。
 
-- AI Browser 这个领域变化太快（几个月就会出现新的 Agent）。
-- 商业 SaaS（Applitools、Percy 等）成本较高，容易被锁定。
-- 你的目标是构建一套可长期演进的 AI 开发平台（之前讨论的 Codex + Skills + Knowledge + Invest-OS 等），开源生态更适合作为底座。
+## 目标
 
-我会把整套 SOP 调整成下面这样。
+搭一条低成本的设计质量检查流水线：自动打开页面，采集截图和结构化信息，做视觉差异对比，再由 AI 按设计知识库给出 Review 结论。流水线输出 PR 评论和可追溯报告，不依赖单一商业服务。
 
----
+## 总体架构
 
-# AI Design QA OSS Stack (Low Cost Edition)
+| 层级 | 职责 | 首选工具 | 可替换方案 | 成本判断 |
+| --- | --- | --- | --- | --- |
+| L1 | 页面自动化 | Playwright | Puppeteer | 免费 |
+| L2 | Browser Agent | ego lite / agent-browser | Browser Use | 免费 |
+| L3 | Visual Diff | Argos 自托管 + Pixelmatch | LooksSame / Resemble.js | 免费 |
+| L4 | AI Orchestrator | Skills / Prompt Router | LangGraph / 自研脚本 | 免费到可控 |
+| L5 | AI Review | 本地模型 + 高质量模型兜底 | Qwen / GLM / Claude / GPT | 可控 |
+| L6 | Report | GitHub Actions + Markdown | Gitea CI | 免费 |
+| L7 | Artifact | Allure Report / HTML Report | 静态站点 | 免费 |
+| L8 | Design Knowledge | Markdown 知识库 | 组件规范 / Token 文档 | 免费 |
 
-| Layer | 职责          | 推荐（★★★★★）                    | 备选             | 是否免费             |
-| ----- | ------------- | -------------------------------- | ---------------- | -------------------- |
-| L1    | 页面遍历      | Playwright                       | Puppeteer        | ✅                   |
-| L2    | Browser Agent | ego lite、agent-browser          | Browser Use      | ✅                   |
-| L3    | Visual Diff   | Argos（自托管）                  | Loki、Pixelmatch | ✅                   |
-| L4    | AI Review     | GPT-5 / Claude（可替换本地模型） | Qwen、Kimi、GLM  | ⚠️（模型可能有成本） |
-| L5    | Report        | GitHub Actions + Markdown        | Gitea CI         | ✅                   |
-| L6    | Artifact      | Allure Report                    | HTML Report      | ✅                   |
+核心原则：采集层、对比层、报告层尽量免费；只有关键 Review 才调用高质量模型。
 
-除了 L4 的大模型推理成本，其余几乎都可以做到免费、自托管。
-
----
-
-# Layer 1：Playwright（必须）
-
-仍然建议使用 **Playwright**。
-
-负责：
-
-- 页面遍历
-- 登录
-- 状态切换
-- Hover
-- Focus
-- Dark Mode
-- Responsive
-- Screenshot
-- Accessibility Snapshot
-
-输出：
-
-```text
-screenshots/
-dom.json
-a11y.json
-console.log
-network.log
-```
-
-它是整个流水线的数据采集层。
-
----
-
-# Layer 2：Browser Agent（推荐）
-
-这里变化最快。
-
-目前我建议优先关注：
-
-### ⭐⭐⭐⭐⭐ ego lite
-
-适合：
-
-- 长流程
-- 登录态
-- 真实浏览器
-
----
-
-### ⭐⭐⭐⭐⭐ agent-browser
-
-适合：
-
-- Codex
-- Claude Code
-- Cursor
-- 自动执行
-
----
-
-### ⭐⭐⭐⭐ Browser Use
-
-Python 生态成熟。
-
-适合：
-
-- Agent Workflow
-- LangGraph
-- CrewAI
-
----
-
-### ⭐⭐⭐⭐ Open Operator（持续关注）
-
-这一类 AI Browser Runtime 很可能未来会快速发展，建议保持关注，而不是把架构绑定到单一实现。
-
----
-
-# Layer 3：Visual Diff（完全可以不用商业产品）
-
-很多人第一反应是：
-
-> Applitools
-
-其实未必需要。
-
-推荐：
-
-## ⭐⭐⭐⭐⭐ Argos（自托管）
-
-优点：
-
-- GitHub Action
-- Playwright
-- PR Diff
-- 自托管
-
-足够企业使用。
-
----
-
-## ⭐⭐⭐⭐ Pixelmatch
-
-GitHub 上非常经典。
-
-原理：
-
-```text
-before.png
-
-↓
-
-pixelmatch
-
-↓
-
-after.png
-
-↓
-
-diff.png
-```
-
-几乎零成本。
-
----
-
-## ⭐⭐⭐⭐ LooksSame
-
-适合：
-
-- 忽略 Anti-Alias
-- 忽略字体细微差异
-
----
-
-## ⭐⭐⭐⭐ Resemble.js
-
-老牌工具。
-
-很多 CI 都在用。
-
----
-
-所以：
-
-商业产品完全可以不用。
-
----
-
-# Layer 4：AI Review（真正需要花钱的地方）
-
-这一层决定整个系统质量。
-
-建议：
-
-```
-Screenshot
-
-+
-
-DOM
-
-+
-
-Design Token
-
-+
-
-Component Spec
-
-↓
-
-LLM
-```
-
-如果想降低成本，可以做模型分级。
-
-## Level 1（免费）
-
-本地模型：
-
-- Qwen3
-- GLM
-- DeepSeek
-- Llama
-
-负责：
-
-- 第一轮 Review
-
----
-
-## Level 2（便宜）
-
-例如：
-
-- Cloudflare Workers AI
-- 开源推理服务
-
-负责：
-
-- 普通 PR
-
----
-
-## Level 3（高质量）
-
-例如：
-
-- GPT-5
-- Claude
-
-只在：
-
-```
-main
-
-release
-
-design review
-```
-
-时触发。
-
-这样一年能省很多成本。
-
----
-
-# Layer 5：Report
-
-不用 SaaS。
-
-直接：
-
-```text
-Markdown
-
-↓
-
-GitHub Comment
-
-↓
-
-GitHub Check
-
-↓
-
-Artifacts
-```
-
-即可。
-
-例如：
-
-```text
-reports/
-
-Home.md
-
-Login.md
-
-Dashboard.md
-```
-
-PR 自动评论。
-
----
-
-# Layer 6：HTML Report
-
-推荐：
-
-**Allure**
-
-效果：
-
-```
-Overview
-
-↓
-
-Failed
-
-↓
-
-Screenshots
-
-↓
-
-Diff
-
-↓
-
-AI Comment
-```
-
-开发体验很好。
-
----
-
-# 我还会增加一个 Layer：Design Knowledge（这是很多团队缺失的一层）
-
-这也是最值得投入的地方。
-
-```text
-knowledge/
-
-spacing.md
-
-typography.md
-
-button.md
-
-color.md
-
-card.md
-
-modal.md
-
-```
-
-AI Review 时：
-
-不是直接问：
-
-> 这个页面好吗？
-
-而是：
-
-读取：
-
-```
-knowledge/button.md
-
-knowledge/color.md
-
-knowledge/layout.md
-```
-
-然后：
-
-```
-Button Reviewer
-
-↓
-
-Color Reviewer
-
-↓
-
-Layout Reviewer
-
-↓
-
-UX Reviewer
-```
-
-每个 Reviewer 都有自己的规则。
-
-这比一个大 Prompt 准确得多，也与你一直在构建的知识库体系非常契合。
-
----
-
-# 成本最低的最终推荐方案
-
-| Layer          | 工具                                    | 成本    |
-| -------------- | --------------------------------------- | ------- |
-| 页面自动化     | Playwright                              | 🟢 免费 |
-| Browser Agent  | ego lite / agent-browser                | 🟢 免费 |
-| Visual Diff    | Argos + Pixelmatch                      | 🟢 免费 |
-| AI Review      | 本地模型（Qwen 等）+ GPT-5（仅关键 PR） | 🟡 可控 |
-| Report         | GitHub Actions + Markdown               | 🟢 免费 |
-| Dashboard      | Allure Report                           | 🟢 免费 |
-| Knowledge Base | Markdown + Skills + Prompt              | 🟢 免费 |
-
-## 我建议再增加一个 AI Orchestrator 层
-
-结合你之前构建 **Skills**、**Knowledge**、**Codex** 的思路，我认为还应该在 L4 前增加一个**编排层（Orchestrator）**：
+## 流程
 
 ```text
 Playwright
-        │
-        ▼
-Browser Agent
-        │
-        ▼
-Artifacts（截图 / DOM / A11y / Tokens）
-        │
-        ▼
-AI Orchestrator
-        ├── Layout Reviewer
-        ├── Typography Reviewer
-        ├── Color Reviewer
-        ├── Component Reviewer
-        ├── Accessibility Reviewer
-        ├── Interaction Reviewer
-        └── UX Reviewer
-        │
-        ▼
-Issue Aggregator
-        │
-        ▼
-GitHub PR Comment
+  -> Browser Agent
+  -> Artifacts（Screenshot / DOM / A11y / Tokens）
+  -> Visual Diff
+  -> AI Orchestrator
+  -> AI Reviewers
+  -> Issue Aggregator
+  -> PR Comment / HTML Report
 ```
 
-这样，每个 Reviewer 都是一个独立的 Skill，可以单独维护、升级和复用，而不是依赖一个庞大的 Prompt。这种模块化架构更符合长期维护和持续演进的需求，也与你现有的知识库设计方向保持一致。
+## L1：页面自动化
+
+Playwright 负责稳定采集页面状态。
+
+采集范围：
+
+- 页面遍历
+- 登录态恢复
+- 状态切换
+- Hover / Focus
+- Dark Mode
+- Responsive 断点
+- Screenshot
+- Accessibility Snapshot
+- Console Log
+- Network Log
+
+标准输出：
+
+```text
+artifacts/
+  screenshots/
+  dom.json
+  a11y.json
+  console.log
+  network.log
+```
+
+这一层只负责事实采集，不做审美判断。
+
+## L2：Browser Agent
+
+Browser Agent 负责更长的交互流程，例如登录、切换状态、批量打开页面、模拟真实用户路径。
+
+优先级：
+
+1. ego lite：适合真实浏览器、登录态、长流程。
+2. agent-browser：适合接入 Codex、Claude Code、Cursor 等开发环境。
+3. Browser Use：Python 生态成熟，适合 LangGraph、CrewAI 等 Agent Workflow。
+4. Open Operator 类运行时：保持观察，不作为当前架构硬依赖。
+
+约束：Browser Agent 只能产出可复现步骤和采集结果，不直接给设计结论。
+
+## L3：Visual Diff
+
+视觉差异对比不必默认购买商业 SaaS。先用开源工具覆盖主流程。
+
+### Argos 自托管
+
+适合作为 PR 级视觉回归入口。
+
+- 支持 GitHub Action
+- 支持 Playwright
+- 支持 PR Diff
+- 可自托管
+
+### Pixelmatch
+
+适合做底层像素差异计算。
+
+```text
+before.png
+  -> pixelmatch
+after.png
+  -> diff.png
+```
+
+### LooksSame / Resemble.js
+
+适合补充处理抗锯齿、字体渲染、细微颜色差异。
+
+Visual Diff 只回答“哪里变了”，不回答“这样好不好”。后者交给 AI Review。
+
+## L4：AI Orchestrator
+
+AI Orchestrator 放在 Visual Diff 和 AI Review 之间，负责分发材料和合并结论。
+
+输入：
+
+- Screenshot
+- Diff Image
+- DOM Snapshot
+- A11y Snapshot
+- Design Tokens
+- Component Spec
+- Design Knowledge
+
+输出：
+
+- 按问题类型拆分的 Review 任务
+- 去重后的 Issue 列表
+- PR 评论摘要
+- 报告页数据
+
+示例结构：
+
+```text
+AI Orchestrator
+  ├── Layout Reviewer
+  ├── Typography Reviewer
+  ├── Color Reviewer
+  ├── Component Reviewer
+  ├── Accessibility Reviewer
+  ├── Interaction Reviewer
+  └── UX Reviewer
+```
+
+每个 Reviewer 对应一个独立 Skill。规则可以单独维护，避免一个大 Prompt 同时处理所有问题。
+
+## L5：AI Review
+
+AI Review 负责判断视觉变化是否符合设计预期。
+
+输入组合：
+
+```text
+Screenshot
++ Diff Image
++ DOM
++ Design Token
++ Component Spec
++ Knowledge Rule
+-> LLM Review
+```
+
+模型分级：
+
+| 等级 | 模型来源 | 使用场景 |
+| --- | --- | --- |
+| Level 1 | 本地模型，如 Qwen、GLM、DeepSeek、Llama | 第一轮筛查 |
+| Level 2 | Cloudflare Workers AI / 开源推理服务 | 普通 PR |
+| Level 3 | Claude / GPT | main、release、design review |
+
+默认走 Level 1 或 Level 2。只有高风险改动才进入 Level 3。
+
+## L6：Report
+
+报告不需要 SaaS。先用 Markdown 和 CI 原生能力。
+
+输出路径：
+
+```text
+reports/
+  Home.md
+  Login.md
+  Dashboard.md
+```
+
+PR 评论包含：
+
+- 变更页面
+- 截图链接
+- Diff 链接
+- AI Review 结论
+- 阻断项
+- 非阻断建议
+
+## L7：HTML Report
+
+Allure 适合作为本地和 CI 的可视化报告入口。
+
+报告结构：
+
+```text
+Overview
+  -> Failed Cases
+  -> Screenshots
+  -> Diff Images
+  -> AI Comments
+  -> Raw Artifacts
+```
+
+如果 Allure 太重，可以退回静态 HTML Report。
+
+## L8：Design Knowledge
+
+Design Knowledge 是长期质量的关键层。AI Review 不应该直接问“这个页面好吗”，而应该读取具体规则。
+
+建议目录：
+
+```text
+knowledge/
+  spacing.md
+  typography.md
+  button.md
+  color.md
+  card.md
+  modal.md
+  layout.md
+```
+
+Review 示例：
+
+```text
+Button Reviewer 读取 knowledge/button.md
+Color Reviewer 读取 knowledge/color.md
+Layout Reviewer 读取 knowledge/layout.md
+UX Reviewer 汇总用户路径和交互问题
+```
+
+这样可以把设计判断沉淀成规则，而不是每次重新写 Prompt。
+
+## 推荐落地版本
+
+第一版只保留必要链路：
+
+1. Playwright 采集截图、DOM、A11y。
+2. Argos 自托管承接 PR 视觉回归。
+3. Pixelmatch 生成 diff 图。
+4. Markdown 知识库提供设计规则。
+5. 本地模型做第一轮 Review。
+6. 关键 PR 再调用 Claude 或 GPT。
+7. GitHub Actions 生成 PR 评论。
+8. Allure 或静态 HTML 保存完整报告。
+
+## 阻断规则
+
+出现以下问题时阻断 PR：
+
+- 主流程页面明显错位。
+- 关键按钮、输入框、导航不可见或不可用。
+- 颜色、字号、间距偏离设计规范且影响识别。
+- 可访问性快照显示关键控件缺少名称。
+- Diff 覆盖核心业务区域，且没有设计变更说明。
+
+以下问题只作为建议：
+
+- 轻微像素偏移。
+- 字体渲染差异。
+- 非关键区域的小幅间距变化。
+- 文案或图标微调。
 
 ## 下一步
 
-- [ ]
+- [ ] 选 3 个核心页面做 Playwright 采集样例。
+- [ ] 自托管 Argos，跑通一次 PR Diff。
+- [ ] 写第一版 `knowledge/button.md`、`knowledge/color.md`、`knowledge/layout.md`。
+- [ ] 定义 Review 输出 JSON Schema。
+- [ ] 生成 GitHub PR 评论模板。
+
