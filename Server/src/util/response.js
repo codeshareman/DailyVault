@@ -22,7 +22,7 @@ export async function readJsonBody(request) {
   for await (const chunk of request) {
     totalBytes += chunk.byteLength;
     if (totalBytes > MAX_JSON_BODY_BYTES) {
-      const error = new Error(`JSON body too large: ${totalBytes} bytes`);
+      const error = new Error(`JSON 请求体过大：${totalBytes} 字节`);
       error.statusCode = 413;
       throw error;
     }
@@ -33,7 +33,7 @@ export async function readJsonBody(request) {
     return JSON.parse(Buffer.concat(chunks).toString('utf8'));
   } catch (error) {
     error.statusCode = 400;
-    error.message = `Invalid JSON body: ${error.message}`;
+    error.message = `JSON 请求体无效：${error.message}`;
     throw error;
   }
 }

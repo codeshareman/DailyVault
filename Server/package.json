@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "DailyVault MCP and HTTP access layer over the Markdown vault.",
+  "description": "DailyVault Markdown Vault 的 MCP 和 HTTP 访问层。",
   "scripts": {
     "mcp": "node src/mcp/server.js",
     "http": "node src/http/server.js",

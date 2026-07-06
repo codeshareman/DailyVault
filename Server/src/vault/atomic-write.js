@@ -20,7 +20,7 @@ export async function atomicWriteFile(filePath, content) {
     } catch (cleanupError) {
       error.cleanupError = cleanupError;
     }
-    error.message = `Atomic write failed for ${filePath} via ${tempPath}: ${error.message}`;
+    error.message = `原子写入失败：${filePath}，临时路径 ${tempPath}：${error.message}`;
     throw error;
   }
 }

@@ -23,7 +23,7 @@ export async function readDaily(date = formatDate()) {
  */
 export async function appendDaily({ date = formatDate(), section, content, dry_run = true }) {
   if (!section || !content) {
-    throw new Error('appendDaily requires section and content');
+    throw new Error('appendDaily 需要 section 和 content');
   }
   const relativePath = dailyPath(date);
   const absolutePath = resolveVaultPath(relativePath);
@@ -91,5 +91,5 @@ function createDailyMarkdown(dateInput) {
   const year = date.slice(0, 4);
   const month = date.slice(0, 7);
   const quarter = `${year}-Q${Math.floor((Number(date.slice(5, 7)) - 1) / 3) + 1}`;
-  return `---\ndaily_id: dv_${compact}\ndate: ${date}\nweek: \nmonth: ${month}\nquarter: ${quarter}\nyear: ${year}\nweekday: \nmodule: Daily\nnote_type: daily-log\nstatus: open\nenergy: \nmood: \nfocus_area: \ndaily_tags: []\nvisibility: private\nreviewed: false\n---\n\n# ${date}\n\n> Server 自动创建；先写，不求完整。\n\n## 今日主线\n- 最重要的一件事：\n- 刻意不做：\n\n## Top 3\n- [ ] \n- [ ] \n- [ ] \n\n## 做了什么\n- \n\n## 输入\n- \n\n## 输出\n- \n\n## Life Timeline\n- 看了：\n- 听了：\n- 学了：\n- 去了：\n- 练了：\n- 其他值得记住的：\n\n## 学到 / 复盘\n- 学到：\n- 做得好：\n- 卡住：\n- 明天第一步：\n\n## 明天 / 迁移\n- [ ] \n`;
+  return `---\ndaily_id: dv_${compact}\ndate: ${date}\nweek: \nmonth: ${month}\nquarter: ${quarter}\nyear: ${year}\nweekday: \nmodule: Daily\nnote_type: daily-log\nstatus: open\nenergy: \nmood: \nfocus_area: \ndaily_tags: []\nvisibility: private\nreviewed: false\n---\n\n# ${date}\n\n> Server 自动创建；先写，不求完整。\n\n## 今日主线\n- 最重要的一件事：\n- 刻意不做：\n\n## 最重要 3 件事\n- [ ] \n- [ ] \n- [ ] \n\n## 做了什么\n- \n\n## 输入\n- \n\n## 输出\n- \n\n## 生活时间线\n- 看了：\n- 听了：\n- 学了：\n- 去了：\n- 练了：\n- 其他值得记住的：\n\n## 学到 / 复盘\n- 学到：\n- 做得好：\n- 卡住：\n- 明天第一步：\n\n## 明天 / 迁移\n- [ ] \n`;
 }

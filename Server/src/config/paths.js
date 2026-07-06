@@ -24,7 +24,7 @@ export function resolveVaultPath(relativePath = '.') {
   const root = getVaultRoot();
   const target = path.resolve(root, relativePath);
   if (target !== root && !target.startsWith(`${root}${path.sep}`)) {
-    throw new Error(`Path escapes DailyVault root: ${relativePath}`);
+    throw new Error(`路径逃逸 DailyVault 根目录：${relativePath}`);
   }
   return target;
 }

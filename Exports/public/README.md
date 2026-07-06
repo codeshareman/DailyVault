@@ -1,5 +1,5 @@
-# Public exports
+# 公开导出
 
-Generated public JSON/API payloads can be written here later.
+之后可以把生成的公开 JSON/API 负载写到这里。
 
-Do not place private raw daily notes here.
+不要把私密的原始 Daily 笔记放在这里。

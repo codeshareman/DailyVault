@@ -1,19 +1,19 @@
-# DailyVault Server
+# DailyVault 服务
 
-DailyVault Server is a local access layer over the Markdown vault. Markdown remains the source of truth; this server only reads, appends, creates Source records, exports public-safe data, and produces Nervia/ZNorth promotion candidates.
+DailyVault 服务是 Markdown Vault 之上的本地访问层。Markdown 仍然是事实来源；本服务只负责读取、追加、创建 Source 记录、导出公开安全数据，以及生成 Nervia/ZNorth 提升候选。
 
-## Safety defaults
+## 安全默认值
 
-- Binds HTTP to `127.0.0.1` by default.
-- Write-like operations default to `dry_run` or preview mode.
-- Source URL intake saves only when `save: true`.
-- Public export only returns records with `visibility: summary` or `visibility: public`.
-- Cross-project promotion returns candidate payloads; it does not sync into Nervia or ZNorth.
-- Writes append audit entries under `Server/logs/audit/*.jsonl`.
-- URL intake has a fetch timeout and response-size cap before decoding.
-- HTTP JSON request bodies are size-limited before parsing.
+- HTTP 默认绑定到 `127.0.0.1`。
+- 类写入操作默认使用 `dry_run` 或预览模式。
+- Source URL 整理只有 `save: true` 时才保存。
+- 公开导出只返回 `visibility: summary` 或 `visibility: public` 的记录。
+- 跨项目提升只返回候选负载；不会同步到 Nervia 或 ZNorth。
+- 写入会在 `Server/logs/audit/*.jsonl` 下追加审计记录。
+- URL 整理在解码前设置抓取超时和响应大小上限。
+- HTTP JSON 请求体在解析前有大小限制。
 
-## Install
+## 安装
 
 ```bash
 cd Server
@@ -26,7 +26,7 @@ npm install
 npm run mcp
 ```
 
-Tools exposed:
+暴露的工具：
 
 - `dailyvault.read_daily`
 - `dailyvault.append_daily`
@@ -42,13 +42,13 @@ Tools exposed:
 npm run http
 ```
 
-Default base URL:
+默认基础 URL：
 
 ```text
 http://127.0.0.1:3417
 ```
 
-Endpoints:
+端点：
 
 ```http
 GET  /daily/:date
@@ -60,7 +60,7 @@ GET  /exports/public
 POST /promotions/candidate
 ```
 
-Example source preview:
+Source 预览示例：
 
 ```bash
 curl -X POST http://127.0.0.1:3417/sources/intake-url \
@@ -68,7 +68,7 @@ curl -X POST http://127.0.0.1:3417/sources/intake-url \
   -d '{"url":"https://example.com","save":false}'
 ```
 
-Example save:
+保存示例：
 
 ```bash
 curl -X POST http://127.0.0.1:3417/sources/intake-url \
@@ -76,13 +76,13 @@ curl -X POST http://127.0.0.1:3417/sources/intake-url \
   -d '{"url":"https://example.com","daily_date":"2026-07-03","save":true}'
 ```
 
-## Environment
+## 环境变量
 
-- `DAILYVAULT_ROOT`: optional vault root override for tests or deployment.
-- `DAILYVAULT_HOST`: HTTP host, defaults to `127.0.0.1`.
-- `DAILYVAULT_PORT`: HTTP port, defaults to `3417`.
+- `DAILYVAULT_ROOT`：可选的 Vault 根目录覆盖，用于测试或部署。
+- `DAILYVAULT_HOST`：HTTP 主机，默认 `127.0.0.1`。
+- `DAILYVAULT_PORT`：HTTP 端口，默认 `3417`。
 
-## Verification
+## 验证
 
 ```bash
 npm run check

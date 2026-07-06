@@ -241,16 +241,16 @@ ${keyPointLines}
 - 抓取证据：${frontmatter.source_ref}
 - 抓取警告：${frontmatter.extraction_warnings.length ? frontmatter.extraction_warnings.join('；') : '无'}
 
-## Promotion
+## 提升候选
 
 - Nervia：
 - ZNorth：
 
 ## 关联
 
-- Daily: ${frontmatter.related_daily}
-- Clipping:
-- Note:
+- Daily：${frontmatter.related_daily}
+- 剪藏：
+- 笔记：
 `;
   return composeMarkdown(frontmatter, body, SOURCE_FRONTMATTER_ORDER);
 }
@@ -268,11 +268,11 @@ async function chooseSourcePath(category, title, date) {
       await access(resolveVaultPath(relative));
     } catch (error) {
       if (error.code === 'ENOENT') return relative;
-      error.message = `Unable to check source path availability for ${relative}: ${error.message}`;
+      error.message = `无法检查 Source 路径是否可用：${relative}：${error.message}`;
       throw error;
     }
   }
-  throw new Error(`Unable to choose source path for ${title}`);
+  throw new Error(`无法为 Source 选择路径：${title}`);
 }
 
 /**

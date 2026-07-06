@@ -13,7 +13,7 @@ visibility: private
 reviewed: false
 ---
 
-# Weekly Review — {{date:GGGG-[W]WW}}
+# 周复盘 — {{date:GGGG-[W]WW}}
 
 ## 本周一句话
 
@@ -34,7 +34,7 @@ reviewed: false
 
 -
 
-## 下周 Top 3
+## 下周最重要 3 件事
 
 - [ ]
 - [ ]
@@ -77,7 +77,7 @@ SORT date ASC
 ### Sources 生活/输入分类统计
 
 ```dataview
-TABLE length(rows) AS Count
+TABLE length(rows) AS 数量
 FROM "Sources"
 WHERE week = this.week AND note_type = "source"
 GROUP BY category
@@ -85,7 +85,7 @@ SORT length(rows) DESC
 ```
 
 ```dataview
-TABLE length(rows) AS Count
+TABLE length(rows) AS 数量
 FROM "Sources"
 WHERE week = this.week AND note_type = "source"
 GROUP BY source_type
@@ -93,7 +93,7 @@ SORT length(rows) DESC
 ```
 
 ```dataview
-TABLE length(rows) AS Count
+TABLE length(rows) AS 数量
 FROM "Sources"
 WHERE week = this.week AND note_type = "source"
 GROUP BY visibility
@@ -111,7 +111,7 @@ SORT public_score DESC, date DESC
 ### Notes 状态与未完成事项
 
 ```dataview
-TABLE length(rows) AS Count
+TABLE length(rows) AS 数量
 FROM "Notes"
 WHERE week = this.week AND note_type = "fleeting-note"
 GROUP BY status

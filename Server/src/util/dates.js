@@ -39,7 +39,7 @@ export function normalizeDate(input = formatDate()) {
   if (/^\d{4}-\d{2}-\d{2}$/.test(input)) {
     return input;
   }
-  throw new Error(`Invalid date, expected YYYY-MM-DD or YYYYMMDD: ${input}`);
+  throw new Error(`日期无效，期望 YYYY-MM-DD 或 YYYYMMDD：${input}`);
 }
 
 /**

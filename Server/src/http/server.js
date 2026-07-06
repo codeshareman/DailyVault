@@ -1,5 +1,5 @@
 /**
- * DailyVault local HTTP API server。
+ * DailyVault 本地 HTTP API 服务。
  * by AI.Coding
  */
 import { createServer } from 'node:http';
@@ -60,7 +60,7 @@ export async function route(request, response) {
       return writeJson(response, 200, await promoteCandidate({ ...body, dry_run: body.dry_run ?? true }));
     }
 
-    return writeJson(response, 404, { error: 'not_found' });
+    return writeJson(response, 404, { error: '未找到' });
   } catch (error) {
     return writeHttpError(request, response, error, url);
   }
@@ -72,16 +72,16 @@ export async function route(request, response) {
 async function writeHttpError(request, response, error, url) {
   const statusCode = error.statusCode || 500;
   if (statusCode >= 500) {
-    console.error('DailyVault HTTP error:', error);
+    console.error('DailyVault HTTP 错误：', error);
     appendAudit({
       action: 'http.error',
       method: request.method,
       path: url?.pathname || request.url,
       status_code: statusCode,
       error: error.message
-    }).catch((auditError) => console.error('DailyVault HTTP audit failed:', auditError));
+    }).catch((auditError) => console.error('DailyVault HTTP 审计失败：', auditError));
   }
-  return writeJson(response, statusCode, { error: statusCode >= 500 ? 'internal_server_error' : error.message });
+  return writeJson(response, statusCode, { error: statusCode >= 500 ? '内部服务错误' : error.message });
 }
 
 export function createDailyVaultHttpServer() {
@@ -96,6 +96,6 @@ export function createDailyVaultHttpServer() {
 if (import.meta.url === `file://${process.argv[1]}`) {
   const server = createDailyVaultHttpServer();
   server.listen(PORT, HOST, () => {
-    console.error(`DailyVault HTTP server listening on http://${HOST}:${PORT}`);
+    console.error(`DailyVault HTTP 服务监听 http://${HOST}:${PORT}`);
   });
 }

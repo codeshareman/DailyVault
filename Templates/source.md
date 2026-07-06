@@ -21,7 +21,7 @@ visibility: private
 
 ---
 
-> 以下由 AI intake 时自动补齐，用户无需手动填写。
+> 以下由 AI 整理时自动补齐，用户无需手动填写。
 
 ## AI 整理结果
 
@@ -34,6 +34,6 @@ visibility: private
 
 ## 关联
 
-- Daily: [[Daily/{{date:YYYYMMDD}}|{{date:YYYY-MM-DD}}]]
-- Clipping:
-- Note:
+- Daily：[[Daily/{{date:YYYYMMDD}}|{{date:YYYY-MM-DD}}]]
+- 剪藏：
+- 笔记：

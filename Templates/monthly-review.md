@@ -12,7 +12,7 @@ visibility: private
 reviewed: false
 ---
 
-# Monthly Review — {{date:YYYY-MM}}
+# 月复盘 — {{date:YYYY-MM}}
 
 ## 本月一句话
 
@@ -52,7 +52,7 @@ reviewed: false
 
 - [ ]
 
-## 下月 Top 3
+## 下月最重要 3 件事
 
 - [ ]
 - [ ]
@@ -76,7 +76,7 @@ SORT date ASC
 ### Sources 生活/输入分类统计
 
 ```dataview
-TABLE length(rows) AS Count
+TABLE length(rows) AS 数量
 FROM "Sources"
 WHERE month = this.month AND note_type = "source"
 GROUP BY category
@@ -84,7 +84,7 @@ SORT length(rows) DESC
 ```
 
 ```dataview
-TABLE length(rows) AS Count
+TABLE length(rows) AS 数量
 FROM "Sources"
 WHERE month = this.month AND note_type = "source"
 GROUP BY source_type
@@ -92,7 +92,7 @@ SORT length(rows) DESC
 ```
 
 ```dataview
-TABLE length(rows) AS Count
+TABLE length(rows) AS 数量
 FROM "Sources"
 WHERE month = this.month AND note_type = "source"
 GROUP BY visibility
@@ -101,7 +101,7 @@ SORT length(rows) DESC
 ### Source 兴趣与公开候选
 
 ```dataview
-TABLE length(rows) AS Count
+TABLE length(rows) AS 数量
 FROM "Sources"
 FLATTEN interest_tags AS interest
 WHERE month = this.month AND note_type = "source" AND interest
@@ -119,7 +119,7 @@ SORT public_score DESC, date DESC
 ### Notes 与未完成事项
 
 ```dataview
-TABLE length(rows) AS Count
+TABLE length(rows) AS 数量
 FROM "Notes"
 WHERE month = this.month AND note_type = "fleeting-note"
 GROUP BY status

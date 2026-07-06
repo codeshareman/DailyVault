@@ -1,8 +1,8 @@
 # Daily
 
-`Daily/YYYYMMDD.md` is the canonical date spine. Start here before creating Sources, Notes, Summaries, or Exports.
+`Daily/YYYYMMDD.md` 是日期主线。创建 Sources、Notes、Summaries 或 Exports 之前，先从这里开始。
 
-## Daily note should answer
+## Daily 应回答
 
 1. 今天输入了什么？
 2. 今天输出了什么？
@@ -10,17 +10,17 @@
 4. 接下来要做什么？
 5. 今天学到了什么、复盘出了什么？
 
-It may also record life timeline signals: watched/read/listened/learned/visited/trained/built/felt/decided.
+它也可以记录生活时间线信号：看了、读了、听了、学了、去了、练了、做了、感受了、决定了什么。
 
-## Rules
+## 规则
 
-- One file per day: `YYYYMMDD.md`.
-- Do not create daily category folders by default.
-- Write the daily note first; only create a Source when extra metadata is useful.
-- Keep domain-specific research in a separate project.
-- Keep user-facing rows readable; use `[[Sources/category/YYYYMMDD-slug|Readable Name]]` when a record should link to durable metadata.
+- 每天一个文件：`YYYYMMDD.md`。
+- 默认不要创建按天分类的子文件夹。
+- 先写 Daily；只有额外元数据有用时，才创建 Source。
+- 特定领域研究放在独立项目中。
+- 面向用户的行要保持可读；当一条记录需要链接到长期元数据时，使用 `[[Sources/category/YYYYMMDD-slug|可读名称]]`。
 
-## Dataview index
+## Dataview 索引
 
 ```dataview
 TABLE date, weekday, focus_area, mood, energy, status
@@ -37,4 +37,4 @@ WHERE !completed
 GROUP BY file.link
 ```
 
-Public/blog candidates should come from `Sources/` records whose frontmatter explicitly sets `visibility: summary` or `visibility: public`; do not make Daily rows carry export metadata.
+公开/博客候选应来自 frontmatter 明确设置 `visibility: summary` 或 `visibility: public` 的 `Sources/` 记录；不要让 Daily 行承担导出元数据。

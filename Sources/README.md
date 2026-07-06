@@ -1,60 +1,60 @@
 # Sources
 
-`Sources/` stores AI-assisted source records for links, media, events, tools, training/body records, places, and datasets. `Daily/YYYYMMDD.md` remains the canonical timeline; Sources enrich Daily rows when a link or activity needs metadata, tags, scoring, source references, or future export data.
+`Sources/` 存放由 AI 辅助整理的资料记录，覆盖链接、媒体、活动、工具、训练/身体记录、地点和数据集。`Daily/YYYYMMDD.md` 仍然是事实时间线；当一个链接或活动需要元数据、标签、评分、来源引用或未来导出数据时，Sources 用来增强 Daily 行。
 
-Core user experience: the user can give one URL, and AI should read the public source, classify it, fill all observable metadata, score it, summarize it, link it to Daily, and create or propose the Source record. Unknown fields stay blank; uncertain conclusions are marked `[推断]` in the note body.
+核心体验：用户可以只给一个 URL，AI 读取公开资料、分类、填写所有可观察元数据、评分、摘要、链接到 Daily，并创建或提议 Source 记录。未知字段留空；不确定结论在正文中标为 `[推断]`。
 
-`Clippings/` stores raw Obsidian Web Clipper captures. Web Clipper writes directly to `Clippings/` and does not automatically create a Daily or Source association; `Sources/` is a later cleaned, classified, linked source record only when the clipping proves useful.
+`Clippings/` 存放原始 Obsidian Web Clipper 剪藏。Web Clipper 直接写入 `Clippings/`，不会自动创建 Daily 或 Source 关联；只有当剪藏证明有用时，`Sources/` 才作为后续清理、分类和链接后的资料记录。
 
-## Directory layout
+## 目录布局
 
-Keep the folders small and life-oriented:
+文件夹保持简洁，围绕生活场景组织：
 
 ```text
 Sources/
-├── inbox/      # default landing zone when category is unclear
-├── reading/    # articles, essays, papers, books, newsletters
-├── watching/   # movies, shows, videos, talks
-├── listening/  # music, podcasts, albums, live sets
-├── learning/   # courses, docs, tutorials, learning paths
-├── tools/      # websites, apps, CLIs, repos, workflows
-├── places/     # restaurants, cities, routes, venues, trips
-├── events/     # concerts, exhibitions, talks, performances, tickets
-└── fitness/    # manually recorded workouts, routes, training notes, body signals
+├── inbox/      # 分类不明确时的默认落点
+├── reading/    # 文章、随笔、论文、书、newsletter
+├── watching/   # 电影、剧集、视频、演讲
+├── listening/  # 音乐、播客、专辑、现场录音
+├── learning/   # 课程、文档、教程、学习路径
+├── tools/      # 网站、App、CLI、仓库、工作流
+├── places/     # 餐厅、城市、路线、场馆、旅行
+├── events/     # 演唱会、展览、讲座、演出、票务
+└── fitness/    # 手动记录的训练、路线、训练笔记、身体信号
 ```
 
-## Link intake workflow
+## 链接整理流程
 
-When the user gives a link, a clipping path, or asks to save/classify/整理成 Source:
+当用户给出链接、剪藏路径，或要求保存/分类/整理成 Source：
 
-1. Read the public URL or the user-specified local clipping first. Do not assume every clipping already has a Daily or Source relationship.
-2. If the page is private, blocked, unreadable, or the clipping path is unknown, say so and only use user-provided facts.
-3. Choose `source_type`, `category`, target folder, filename, tags, and `interest_tags`.
-4. Fill observable metadata: title, canonical_url, site/platform, author/creator, published_at, updated_at, captured_at, language, source_ref/raw_source_path if available.
-5. Summarize the source and extract key points.
-6. Score 1-5 as AI recommendations: quality, relevance, actionability, memory, public.
-7. Link back to `Daily/YYYYMMDD.md`; if no date is specified, use today’s Daily note.
-8. Create the file if the user asks to execute; otherwise return the proposed Source record.
+1. 先读取公开 URL 或用户指定的本地剪藏。不要假设每个剪藏都已有 Daily 或 Source 关系。
+2. 如果页面私有、被阻止、不可读，或剪藏路径未知，说明限制，只使用用户提供的事实。
+3. 选择 `source_type`、`category`、目标文件夹、文件名、tags 和 `interest_tags`。
+4. 填写可观察元数据：title、canonical_url、site/platform、author/creator、published_at、updated_at、captured_at、language，以及可用时的 source_ref/raw_source_path。
+5. 总结资料并提取关键点。
+6. 按 1-5 分给出 AI 推荐分：质量、相关性、行动性、记忆价值、公开价值。
+7. 链接回 `Daily/YYYYMMDD.md`；如果没有指定日期，使用今天的 Daily。
+8. 如果用户要求执行，则创建文件；否则返回提议的 Source 记录。
 
-Do not fabricate metadata, ratings, locations, creator names, durations, or completion status.
+不要编造元数据、评分、地点、创作者姓名、时长或完成状态。
 
-## Classification
+## 分类
 
-| If the item is… | Put in | source_type examples |
+| 条目类型 | 放到 | source_type 示例 |
 | --- | --- | --- |
-| Article / blog / newsletter / paper / book | `Sources/reading/` | `article`, `paper`, `book`, `newsletter` |
-| Movie / show / video / talk | `Sources/watching/` | `movie`, `show`, `video`, `talk` |
-| Music / podcast / album / concert recording | `Sources/listening/` | `music`, `album`, `podcast` |
-| Course / tutorial / docs / learning plan | `Sources/learning/` | `course`, `tutorial`, `docs` |
-| App / website / CLI / GitHub repo / workflow | `Sources/tools/` | `tool`, `repo`, `workflow` |
-| Restaurant / city / route / venue / trip | `Sources/places/` | `place`, `route`, `trip`, `venue` |
-| Concert / exhibition / talk / ticket page | `Sources/events/` | `event`, `concert`, `exhibition` |
-| Workout / route / body signal already recorded by the user | `Sources/fitness/` | `workout`, `route`, `body-metric` |
-| Unsure | `Sources/inbox/` | `link`, `unknown` |
+| 文章 / 博客 / newsletter / 论文 / 书 | `Sources/reading/` | `article`, `paper`, `book`, `newsletter` |
+| 电影 / 剧集 / 视频 / 演讲 | `Sources/watching/` | `movie`, `show`, `video`, `talk` |
+| 音乐 / 播客 / 专辑 / 演出录音 | `Sources/listening/` | `music`, `album`, `podcast` |
+| 课程 / 教程 / 文档 / 学习计划 | `Sources/learning/` | `course`, `tutorial`, `docs` |
+| App / 网站 / CLI / GitHub 仓库 / 工作流 | `Sources/tools/` | `tool`, `repo`, `workflow` |
+| 餐厅 / 城市 / 路线 / 场馆 / 旅行 | `Sources/places/` | `place`, `route`, `trip`, `venue` |
+| 演唱会 / 展览 / 讲座 / 票务页 | `Sources/events/` | `event`, `concert`, `exhibition` |
+| 用户已记录的训练 / 路线 / 身体信号 | `Sources/fitness/` | `workout`, `route`, `body-metric` |
+| 不确定 | `Sources/inbox/` | `link`, `unknown` |
 
-## Metadata contract
+## 元数据契约
 
-Every Source should have a Daily backlink and enough metadata to be useful later:
+每个 Source 都应有 Daily 回链，并保留足够的元数据，便于以后使用：
 
 ```yaml
 source_id:
@@ -99,9 +99,9 @@ raw_source_path:
 reviewed: false
 ```
 
-## Tags
+## 标签
 
-Use lower-kebab names. Prefer prefix tags so AI and exporters can group them.
+使用小写 kebab 命名。优先使用带前缀的标签，方便 AI 和导出器分组。
 
 ```yaml
 tags:
@@ -123,18 +123,18 @@ interest_tags:
   - singapore-life
 ```
 
-Rules:
+规则：
 
-- `tags` describe classification and workflow.
-- `interest_tags` describe the user’s personal interests.
-- Use 3-8 tags per source. If more are needed, the source probably needs a note summary.
-- Use `public/candidate` only when it may be shared on the blog.
+- `tags` 描述分类和工作流。
+- `interest_tags` 描述用户的个人兴趣。
+- 每个 Source 使用 3-8 个标签。如果需要更多标签，通常说明这个 Source 需要笔记摘要。
+- 只有可能分享到博客时，才使用 `public/candidate`。
 
-## Scoring
+## 评分
 
-Use 1-5. Blank means unknown.
+使用 1-5 分。空白表示未知。
 
-| Field | Meaning |
+| 字段 | 含义 |
 | --- | --- |
 | `quality_score` | 信息质量、可信度、制作水准 |
 | `relevance_score` | 与当前生活、工作、兴趣的相关度 |
@@ -142,16 +142,16 @@ Use 1-5. Blank means unknown.
 | `memory_score` | 年终回看是否值得记住 |
 | `public_score` | 是否适合公开分享到博客 |
 
-Suggested interpretation:
+建议解释：
 
-- 5 = standout / should resurface in reviews.
-- 4 = useful or memorable.
-- 3 = normal, keep if relevant.
-- 2 = weak, archive unless needed.
-- 1 = delete or reject.
+- 5 = 很突出，复盘时应再次出现。
+- 4 = 有用或值得记住。
+- 3 = 普通，相关时保留。
+- 2 = 较弱，除非需要否则归档。
+- 1 = 删除或拒绝。
 
-## Public / blog export
+## 公开 / 博客导出
 
-Private by default.
+默认私有。
 
-Only `visibility: summary` or `visibility: public` records should be exported to `Exports/public/` or a blog API. Prefer `public_summary` over raw private notes.
+只有 `visibility: summary` 或 `visibility: public` 的记录才应导出到 `Exports/public/` 或博客 API。优先使用 `public_summary`，不要导出原始私密笔记。

@@ -10,7 +10,7 @@ import { appendAudit } from '../policy/audit.js';
  */
 export async function promoteCandidate({ target, source_path, dry_run = true }) {
   if (!['nervia', 'znorth'].includes(target)) {
-    throw new Error('target must be nervia or znorth');
+    throw new Error('target 必须是 nervia 或 znorth');
   }
   const source = await readSource(source_path);
   const payload = target === 'nervia' ? buildNerviaCandidate(source) : buildZNorthCandidate(source);
@@ -45,8 +45,8 @@ function buildNerviaCandidate(source) {
       dailyvault_source_path: source.path
     },
     next_action: missingFields.length
-      ? `Complete missing Source fields first: ${missingFields.join(', ')}`
-      : 'Decide topic/chapter/exercise role, then register once in Nervia sources/manifest.yaml after duplicate checks.'
+      ? `先补齐缺失的 Source 字段：${missingFields.join(', ')}`
+      : '先决定主题、章节或练习角色；完成重复检查后，再登记到 Nervia sources/manifest.yaml。'
   };
 }
 
@@ -73,8 +73,8 @@ function buildZNorthCandidate(source) {
       dailyvault_source_path: source.path
     },
     next_action: missingFields.length
-      ? `Complete missing Source fields first: ${missingFields.join(', ')}`
-      : 'Create an editorial brief or automation queue item in ZNorth; do not copy source truth.'
+      ? `先补齐缺失的 Source 字段：${missingFields.join(', ')}`
+      : '在 ZNorth 创建编辑 brief 或自动化队列项；不要复制事实来源。'
   };
 }
 

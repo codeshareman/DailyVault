@@ -1,5 +1,5 @@
 /**
- * DailyVault MCP stdio server。
+ * DailyVault MCP stdio 服务。
  * by AI.Coding
  */
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -16,8 +16,8 @@ export const server = new McpServer({ name: 'dailyvault-server', version: '0.1.0
 server.registerTool(
   'dailyvault.read_daily',
   {
-    description: 'Read Daily/YYYYMMDD.md from the DailyVault Markdown source of truth.',
-    inputSchema: { date: z.string().describe('YYYY-MM-DD or YYYYMMDD') }
+    description: '从 DailyVault Markdown 事实来源读取 Daily/YYYYMMDD.md。',
+    inputSchema: { date: z.string().describe('YYYY-MM-DD 或 YYYYMMDD') }
   },
   async (input) => textContent(await readDaily(input.date))
 );
@@ -25,10 +25,10 @@ server.registerTool(
 server.registerTool(
   'dailyvault.append_daily',
   {
-    description: 'Append content to a Daily section. Defaults to dry_run for safety.',
+    description: '向 Daily 指定章节追加内容。为安全起见默认 dry_run。',
     inputSchema: {
-      date: z.string().describe('YYYY-MM-DD or YYYYMMDD'),
-      section: z.string().describe('Heading without ##, for example 输入 or 输出'),
+      date: z.string().describe('YYYY-MM-DD 或 YYYYMMDD'),
+      section: z.string().describe('不带 ## 的标题，例如 输入 或 输出'),
       content: z.string(),
       dry_run: z.boolean().default(true)
     }
@@ -39,7 +39,7 @@ server.registerTool(
 server.registerTool(
   'dailyvault.intake_source_url',
   {
-    description: 'Read a public URL, extract observable metadata, classify it, and optionally save a Source record.',
+    description: '读取公开 URL，提取可观察元数据，分类，并可选择保存 Source 记录。',
     inputSchema: {
       url: z.string().url(),
       daily_date: z.string().optional(),
@@ -55,7 +55,7 @@ server.registerTool(
 server.registerTool(
   'dailyvault.read_source',
   {
-    description: 'Read a Source Markdown record by vault-relative path.',
+    description: '按 Vault 相对路径读取 Source Markdown 记录。',
     inputSchema: { source_path: z.string() }
   },
   async (input) => textContent(await readSource(input.source_path))
@@ -64,7 +64,7 @@ server.registerTool(
 server.registerTool(
   'dailyvault.search_sources',
   {
-    description: 'Search Source records by text, category, and visibility.',
+    description: '按文本、分类和可见性搜索 Source 记录。',
     inputSchema: {
       query: z.string().default(''),
       category: z.string().default(''),
@@ -78,7 +78,7 @@ server.registerTool(
 server.registerTool(
   'dailyvault.export_public',
   {
-    description: 'Return public/summary-safe source records only.',
+    description: '只返回公开或摘要级安全的 Source 记录。',
     inputSchema: { limit: z.number().int().min(1).max(200).default(50) }
   },
   async (input) => textContent(await exportPublicSources(input))
@@ -87,7 +87,7 @@ server.registerTool(
 server.registerTool(
   'dailyvault.promote_candidate',
   {
-    description: 'Generate a dry-run promotion candidate for Nervia or ZNorth. Does not sync source truth.',
+    description: '为 Nervia 或 ZNorth 生成 dry-run 提升候选。不会同步事实来源。',
     inputSchema: {
       target: z.enum(['nervia', 'znorth']),
       source_path: z.string(),
@@ -103,12 +103,12 @@ server.registerTool(
 export async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error('DailyVault MCP server running on stdio');
+  console.error('DailyVault MCP 服务已通过 stdio 运行');
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch((error) => {
-    console.error('DailyVault MCP fatal error:', error);
+    console.error('DailyVault MCP 致命错误：', error);
     process.exit(1);
   });
 }

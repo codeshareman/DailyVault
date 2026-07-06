@@ -15,10 +15,10 @@ export async function fetchUrlMetadata(url) {
   try {
     parsed = new URL(url);
   } catch {
-    throw httpError(400, `Invalid URL: ${url}`);
+    throw httpError(400, `URL 无效：${url}`);
   }
   if (!['http:', 'https:'].includes(parsed.protocol)) {
-    throw httpError(400, `Only http/https URLs are supported: ${url}`);
+    throw httpError(400, `仅支持 http/https URL：${url}`);
   }
 
   const controller = new AbortController();
@@ -36,20 +36,20 @@ export async function fetchUrlMetadata(url) {
     });
   } catch (error) {
     if (error.name === 'AbortError') {
-      throw httpError(504, `Fetch timed out after ${FETCH_TIMEOUT_MS}ms: ${parsed.href}`);
+      throw httpError(504, `抓取超时，已等待 ${FETCH_TIMEOUT_MS}ms：${parsed.href}`);
     }
-    throw httpError(502, `Fetch failed: ${error.message}`);
+    throw httpError(502, `抓取失败：${error.message}`);
   } finally {
     clearTimeout(timeout);
   }
 
   if (!response.ok) {
-    throw httpError(502, `Fetch failed with HTTP ${response.status}: ${parsed.href}`);
+    throw httpError(502, `抓取返回 HTTP ${response.status}：${parsed.href}`);
   }
 
   const contentLength = Number(response.headers.get('content-length') || 0);
   if (contentLength > MAX_RESPONSE_BYTES) {
-    throw httpError(413, `Fetch response too large: ${contentLength} bytes`);
+    throw httpError(413, `抓取响应过大：${contentLength} 字节`);
   }
 
   const contentType = response.headers.get('content-type') || '';
@@ -59,7 +59,7 @@ export async function fetchUrlMetadata(url) {
     text = await readResponseText(response);
   } catch (error) {
     if (error.statusCode) throw error;
-    throw httpError(502, `Fetch body read failed for ${finalUrl}: ${error.message}`);
+    throw httpError(502, `抓取正文读取失败：${finalUrl}：${error.message}`);
   }
   const isHtml = contentType.includes('html') || /<html[\s>]/i.test(text);
 
@@ -100,7 +100,7 @@ async function readResponseText(response) {
     if (done) break;
     totalBytes += value.byteLength;
     if (totalBytes > MAX_RESPONSE_BYTES) {
-      throw httpError(413, `Fetch response too large: ${totalBytes} bytes`);
+      throw httpError(413, `抓取响应过大：${totalBytes} 字节`);
     }
     chunks.push(decoder.decode(value, { stream: true }));
   }
@@ -232,7 +232,7 @@ function parseJsonLdBlocks(html) {
       const parsed = JSON.parse(decodeEntities(block[1].trim()));
       values.push(...(Array.isArray(parsed) ? parsed : [parsed]));
     } catch (error) {
-      warnings.push(`JSON-LD parse failed: ${error.message}`);
+      warnings.push(`JSON-LD 解析失败：${error.message}`);
     }
   }
   return { values, warnings };

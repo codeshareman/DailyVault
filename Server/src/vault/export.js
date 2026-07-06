@@ -24,7 +24,7 @@ export async function exportPublicSources({ limit = 50 } = {}) {
       title: parsed.data.public_title || parsed.data.title || path.basename(absolutePath, '.md'),
       summary: publicSummary || bodySummary,
       summary_source: publicSummary ? 'public_summary' : 'body_fallback',
-      warnings: publicSummary ? [] : ['public_summary missing; summary extracted from body'],
+      warnings: publicSummary ? [] : ['缺少 public_summary；已从正文提取摘要'],
       tags: parsed.data.public_tags || [],
       visibility: parsed.data.visibility,
       source_url: parsed.data.canonical_url || parsed.data.url || '',
