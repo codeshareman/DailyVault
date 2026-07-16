@@ -185,6 +185,14 @@ DailyVault 是个人每日操作系统和日期优先的生活时间线。`Daily
 - 不要增加剪藏模板；Obsidian Web Clipper 管理剪藏格式。
 - 不要给每日模板添加领域专用章节。
 
+## 跨项目桥接规则
+
+- DailyVault 只生成 Nervia/ZNorth 候选负载，不自动写入下游项目。
+- ZNorth `candidate-envelope.v1` 首版只能从 `Sources/` 下且 `note_type: source` 的 Source 记录生成；`Daily/`、`Notes/`、`Clippings/` 不能直接 promotion，必须先有显式公开摘要投影或 Source 关联。
+- ZNorth promotion 必须要求 `visibility: summary | public`、`analysis_allowed: true`、`public_summary` 和 `public_risk_level`；不得从 Markdown body 兜底摘要。
+- HTTP/MCP 输入必须保持类型安全；会写本地 state 或 audit 的选项只能接受真实布尔值，不能把字符串 `"false"` 当作 truthy 写入。
+- Envelope、audit 和 dry-run state 不得包含 Source body、Daily/Clipping/Notes 原文、本地绝对路径、`source_path`、`dailyvault_source_path` 或 raw markdown。
+
 ## 编辑策略
 
 编辑前：

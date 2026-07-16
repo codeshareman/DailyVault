@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "candidate-envelope.v1",
+  "candidateId": "cand_20260716_dailyvault-dry-run-source",
+  "source": {
+    "system": "dailyvault",
+    "ref": "dv:source:dv_src_20260716_dryrun",
+    "kind": "source",
+    "digest": "sha256:9e179215063cabc362071f897b8648e63673fed37cd76616ed239167a5b420af"
+  },
+  "authorization": {
+    "analysisAllowed": true,
+    "privacy": "summary"
+  },
+  "summary": {
+    "title": "DailyVault Dry Run Source",
+    "readerPromise": "Shows DailyVault can emit a valid candidate envelope.",
+    "digestSummary": "Safe dry-run summary for ZNorth contract validation."
+  },
+  "signals": [
+    {
+      "type": "tag",
+      "value": "public/candidate"
+    },
+    {
+      "type": "tag",
+      "value": "domain/dry-run"
+    },
+    {
+      "type": "category",
+      "value": "reading"
+    },
+    {
+      "type": "source_type",
+      "value": "article"
+    },
+    {
+      "type": "score",
+      "name": "public_score",
+      "value": 4
+    }
+  ],
+  "evidence": {
+    "status": "verified",
+    "role": "inspiration"
+  },
+  "risk": {
+    "level": "low",
+    "notes": ""
+  },
+  "aiRecommendation": {
+    "recommendedAction": "triage",
+    "rationale": "DailyVault public summary candidate; requires human editorial decision in ZNorth.",
+    "rank": 4
+  }
+}

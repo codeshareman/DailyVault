@@ -13,3 +13,5 @@
 Server/node_modules/
 Server/logs/audit/*.jsonl
 Server/.env
+_bmad/
+Notes/Product Operating System.md

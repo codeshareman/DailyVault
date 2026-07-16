@@ -3,6 +3,7 @@
  * by AI.Coding
  */
 import { readSource } from '../vault/source.js';
+import { buildZNorthEnvelopeCandidate } from './znorth-envelope.js';
 import { appendAudit } from '../policy/audit.js';
 
 /**
@@ -16,7 +17,7 @@ export async function promoteCandidate({ target, source_path, dry_run = true }) 
   const payload = target === 'nervia' ? buildNerviaCandidate(source) : buildZNorthCandidate(source);
 
   if (!dry_run) {
-    await appendAudit({ action: 'promotion.candidate', target, source_path, candidate: payload });
+    await appendAudit({ action: 'promotion.candidate', target, candidate: auditCandidate(payload) });
   }
 
   return { target, source_path, dry_run, candidate: payload };
@@ -54,28 +55,12 @@ function buildNerviaCandidate(source) {
  * 生成 ZNorth 候选负载，强调发布和编辑流程。
  */
 function buildZNorthCandidate(source) {
-  const missingFields = requiredFields(source.frontmatter, ['title', 'canonical_url', 'public_score', 'public_summary', 'daily_path']);
-  return {
-    status: missingFields.length ? 'incomplete_candidate' : 'candidate',
-    missing_fields: missingFields,
-    suggested_fields: {
-      znorth_status: missingFields.length ? 'incomplete_candidate' : 'candidate',
-      znorth_bridge_id: `dailyvault:${source.frontmatter.source_id || source.path}`,
-      znorth_product: '',
-      znorth_distribution: ''
-    },
-    source: {
-      title: source.frontmatter.title || '',
-      url: source.frontmatter.canonical_url || source.frontmatter.url || '',
-      public_score: source.frontmatter.public_score || '',
-      summary: source.frontmatter.public_summary || '',
-      daily_path: source.frontmatter.daily_path || '',
-      dailyvault_source_path: source.path
-    },
-    next_action: missingFields.length
-      ? `先补齐缺失的 Source 字段：${missingFields.join(', ')}`
-      : '在 ZNorth 创建编辑 brief 或自动化队列项；不要复制事实来源。'
-  };
+  return buildZNorthEnvelopeCandidate(source);
+}
+
+function auditCandidate(candidate) {
+  if (candidate?.status === 'candidate') return { status: candidate.status, envelope: candidate.envelope };
+  return candidate;
 }
 
 

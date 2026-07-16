@@ -35,6 +35,7 @@ npm run mcp
 - `dailyvault.search_sources`
 - `dailyvault.export_public`
 - `dailyvault.promote_candidate`
+- `dailyvault.dry_run_candidate_promotions`
 
 ## HTTP API
 
@@ -58,6 +59,7 @@ GET  /sources?query=&category=&visibility=&limit=
 GET  /sources/:vaultRelativePath
 GET  /exports/public
 POST /promotions/candidate
+POST /promotions/candidate/dry-run
 ```
 
 Source 预览示例：

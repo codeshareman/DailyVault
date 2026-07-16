@@ -1,0 +1,162 @@
+# BMAD Sprint 状态
+# 由 bmad-sprint-planning 为 DailyVault -> ZNorth Candidate Envelope v1 生成。
+# 状态取值：
+#   Epics 状态：backlog、in-progress、done
+#   Stories 状态：backlog、ready-for-dev、in-progress、review、done
+#   Retrospectives: optional、done
+#   Action items 状态：open、in-progress、done
+
+generated: "2026-07-16"
+last_updated: "2026-07-16"
+project: "DailyVault"
+project_key: "DV"
+tracking_system: "bmad-sprint-status"
+story_location: "_bmad-output/implementation-artifacts/stories"
+planning_artifacts:
+  source_plan: "_bmad-output/planning-artifacts/candidate-export-plan.md"
+  prd: "_bmad-output/planning-artifacts/candidate-envelope-prd.md"
+  architecture: "_bmad-output/planning-artifacts/candidate-envelope-architecture.md"
+  epics_and_stories: "_bmad-output/planning-artifacts/epics-and-stories.md"
+  readiness_report: "_bmad-output/planning-artifacts/implementation-readiness-report.md"
+readiness_result: "pass-with-concerns"
+completion_result: "approved-done"
+completion_validation: "_bmad-output/implementation-artifacts/story-validation/implementation-completion-validation.md"
+
+development_status:
+  epic-1: done
+  1-1-source-eligibility-and-znorth-envelope-mapper: done
+  1-2-stable-candidate-id-source-ref-and-digest: done
+  1-3-shared-mcp-http-promotion-output: done
+  epic-2: done
+  2-1-znorth-contract-fixture-and-dry-run-compatibility: done
+  2-2-leakage-guard-and-negative-tests: done
+  epic-3: done
+  3-1-daily-clipping-projection-extension-design: done
+  3-2-local-dry-run-report-and-minimal-incremental-state: done
+
+story_details:
+  1-1-source-eligibility-and-znorth-envelope-mapper:
+    epic: DV-1
+    story_id: DV-1.1
+    title: "定义 Source eligibility 与 ZNorth envelope mapper"
+    story: "_bmad-output/implementation-artifacts/stories/1-1-source-eligibility-and-znorth-envelope-mapper.md"
+    status: done
+    verification:
+      - "Server/src/bridge/znorth-envelope.js"
+      - "Server/tests/promotion.test.js"
+      - "Server/tests/vault.test.js"
+  1-2-stable-candidate-id-source-ref-and-digest:
+    epic: DV-1
+    story_id: DV-1.2
+    title: "实现稳定 candidateId、opaque source.ref 与 sanitized digest"
+    story: "_bmad-output/implementation-artifacts/stories/1-2-stable-candidate-id-source-ref-and-digest.md"
+    status: done
+    verification:
+      - "Server/tests/promotion.test.js::ZNorth candidateId、source.ref 与 digest 对公开投影稳定"
+  1-3-shared-mcp-http-promotion-output:
+    epic: DV-1
+    story_id: DV-1.3
+    title: "统一 MCP 与 HTTP promotion 输出路径"
+    story: "_bmad-output/implementation-artifacts/stories/1-3-shared-mcp-http-promotion-output.md"
+    status: done
+    verification:
+      - "Server/tests/promotion.test.js::HTTP ZNorth promotion 返回同一 envelope 结构"
+      - "Server/tests/promotion.test.js::ZNorth promotion audit 不记录 source_path 或 Source body"
+  2-1-znorth-contract-fixture-and-dry-run-compatibility:
+    epic: DV-2
+    story_id: DV-2.1
+    title: "添加 ZNorth contract fixture 与 dry-run 兼容验证"
+    story: "_bmad-output/implementation-artifacts/stories/2-1-znorth-contract-fixture-and-dry-run-compatibility.md"
+    status: done
+    verification:
+      - "Server/tests/fixtures/znorth-envelope-valid.json"
+      - "cd ../ZNorth && python3 Tools/Automation/import_candidate_envelope.py ../DailyVault/Server/tests/fixtures/znorth-envelope-valid.json -> ok:true"
+  2-2-leakage-guard-and-negative-tests:
+    epic: DV-2
+    story_id: DV-2.2
+    title: "添加泄漏防护与负向测试"
+    story: "_bmad-output/implementation-artifacts/stories/2-2-leakage-guard-and-negative-tests.md"
+    status: done
+    verification:
+      - "Server/tests/promotion.test.js"
+      - "Server/tests/vault.test.js"
+  3-1-daily-clipping-projection-extension-design:
+    epic: DV-3
+    story_id: DV-3.1
+    title: "设计 Daily/Clipping projection 扩展"
+    story: "_bmad-output/implementation-artifacts/stories/3-1-daily-clipping-projection-extension-design.md"
+    status: done
+    verification:
+      - "设计记录完成；当前实现保持 Source-only，未读取 Daily/Clipping raw body。"
+  3-2-local-dry-run-report-and-minimal-incremental-state:
+    epic: DV-3
+    story_id: DV-3.2
+    title: "提供本地 dry-run report 与最小增量状态"
+    story: "_bmad-output/implementation-artifacts/stories/3-2-local-dry-run-report-and-minimal-incremental-state.md"
+    status: done
+    verification:
+      - "Server/src/bridge/promotion-batch.js"
+      - "Server/tests/promotion.test.js::本地 ZNorth dry-run report 统计 changed、rejected、unchanged 并保存最小 state"
+      - "Server/tests/promotion.test.js::HTTP ZNorth dry-run report 不写 ZNorth 且返回 report"
+
+sprint_slices:
+  - id: slice-1
+    name: "安全 Source envelope 主干"
+    status: done
+    stories:
+      - "1-1-source-eligibility-and-znorth-envelope-mapper"
+      - "1-2-stable-candidate-id-source-ref-and-digest"
+      - "2-2-leakage-guard-and-negative-tests"
+    exit_gate: "合法 Source 生成合法 envelope；隐私/授权/摘要/风险缺失均拒绝；稳定投影生成稳定 ID/ref/digest；body sentinel 不进入 envelope。"
+  - id: slice-2
+    name: "入口统一与下游兼容"
+    status: done
+    stories:
+      - "1-3-shared-mcp-http-promotion-output"
+      - "2-1-znorth-contract-fixture-and-dry-run-compatibility"
+    exit_gate: "MCP/HTTP 输出同 shape；ZNorth dry-run 接受生成 envelope；Server/npm run check 通过。"
+  - id: slice-3
+    name: "后续扩展"
+    status: done
+    stories:
+      - "3-1-daily-clipping-projection-extension-design"
+      - "3-2-local-dry-run-report-and-minimal-incremental-state"
+    exit_gate: "Daily/Clipping extension 先设计再编码；batch dry-run 与 state 不创建第二份内容数据库。"
+
+action_items:
+  - id: ACT-1
+    status: done
+    epic: DV-1
+    owner: DEV
+    action: "实现 DV-1.1 前确认 ZNorth promotion 不复用 exportPublicSources 的正文摘要兜底逻辑。"
+    resolution: "ZNorth mapper 只读取 frontmatter public_summary；缺 public_summary 且 body 有摘要时仍拒绝。"
+  - id: ACT-2
+    status: done
+    epic: DV-1
+    owner: DEV
+    action: "实现 DV-1.1 时定义 missing/rejected reason code 列表。"
+    resolution: "实现 missing:<field>、privacy_not_publishable:<value>、analysis_not_allowed、invalid_public_risk_level:<value>、leakage:<reason>。"
+  - id: ACT-3
+    status: done
+    epic: DV-2
+    owner: DEV
+    action: "DV-2.1 story validation 中运行 ZNorth dry-run，除非 sibling repo 不可用并记录原因。"
+    resolution: "已用固定 fixture 运行 ZNorth import_candidate_envelope.py 默认 dry-run；结果 ok:true，action:would-create。"
+
+verification:
+  server_check:
+    command: "cd Server && npm run check"
+    result: "pass"
+    tests: 28
+  znorth_dry_run:
+    command: "cd ../ZNorth && python3 Tools/Automation/import_candidate_envelope.py ../DailyVault/Server/tests/fixtures/znorth-envelope-valid.json"
+    result: "ok:true mode:dry-run action:would-create"
+  yaml_frontmatter_check:
+    command: "ruby -rdate -ryaml ..."
+    result: "pass; ok 15 artifacts"
+
+workflow_notes:
+  - "BMAD 设计、story 创建、dev implementation、validation rollup 和 sprint status 已完成。"
+  - "正文使用中文；技术字段、JSON key、命令和路径保留原文。"
+  - "CodeSimplifier 与 SimplifyPromotionBatch 子代理因 Cloud Code Assist API 404 失败，未作为验证证据。"
+  - "Review 修复已完成：ZNorth promotion 拒绝非 Sources/source 记录，HTTP dry-run 拒绝字符串 save_state，AGENTS.md 已同步桥接规则。"

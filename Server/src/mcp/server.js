@@ -9,6 +9,7 @@ import { readDaily, appendDaily } from '../vault/daily.js';
 import { intakeSourceUrl, readSource, searchSources } from '../vault/source.js';
 import { exportPublicSources } from '../vault/export.js';
 import { promoteCandidate } from '../bridge/promotion.js';
+import { dryRunCandidatePromotions } from '../bridge/promotion-batch.js';
 import { textContent } from '../util/response.js';
 
 export const server = new McpServer({ name: 'dailyvault-server', version: '0.1.0' });
@@ -95,6 +96,19 @@ server.registerTool(
     }
   },
   async (input) => textContent(await promoteCandidate(input))
+);
+
+server.registerTool(
+  'dailyvault.dry_run_candidate_promotions',
+  {
+    description: '本地扫描 Source 并生成 ZNorth promotion dry-run report；不会写 ZNorth。',
+    inputSchema: {
+      target: z.literal('znorth').default('znorth'),
+      limit: z.number().int().min(1).max(200).default(50),
+      save_state: z.boolean().default(false)
+    }
+  },
+  async (input) => textContent(await dryRunCandidatePromotions(input))
 );
 
 /**

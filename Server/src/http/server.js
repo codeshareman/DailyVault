@@ -8,6 +8,7 @@ import { readDaily, appendDaily } from '../vault/daily.js';
 import { intakeSourceUrl, readSource, searchSources } from '../vault/source.js';
 import { exportPublicSources } from '../vault/export.js';
 import { promoteCandidate } from '../bridge/promotion.js';
+import { dryRunCandidatePromotions } from '../bridge/promotion-batch.js';
 import { appendAudit } from '../policy/audit.js';
 import { readJsonBody, writeJson } from '../util/response.js';
 
@@ -58,6 +59,11 @@ export async function route(request, response) {
     if (request.method === 'POST' && url.pathname === '/promotions/candidate') {
       const body = await readJsonBody(request);
       return writeJson(response, 200, await promoteCandidate({ ...body, dry_run: body.dry_run ?? true }));
+    }
+
+    if (request.method === 'POST' && url.pathname === '/promotions/candidate/dry-run') {
+      const body = await readJsonBody(request);
+      return writeJson(response, 200, await dryRunCandidatePromotions(body));
     }
 
     return writeJson(response, 404, { error: '未找到' });

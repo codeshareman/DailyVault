@@ -135,7 +135,7 @@ test('exportPublicSources 只返回 summary 和 public 的 Source 记录', async
   });
 });
 
-test('promoteCandidate 会标记不完整 Source 而不是伪装为就绪', async () => {
+test('promoteCandidate 会用机器可读原因拒绝不完整 ZNorth Source', async () => {
   await withTempVault(async (vaultRoot) => {
     await mkdir(join(vaultRoot, 'Sources', 'reading'), { recursive: true });
     await writeFile(join(vaultRoot, 'Sources', 'reading', 'incomplete.md'), sourceMarkdown({ title: '不完整', visibility: 'private' }), 'utf8');
@@ -143,7 +143,8 @@ test('promoteCandidate 会标记不完整 Source 而不是伪装为就绪', asyn
     const result = await promoteCandidate({ target: 'znorth', source_path: 'Sources/reading/incomplete.md' });
 
     assert.equal(result.candidate.status, 'incomplete_candidate');
-    assert.deepEqual(result.candidate.missing_fields, ['public_score', 'public_summary']);
+    assert.deepEqual(result.candidate.missing_fields, ['analysis_allowed', 'public_summary', 'public_risk_level']);
+    assert.deepEqual(result.candidate.reasons, ['privacy_not_publishable:private', 'missing:analysis_allowed', 'missing:public_summary', 'missing:public_risk_level']);
   });
 });
 
@@ -159,7 +160,6 @@ async function withTempVault(callback) {
     await rm(vaultRoot, { recursive: true, force: true });
   }
 }
-
 function sourceMarkdown({ title, visibility, public_summary = '', public_tags = '[]' }) {
-  return `---\ntitle: ${title}\nvisibility: ${visibility}\ncanonical_url: https://example.com/${title.toLowerCase()}\npublic_summary: ${public_summary}\npublic_tags: ${public_tags}\ndaily_path: Daily/20260703.md\n---\n\n# ${title}\n\n- 一句话摘要：备用摘要 ${title}\n`;
+  return `---\ndate: 2026-07-03\nnote_type: source\ntitle: ${title}\nvisibility: ${visibility}\ncanonical_url: https://example.com/${title.toLowerCase()}\npublic_summary: ${public_summary}\npublic_tags: ${public_tags}\ndaily_path: Daily/20260703.md\n---\n\n# ${title}\n\n- 一句话摘要：备用摘要 ${title}\n`;
 }
