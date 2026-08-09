@@ -48,7 +48,7 @@
       },
       "insertAfter": {
         "enabled": true,
-        "after": "## 做了什么",
+        "after": "## 随手记录",
         "insertAtEnd": true,
         "considerSubsections": false,
         "createIfNotFound": false,
