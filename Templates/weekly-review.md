@@ -50,6 +50,16 @@ GROUP BY tag
 SORT length(rows) DESC
 ```
 
+### 随手记录（闪念）
+
+```dataview
+LIST item.text
+FROM "Daily"
+FLATTEN file.lists AS item
+WHERE week = this.week AND meta(item.section).subpath = "随手记录"
+SORT date ASC
+```
+
 ### 输入
 
 ```dataview

@@ -20,7 +20,7 @@ DailyVault 是一个 Daily-first 的个人每日记录库。`Daily/YYYYMMDD.md` 
 - `Summaries/`：从 Daily 派生的周/月/季/年复盘与 Dataview 汇总。
 - `Templates/`：Daily 和周期复盘模板。
 
-`Notes/` 和 `Inbox.md` 保留已有历史内容，但不属于默认工作流。`.dailyvault/openapi/` 是独立的本地 HTTP/MCP 支持模块；除非任务涉及 API，不要改动其中代码。
+`.dailyvault/openapi/` 是独立的本地 HTTP/MCP 支持模块；除非任务涉及 API，不要改动其中代码。
 
 ## 日常工作流
 
@@ -44,7 +44,7 @@ QuickAdd 只提供“创建今天”和“追加到今天”。当天记录保�
 
 ### 周期复盘与 Dataview
 
-周/月/季/年复盘以 `Daily/` 为唯一证据源。Dataview 可以按 Daily frontmatter 的 `week`、`month`、`quarter`、`year` 汇总页面、任务和固定章节下的列表项。不要从正文推断未记录的状态或指标。
+周/月/季/年复盘以 `Daily/` 为唯一证据源。Dataview 可以按 Daily frontmatter 的 `week`、`month`、`quarter`、`year` 汇总页面、任务和固定章节下的列表项，包括“随手记录”（闪念）、“输入”、“输出”和“生活时间线”。不要从正文推断未记录的状态或指标。
 
 ## 编辑策略
 

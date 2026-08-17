@@ -11,8 +11,6 @@ Summaries/   # 从 Daily 派生的复盘与 Dataview 汇总
 Templates/   # Daily 和复盘模板
 ```
 
-`Notes/` 和 `Inbox.md` 仅保留已有历史内容，不是新记录入口。
-
 本地 HTTP/MCP 支持代码位于隐藏目录 `.dailyvault/openapi/`，与 Obsidian 内容层分开；其 OpenAPI 契约也保留在该目录中。
 
 ## 每天怎么写
@@ -59,6 +57,6 @@ Obsidian Web Clipper 直接写入 `Clippings/`。需要在 Daily 中提及时，
 
 - 页面覆盖和日期属性；
 - 未完成任务；
-- “输入”“输出”“生活时间线”章节中的列表项。
+- “随手记录”（闪念）、“输入”“输出”“生活时间线”章节中的列表项。
 
 这让 Daily 保持人可读，同时仍可按周、月、季、年回看。
