@@ -95,7 +95,7 @@ WHERE month = this.month AND meta(item.section).subpath = "输入" AND item.text
 SORT date ASC
 ```
 
-### 剪藏输入（自动）
+<!-- 剪藏输入按 created 自动归集到本周期 -->
 
 ```dataview
 TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
