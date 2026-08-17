@@ -48,7 +48,7 @@ SORT date ASC
 TABLE WITHOUT ID date AS 日期, length(filter(rows, (r) => r.item.completed)) AS 完成, length(rows) AS 计划
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE week = this.week AND item.task AND meta(item.section).subpath = "今日计划"
+WHERE week = this.week AND item.task AND meta(item.section).subpath = "今日计划" AND item.text
 GROUP BY date
 SORT date ASC
 ```
@@ -58,7 +58,7 @@ SORT date ASC
 ```dataview
 TASK
 FROM "Daily"
-WHERE !completed AND week = this.week
+WHERE !completed AND week = this.week AND text
 GROUP BY file.link
 ```
 
