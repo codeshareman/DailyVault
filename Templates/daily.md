@@ -22,10 +22,8 @@ note_type: daily-log
 - 
 
 ## 输入
-<!-- 外部信息（文章/工具/课程/对话/反馈），行尾带类型标签，如：- 读了 [[Clippings/某篇]] #kind/article -->
+<!-- 外部信息（文章/工具/课程/对话/反馈），行尾带类型标签，如：- 读了 [[Clippings/某篇]] #kind/article。下方表格自动归集今日剪藏 -->
 - 
-
-### 今日剪藏输入（自动）
 
 ```dataview
 TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
