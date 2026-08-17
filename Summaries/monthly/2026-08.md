@@ -25,7 +25,7 @@ period_type: monthly
 TABLE WITHOUT ID meta(item.section).subpath AS 章节, length(rows) AS 条数
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE month = this.month AND item.text
+WHERE note_type = "daily-log" AND month = this.month AND item.text
 GROUP BY meta(item.section).subpath
 SORT length(rows) DESC
 ```
@@ -36,7 +36,7 @@ SORT length(rows) DESC
 TABLE WITHOUT ID date AS 日期, length(rows) AS 条目数
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE month = this.month AND item.text
+WHERE note_type = "daily-log" AND month = this.month AND item.text
 GROUP BY date
 SORT date ASC
 ```
@@ -47,7 +47,7 @@ SORT date ASC
 TABLE WITHOUT ID date AS 日期, length(filter(rows, (r) => r.item.completed)) AS 完成, length(rows) AS 计划
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE month = this.month AND item.task AND meta(item.section).subpath = "今日计划" AND item.text
+WHERE note_type = "daily-log" AND month = this.month AND item.task AND meta(item.section).subpath = "今日计划" AND item.text
 GROUP BY date
 SORT date ASC
 ```
@@ -57,7 +57,7 @@ SORT date ASC
 ```dataview
 TASK
 FROM "Daily"
-WHERE !completed AND month = this.month AND text
+WHERE !completed AND note_type = "daily-log" AND month = this.month AND text
 GROUP BY file.link
 ```
 
@@ -68,7 +68,7 @@ TABLE WITHOUT ID tag AS 类型, length(rows) AS 条目数
 FROM "Daily"
 FLATTEN file.lists AS item
 FLATTEN item.tags AS tag
-WHERE month = this.month AND startswith(tag, "#kind/")
+WHERE note_type = "daily-log" AND month = this.month AND startswith(tag, "#kind/")
 GROUP BY tag
 SORT length(rows) DESC
 ```
@@ -81,7 +81,7 @@ SORT length(rows) DESC
 TABLE WITHOUT ID date AS 日期, item.text AS 闪念
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE month = this.month AND meta(item.section).subpath = "随手记录" AND item.text
+WHERE note_type = "daily-log" AND month = this.month AND meta(item.section).subpath = "随手记录" AND item.text
 SORT date ASC
 ```
 
@@ -91,7 +91,7 @@ SORT date ASC
 TABLE WITHOUT ID date AS 日期, item.text AS 输入
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE month = this.month AND meta(item.section).subpath = "输入" AND item.text
+WHERE note_type = "daily-log" AND month = this.month AND meta(item.section).subpath = "输入" AND item.text
 SORT date ASC
 ```
 
@@ -110,7 +110,7 @@ SORT file.name ASC
 TABLE WITHOUT ID date AS 日期, item.text AS 输出
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE month = this.month AND meta(item.section).subpath = "输出" AND item.text
+WHERE note_type = "daily-log" AND month = this.month AND meta(item.section).subpath = "输出" AND item.text
 SORT date ASC
 ```
 
@@ -120,7 +120,7 @@ SORT date ASC
 TABLE WITHOUT ID date AS 日期, item.text AS 学到
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE month = this.month AND meta(item.section).subpath = "学到" AND item.text
+WHERE note_type = "daily-log" AND month = this.month AND meta(item.section).subpath = "学到" AND item.text
 SORT date ASC
 ```
 
@@ -130,7 +130,7 @@ SORT date ASC
 TABLE WITHOUT ID date AS 日期, item.text AS 复盘
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE month = this.month AND meta(item.section).subpath = "复盘" AND item.text
+WHERE note_type = "daily-log" AND month = this.month AND meta(item.section).subpath = "复盘" AND item.text
 SORT date ASC
 ```
 
@@ -140,6 +140,6 @@ SORT date ASC
 TABLE WITHOUT ID date AS 日期, item.text AS 时间线
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE month = this.month AND meta(item.section).subpath = "生活时间线" AND item.text
+WHERE note_type = "daily-log" AND month = this.month AND meta(item.section).subpath = "生活时间线" AND item.text
 SORT date ASC
 ```
