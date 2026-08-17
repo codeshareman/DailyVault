@@ -1,52 +1,26 @@
 ---
-summary_id: dv_week_{{date:GGGG-[W]WW}}
 date: {{date:YYYY-MM-DD}}
 week: "{{date:GGGG-[W]WW}}"
 month: "{{date:YYYY-MM}}"
 quarter: "{{date:YYYY}}-Q{{date:Q}}"
 year: {{date:YYYY}}
-module: Summaries
 note_type: summary
 period_type: weekly
-created: {{date:YYYY-MM-DD}}
-visibility: private
-reviewed: false
 ---
 
 # 周复盘 — {{date:GGGG-[W]WW}}
 
-## 本周一句话
+## 本周总结
+- 
 
+## 下周重点
+- [ ] 
+- [ ] 
+- [ ] 
 
-## 完成了什么
+## Dataview 汇总
 
--
-
-## 值得记住的生活片段
-
-- 看 / 读 / 听：
-- 学：
-- 去 / 活动：
-- 练 / 身体：
-- 其他：
-
-## 反复出现的问题
-
--
-
-## 下周最重要 3 件事
-
-- [ ]
-- [ ]
-- [ ]
-
-## 可公开候选
-
--
-
-## Dataview 证据
-
-### 本周 Daily 快速跳转
+### Daily
 
 ```dataview
 LIST
@@ -55,72 +29,53 @@ WHERE note_type = "daily-log" AND week = this.week
 SORT date ASC
 ```
 
-### 本周完成 / 未完成任务
+### 未完成事项
 
 ```dataview
 TASK
 FROM "Daily"
-WHERE week = this.week
+WHERE !completed AND week = this.week
 GROUP BY file.link
-SORT file.name ASC
 ```
 
-### Daily 覆盖
+### 条目分类
 
 ```dataview
-TABLE date, weekday, focus_area, mood, energy, status
+TABLE length(rows) AS 数量
 FROM "Daily"
-WHERE note_type = "daily-log" AND week = this.week
+FLATTEN file.lists AS item
+FLATTEN item.tags AS tag
+WHERE week = this.week AND startswith(tag, "#kind/")
+GROUP BY tag
+SORT length(rows) DESC
+```
+
+### 输入
+
+```dataview
+LIST item.text
+FROM "Daily"
+FLATTEN file.lists AS item
+WHERE week = this.week AND meta(item.section).subpath = "输入"
 SORT date ASC
 ```
 
-### Sources 生活/输入分类统计
+### 输出
 
 ```dataview
-TABLE length(rows) AS 数量
-FROM "Sources"
-WHERE week = this.week AND note_type = "source"
-GROUP BY category
-SORT length(rows) DESC
+LIST item.text
+FROM "Daily"
+FLATTEN file.lists AS item
+WHERE week = this.week AND meta(item.section).subpath = "输出"
+SORT date ASC
 ```
 
-```dataview
-TABLE length(rows) AS 数量
-FROM "Sources"
-WHERE week = this.week AND note_type = "source"
-GROUP BY source_type
-SORT length(rows) DESC
-```
+### 生活时间线
 
 ```dataview
-TABLE length(rows) AS 数量
-FROM "Sources"
-WHERE week = this.week AND note_type = "source"
-GROUP BY visibility
-SORT length(rows) DESC
-```
-### Source 公开候选
-
-```dataview
-TABLE title, category, source_type, public_score, visibility, daily_path
-FROM "Sources"
-WHERE week = this.week AND note_type = "source" AND contains(list("summary", "public"), visibility)
-SORT public_score DESC, date DESC
-```
-
-### Notes 状态与未完成事项
-
-```dataview
-TABLE length(rows) AS 数量
-FROM "Notes"
-WHERE week = this.week AND note_type = "fleeting-note"
-GROUP BY status
-SORT length(rows) DESC
-```
-
-```dataview
-TASK
-FROM "Daily" OR "Notes"
-WHERE !completed AND week = this.week
-GROUP BY file.link
+LIST item.text
+FROM "Daily"
+FLATTEN file.lists AS item
+WHERE week = this.week AND meta(item.section).subpath = "生活时间线"
+SORT date ASC
 ```

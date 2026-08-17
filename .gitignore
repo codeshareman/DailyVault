@@ -10,8 +10,11 @@
 .trash/
 .obsidian/plugins/*/main.js
 .obsidian/plugins/*/styles.css
-Server/node_modules/
-Server/logs/audit/*.jsonl
-Server/.env
+.dailyvault/openapi/node_modules/
+.dailyvault/openapi/logs/audit/*.jsonl
+.dailyvault/openapi/.env
 _bmad/
 Notes/Product Operating System.md
+.claudian/
+.smart-env/
+.omc/

@@ -12,5 +12,5 @@
   "autoPairBrackets": true,
   "autoConvertHtml": true,
   "readableLineLength": false,
-  "livePreview": false
+  "livePreview": true
 }

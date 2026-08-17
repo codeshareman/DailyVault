@@ -63,66 +63,6 @@
       },
       "openFile": false,
       "openFileInMode": "default"
-    },
-    {
-      "id": "dailyvault-capture-note",
-      "name": "记录闪念",
-      "type": "Template",
-      "command": true,
-      "templatePath": "Templates/note.md",
-      "fileNameFormat": {
-        "enabled": true,
-        "format": "{{DATE:YYYYMMDDHHmm}}-{{VALUE:slug}}"
-      },
-      "folder": {
-        "enabled": true,
-        "folders": [
-          "Notes"
-        ],
-        "chooseWhenCreatingNote": false,
-        "createInSameFolderAsActiveFile": false,
-        "chooseFromSubfolders": false
-      },
-      "appendLink": false,
-      "openFileInNewTab": {
-        "enabled": false,
-        "direction": "vertical",
-        "focus": true
-      },
-      "openFile": true,
-      "openFileInMode": "default",
-      "fileExistsMode": "Increment the file name",
-      "setFileExistsBehavior": true
-    },
-    {
-      "id": "dailyvault-create-source",
-      "name": "创建 Source",
-      "type": "Template",
-      "command": true,
-      "templatePath": "Templates/source.md",
-      "fileNameFormat": {
-        "enabled": true,
-        "format": "{{DATE:YYYYMMDDHHmm}}-{{VALUE:slug}}"
-      },
-      "folder": {
-        "enabled": true,
-        "folders": [
-          "Sources/inbox"
-        ],
-        "chooseWhenCreatingNote": false,
-        "createInSameFolderAsActiveFile": false,
-        "chooseFromSubfolders": false
-      },
-      "appendLink": false,
-      "openFileInNewTab": {
-        "enabled": false,
-        "direction": "vertical",
-        "focus": true
-      },
-      "openFile": true,
-      "openFileInMode": "default",
-      "fileExistsMode": "Increment the file name",
-      "setFileExistsBehavior": true
     }
   ],
   "macros": [],
