@@ -53,39 +53,39 @@ SORT length(rows) DESC
 ### 随手记录（闪念）
 
 ```dataview
-LIST item.text
+TABLE WITHOUT ID date AS 日期, item.text AS 闪念
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE week = this.week AND meta(item.section).subpath = "随手记录"
+WHERE week = this.week AND meta(item.section).subpath = "随手记录" AND item.text
 SORT date ASC
 ```
 
 ### 输入
 
 ```dataview
-LIST item.text
+TABLE WITHOUT ID date AS 日期, item.text AS 输入
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE week = this.week AND meta(item.section).subpath = "输入"
+WHERE week = this.week AND meta(item.section).subpath = "输入" AND item.text
 SORT date ASC
 ```
 
 ### 输出
 
 ```dataview
-LIST item.text
+TABLE WITHOUT ID date AS 日期, item.text AS 输出
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE week = this.week AND meta(item.section).subpath = "输出"
+WHERE week = this.week AND meta(item.section).subpath = "输出" AND item.text
 SORT date ASC
 ```
 
 ### 生活时间线
 
 ```dataview
-LIST item.text
+TABLE WITHOUT ID date AS 日期, item.text AS 时间线
 FROM "Daily"
 FLATTEN file.lists AS item
-WHERE week = this.week AND meta(item.section).subpath = "生活时间线"
+WHERE week = this.week AND meta(item.section).subpath = "生活时间线" AND item.text
 SORT date ASC
 ```

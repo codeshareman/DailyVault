@@ -17,3 +17,9 @@ _bmad/
 .claudian/
 .smart-env/
 .omc/
+
+
+
+
+# Ignore Smart Environment folder
+.smart-env
