@@ -1,8 +1,8 @@
 <%*
 const year = tp.date.now("YYYY");
-const stem = tp.date.now("YYYYMMDD");
-if (!tp.file.path(true).startsWith(`Daily/${year}/`)) {
-  await tp.file.move(`Daily/${year}/${stem}`);
+const stem = tp.date.now("YYYY-MM-DD");
+if (!tp.file.path(true).startsWith(`${year}/`)) {
+  await tp.file.move(`${year}/${stem}`);
 }
 %>
 ---

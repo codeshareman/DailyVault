@@ -35,10 +35,10 @@ export function normalizeDate(input = formatDate()) {
 }
 
 /**
- * 返回 Daily 文件名使用的 YYYYMMDD。
+ * 返回 Daily 文件名使用的 YYYY-MM-DD（与文件名格式一致）。
  */
 export function dailyFileStem(input = formatDate()) {
-  return normalizeDate(input).replaceAll('-', '');
+  return normalizeDate(input);
 }
 
 export function isoWeek(input = formatDate()) {

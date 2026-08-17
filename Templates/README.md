@@ -2,14 +2,17 @@
 
 | 模板 | 用途 |
 | --- | --- |
-| `daily.md` | 每日计划、记录和收尾；首行 Templater 命令自动把文件按年归入 `Daily/YYYY/`（QuickAdd 创建到 `Daily/` 根后自动移动）。 |
-| `weekly-review.md` | 基于 Daily 的周复盘。 |
-| `monthly-review.md` | 基于 Daily 的月复盘。 |
-| `quarterly-review.md` | 基于 Daily 的季度复盘。 |
-| `yearly-review.md` | 基于 Daily 的年度复盘。 |
+| `daily.md` | 每日计划、记录和收尾；首行 Templater 命令确保文件位于 `YYYY/YYYY-MM-DD.md`。 |
+| `weekly.md` | 周计划与复盘（一期一文件）。 |
+| `monthly.md` | 月计划与复盘（一期一文件）。 |
+| `quarterly.md` | 季计划与复盘（一期一文件）。 |
+| `yearly.md` | 年计划与复盘（一期一文件）；创建时自动生成配对年度统计。 |
+| `yearly-stats.md` | 年度统计（`note_type: stats`），只做全年一次。 |
 
-Daily 模板保持低摩擦：最多三项计划，其他章节只保留一个自由记录入口。模板在每个章节标题下内置一行 HTML 注释标记，说明该章节的用途和适用的 `#kind/...` 标签——编辑时可见、阅读时隐藏、不进入 Dataview 统计。“输入”章节还内置“今日剪藏输入（自动）”查询，按 `Clippings/` 的 `created` 字段自动归集当天剪藏。周期模板只保留本期总结、下期三项重点和 Dataview 汇总；不要加入 Source、Note 或领域专用字段。
+Daily 模板保持低摩擦：最多三项计划，其他章节只保留一个自由记录入口。模板在每个章节标题下内置一行 HTML 注释标记，说明该章节的用途和适用的 `#kind/...` 标签——编辑时可见、阅读时隐藏、不进入 Dataview 统计。“输入”章节还内置“今日剪藏输入（自动）”查询，按 `Clippings/` 的 `created` 字段自动归集当天剪藏。
 
-周期复盘的创建入口：QuickAdd「创建周/月/季/年复盘」生成骨架（Templater 填日期、Dataview 自动统计），或让 AI 调用 `period-review` skill 全自动生成。
+周期模板只保留叙事：本期计划（≤3 项）、本期总结、下期重点（≤3 项），外加一行指向年度统计的外链。周/月/季不单独建统计文件；年度统计在创建年度文件时由 Templater 自动生成，用 `this.year` 匹配每日页面。不要加入 Source、Note 或领域专用字段。
+
+周期文件的创建入口：期初 QuickAdd「创建周/月/季/年计划与复盘」生成一期一文件（Templater 填日期），先填「本期计划」；期末在同一文件补「本期总结」「下期重点」，或让 AI 调用 `period-review` skill 全自动生成/更新。
 
 固定章节是一级分类；需要 Dataview 统计的列表项在行尾使用一个 `#kind/...` 标签。模板已内置标签引导，文章、工具、课程、地点、训练和项目等可复用类型应优先标记。

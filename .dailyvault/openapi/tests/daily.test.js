@@ -13,8 +13,8 @@ test('appendToSection appends within an existing section', () => {
 
 test('appendDaily previews by default and saves only when requested', async () => {
   await withTempVault(async (vaultRoot) => {
-    const dailyPath = join(vaultRoot, 'Daily', '2026', '20260817.md');
-    await mkdir(join(vaultRoot, 'Daily', '2026'), { recursive: true });
+    const dailyPath = join(vaultRoot, '2026', '2026-08-17.md');
+    await mkdir(join(vaultRoot, '2026'), { recursive: true });
     await writeFile(dailyPath, '# 2026-08-17\n\n## 输入\n- old\n', 'utf8');
 
     const preview = await appendDaily({ date: '2026-08-17', section: '输入', content: '- preview' });
@@ -61,7 +61,7 @@ test('appendDaily rejects invalid dates with 400', async () => {
 
 test('appendDaily creates the Daily from template when it does not exist', async () => {
   await withTempVault(async (vaultRoot) => {
-    const dailyPath = join(vaultRoot, 'Daily', '2026', '20260817.md');
+    const dailyPath = join(vaultRoot, '2026', '2026-08-17.md');
     const saved = await appendDaily({ date: '2026-08-17', section: '随手记录', content: '- 闪念 #kind/idea', dry_run: false });
     assert.equal(saved.saved, true);
     const markdown = await readFile(dailyPath, 'utf8');

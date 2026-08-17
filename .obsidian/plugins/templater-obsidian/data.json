@@ -15,28 +15,24 @@
   "enable_folder_templates": true,
   "folder_templates": [
     {
-      "folder": "Daily",
+      "folder": "2026",
       "template": "Templates/daily.md"
     },
     {
-      "folder": "Daily/2026",
-      "template": "Templates/daily.md"
+      "folder": "2026/Weekly",
+      "template": "Templates/weekly.md"
     },
     {
-      "folder": "Summaries/weekly",
-      "template": "Templates/weekly-review.md"
+      "folder": "2026/Monthly",
+      "template": "Templates/monthly.md"
     },
     {
-      "folder": "Summaries/monthly",
-      "template": "Templates/monthly-review.md"
+      "folder": "2026/Quarterly",
+      "template": "Templates/quarterly.md"
     },
     {
-      "folder": "Summaries/quarterly",
-      "template": "Templates/quarterly-review.md"
-    },
-    {
-      "folder": "Summaries/yearly",
-      "template": "Templates/yearly-review.md"
+      "folder": "2026/Yearly",
+      "template": "Templates/yearly.md"
     }
   ],
   "syntax_highlighting": true,

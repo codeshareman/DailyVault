@@ -18,7 +18,7 @@ test('HTTP exposes health and the OpenAPI contract', async () => {
 
 test('HTTP appends to Daily as a dry-run by default', async () => {
   await withServer(async (baseUrl) => {
-    const response = await fetch(`${baseUrl}/daily/20260817/append`, {
+    const response = await fetch(`${baseUrl}/daily/2026-08-17/append`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ section: '输入', content: '- dry-run test #kind/article' })
@@ -32,7 +32,7 @@ test('HTTP appends to Daily as a dry-run by default', async () => {
 
 test('HTTP append with dry_run=false writes to the temp vault and records audit', async () => {
   await withServer(async (baseUrl, vaultRoot) => {
-    const response = await fetch(`${baseUrl}/daily/20260817/append`, {
+    const response = await fetch(`${baseUrl}/daily/2026-08-17/append`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ section: '输出', content: '- saved #kind/decision', dry_run: false })
@@ -40,7 +40,7 @@ test('HTTP append with dry_run=false writes to the temp vault and records audit'
     const payload = await response.json();
     assert.equal(response.status, 200);
     assert.equal(payload.saved, true);
-    const markdown = await readFile(join(vaultRoot, 'Daily', '2026', '20260817.md'), 'utf8');
+    const markdown = await readFile(join(vaultRoot, '2026', '2026-08-17.md'), 'utf8');
     assert.match(markdown, /## 输出\n- saved #kind\/decision/);
 
     const auditFiles = await listDir(join(vaultRoot, '.dailyvault', 'openapi', 'logs', 'audit'));
@@ -58,7 +58,7 @@ test('HTTP rejects invalid section, dry_run type, malformed JSON, non-object bod
       '"just a string"'
     ];
     for (const body of badBodies) {
-      const response = await fetch(`${baseUrl}/daily/20260817/append`, {
+      const response = await fetch(`${baseUrl}/daily/2026-08-17/append`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body
@@ -70,7 +70,7 @@ test('HTTP rejects invalid section, dry_run type, malformed JSON, non-object bod
 
 test('HTTP returns 413 for oversized JSON body', async () => {
   await withServer(async (baseUrl) => {
-    const response = await fetch(`${baseUrl}/daily/20260817/append`, {
+    const response = await fetch(`${baseUrl}/daily/2026-08-17/append`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ section: '输入', content: `- ${'x'.repeat(300 * 1024)}` })
@@ -87,7 +87,7 @@ test('HTTP read: 404 for missing Daily, 400 for invalid date, 404 for non-read p
     const invalidDate = await fetch(`${baseUrl}/daily/2026-8-1`);
     assert.equal(invalidDate.status, 400);
 
-    const appendViaGet = await fetch(`${baseUrl}/daily/20260817/append`);
+    const appendViaGet = await fetch(`${baseUrl}/daily/2026-08-17/append`);
     assert.equal(appendViaGet.status, 404);
 
     const unknown = await fetch(`${baseUrl}/nope`);

@@ -8,12 +8,12 @@
       "templatePath": "Templates/daily.md",
       "fileNameFormat": {
         "enabled": true,
-        "format": "{{DATE:YYYYMMDD}}"
+        "format": "{{DATE:YYYY-MM-DD}}"
       },
       "folder": {
         "enabled": true,
         "folders": [
-          "Daily"
+          "{{DATE:YYYY}}"
         ],
         "chooseWhenCreatingNote": false,
         "createInSameFolderAsActiveFile": false,
@@ -36,7 +36,7 @@
       "type": "Capture",
       "command": true,
       "captureToActiveFile": false,
-      "captureToFileName": "Daily/{{DATE:YYYY}}/{{DATE:YYYYMMDD}}.md",
+      "captureToFileName": "{{DATE:YYYY}}/{{DATE:YYYY-MM-DD}}.md",
       "createFileIfItDoesntExist": {
         "enabled": false,
         "createWithTemplate": false,
@@ -66,10 +66,10 @@
     },
     {
       "id": "dailyvault-review-weekly",
-      "name": "创建周复盘",
+      "name": "创建周计划与复盘",
       "type": "Template",
       "command": true,
-      "templatePath": "Templates/weekly-review.md",
+      "templatePath": "Templates/weekly.md",
       "fileNameFormat": {
         "enabled": true,
         "format": "{{DATE:GGGG-[W]WW}}"
@@ -77,7 +77,7 @@
       "folder": {
         "enabled": true,
         "folders": [
-          "Summaries/weekly"
+          "{{DATE:YYYY}}/Weekly"
         ],
         "chooseWhenCreatingNote": false,
         "createInSameFolderAsActiveFile": false,
@@ -96,10 +96,10 @@
     },
     {
       "id": "dailyvault-review-monthly",
-      "name": "创建月复盘",
+      "name": "创建月计划与复盘",
       "type": "Template",
       "command": true,
-      "templatePath": "Templates/monthly-review.md",
+      "templatePath": "Templates/monthly.md",
       "fileNameFormat": {
         "enabled": true,
         "format": "{{DATE:YYYY-MM}}"
@@ -107,7 +107,7 @@
       "folder": {
         "enabled": true,
         "folders": [
-          "Summaries/monthly"
+          "{{DATE:YYYY}}/Monthly"
         ],
         "chooseWhenCreatingNote": false,
         "createInSameFolderAsActiveFile": false,
@@ -126,10 +126,10 @@
     },
     {
       "id": "dailyvault-review-quarterly",
-      "name": "创建季复盘",
+      "name": "创建季计划与复盘",
       "type": "Template",
       "command": true,
-      "templatePath": "Templates/quarterly-review.md",
+      "templatePath": "Templates/quarterly.md",
       "fileNameFormat": {
         "enabled": true,
         "format": "{{DATE:YYYY-[Q]Q}}"
@@ -137,7 +137,7 @@
       "folder": {
         "enabled": true,
         "folders": [
-          "Summaries/quarterly"
+          "{{DATE:YYYY}}/Quarterly"
         ],
         "chooseWhenCreatingNote": false,
         "createInSameFolderAsActiveFile": false,
@@ -156,10 +156,10 @@
     },
     {
       "id": "dailyvault-review-yearly",
-      "name": "创建年复盘",
+      "name": "创建年计划与复盘",
       "type": "Template",
       "command": true,
-      "templatePath": "Templates/yearly-review.md",
+      "templatePath": "Templates/yearly.md",
       "fileNameFormat": {
         "enabled": true,
         "format": "{{DATE:YYYY}}"
@@ -167,7 +167,7 @@
       "folder": {
         "enabled": true,
         "folders": [
-          "Summaries/yearly"
+          "{{DATE:YYYY}}/Yearly"
         ],
         "chooseWhenCreatingNote": false,
         "createInSameFolderAsActiveFile": false,

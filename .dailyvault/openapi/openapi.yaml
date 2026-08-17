@@ -3,7 +3,7 @@ info:
   title: DailyVault API
   version: 1.1.0
   description: |
-    DailyVault 的本地 API，只提供对 `Daily/YYYYMMDD.md` 的读取与追加。
+    DailyVault 的本地 API，只提供对 `YYYY/YYYY-MM-DD.md` 的读取与追加。
     默认仅监听 127.0.0.1:3417，所有写操作默认 dry_run 预览。
 servers:
   - url: http://127.0.0.1:3417
@@ -110,7 +110,7 @@ components:
       properties:
         path:
           type: string
-          example: Daily/20260817.md
+          example: 2026/2026-08-17.md
         markdown:
           type: string
     AppendDailyRequest:
