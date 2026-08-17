@@ -101,7 +101,7 @@ SORT date ASC
 ```dataview
 TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
 FROM "Clippings"
-WHERE created.weekNumber = weeknumber(this.week) AND created.weekYear = weekyear(this.week)
+WHERE created.weekYear = this.week.weekYear AND created.weekNumber = this.week.weekNumber
 SORT file.name ASC
 ```
 

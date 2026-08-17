@@ -100,7 +100,7 @@ SORT date ASC
 ```dataview
 TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
 FROM "Clippings"
-WHERE created.year = year(this.month) AND created.month = month(this.month)
+WHERE created.year = this.month.year AND created.month = this.month.month
 SORT file.name ASC
 ```
 
