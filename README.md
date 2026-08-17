@@ -53,7 +53,7 @@ Obsidian Web Clipper 直接写入 `Clippings/`。需要在 Daily 中提及时，
 
 ## 汇总
 
-周期复盘模板位于 `Templates/`。它们的 Dataview 查询只读取 `Daily/`：
+周期复盘落在 `Summaries/{weekly,monthly,quarterly,yearly}/`，两种生成方式：QuickAdd「创建周/月/季/年复盘」建骨架（Dataview 自动统计），或让 AI 调用 `period-review` skill 全自动生成。模板的 Dataview 查询只读取 `Daily/`：
 
 - 页面覆盖和日期属性；
 - 未完成任务；

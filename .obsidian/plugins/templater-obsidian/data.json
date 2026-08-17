@@ -17,6 +17,22 @@
     {
       "folder": "Daily",
       "template": "Templates/daily.md"
+    },
+    {
+      "folder": "Summaries/weekly",
+      "template": "Templates/weekly-review.md"
+    },
+    {
+      "folder": "Summaries/monthly",
+      "template": "Templates/monthly-review.md"
+    },
+    {
+      "folder": "Summaries/quarterly",
+      "template": "Templates/quarterly-review.md"
+    },
+    {
+      "folder": "Summaries/yearly",
+      "template": "Templates/yearly-review.md"
     }
   ],
   "syntax_highlighting": true,

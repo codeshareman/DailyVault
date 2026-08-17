@@ -46,6 +46,11 @@ QuickAdd 只提供“创建今天”和“追加到今天”。当天记录保�
 
 周/月/季/年复盘以 `Daily/` 为唯一证据源。Dataview 可以按 Daily frontmatter 的 `week`、`month`、`quarter`、`year` 汇总页面、任务和固定章节下的列表项，包括“随手记录”（闪念）、“输入”、“输出”和“生活时间线”。不要从正文推断未记录的状态或指标。
 
+复盘生成有两条路径：
+
+- **半自动**：QuickAdd「创建周/月/季/年复盘」在 `Summaries/{period}/` 建骨架，Templater 文件夹模板自动填日期 frontmatter，Dataview 自动统计，用户只写总结文字。
+- **全自动**：调用 `period-review` skill，读取该周期全部 Daily 后生成含总结内容的完整复盘。周期归属由复盘笔记 frontmatter 的 `week`/`month`/`quarter`/`year` 决定，创建时必须填准。
+
 ## 编辑策略
 
 1. 只读取与任务相关的 Daily、模板、剪藏或汇总文件。

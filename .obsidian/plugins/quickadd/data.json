@@ -63,6 +63,126 @@
       },
       "openFile": false,
       "openFileInMode": "default"
+    },
+    {
+      "id": "dailyvault-review-weekly",
+      "name": "创建周复盘",
+      "type": "Template",
+      "command": true,
+      "templatePath": "Templates/weekly-review.md",
+      "fileNameFormat": {
+        "enabled": true,
+        "format": "{{DATE:GGGG-[W]WW}}"
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "Summaries/weekly"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false,
+        "chooseFromSubfolders": false
+      },
+      "appendLink": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default",
+      "fileExistsMode": "Nothing",
+      "setFileExistsBehavior": true
+    },
+    {
+      "id": "dailyvault-review-monthly",
+      "name": "创建月复盘",
+      "type": "Template",
+      "command": true,
+      "templatePath": "Templates/monthly-review.md",
+      "fileNameFormat": {
+        "enabled": true,
+        "format": "{{DATE:YYYY-MM}}"
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "Summaries/monthly"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false,
+        "chooseFromSubfolders": false
+      },
+      "appendLink": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default",
+      "fileExistsMode": "Nothing",
+      "setFileExistsBehavior": true
+    },
+    {
+      "id": "dailyvault-review-quarterly",
+      "name": "创建季复盘",
+      "type": "Template",
+      "command": true,
+      "templatePath": "Templates/quarterly-review.md",
+      "fileNameFormat": {
+        "enabled": true,
+        "format": "{{DATE:YYYY-[Q]Q}}"
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "Summaries/quarterly"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false,
+        "chooseFromSubfolders": false
+      },
+      "appendLink": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default",
+      "fileExistsMode": "Nothing",
+      "setFileExistsBehavior": true
+    },
+    {
+      "id": "dailyvault-review-yearly",
+      "name": "创建年复盘",
+      "type": "Template",
+      "command": true,
+      "templatePath": "Templates/yearly-review.md",
+      "fileNameFormat": {
+        "enabled": true,
+        "format": "{{DATE:YYYY}}"
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "Summaries/yearly"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false,
+        "chooseFromSubfolders": false
+      },
+      "appendLink": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default",
+      "fileExistsMode": "Nothing",
+      "setFileExistsBehavior": true
     }
   ],
   "macros": [],
