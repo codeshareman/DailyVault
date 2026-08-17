@@ -12,7 +12,7 @@ export const server = new McpServer({ name: 'dailyvault-server', version: '0.1.0
 server.registerTool(
   'dailyvault.read_daily',
   {
-    description: '读取 Daily/YYYYMMDD.md 的 Markdown 内容。',
+    description: '读取 Daily/YYYY/YYYYMMDD.md 的 Markdown 内容。',
     inputSchema: { date: z.string().describe('YYYY-MM-DD 或 YYYYMMDD') }
   },
   async (input) => textContent(await readDaily(input.date))

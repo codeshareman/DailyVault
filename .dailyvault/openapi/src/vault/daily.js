@@ -1,5 +1,5 @@
 /**
- * Daily 读写与追加：本模块唯一的事实来源是 Daily/YYYYMMDD.md。
+ * Daily 读写与追加：本模块唯一的事实来源是 Daily/YYYY/YYYYMMDD.md。
  */
 import { readFile } from 'node:fs/promises';
 import { resolveVaultPath, toVaultRelative } from '../config/paths.js';
@@ -45,10 +45,11 @@ export async function appendDaily({ date = formatDate(), section, content, dry_r
 }
 
 /**
- * 生成指定日期的 Daily 路径。
+ * 生成指定日期的 Daily 路径（按年分子目录：Daily/YYYY/YYYYMMDD.md）。
  */
 export function dailyPath(date = formatDate()) {
-  return `Daily/${dailyFileStem(date)}.md`;
+  const stem = dailyFileStem(date);
+  return `Daily/${stem.slice(0, 4)}/${stem}.md`;
 }
 
 /**

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-DailyVault 是一个 Daily-first 的个人每日记录库。`Daily/YYYYMMDD.md` 是唯一的日常事实来源；计划、输入、输出、生活片段、学习和复盘都直接写在当天页面。Dataview 和周期复盘只从 `Daily/` 派生，不要求维护第二套资料元数据。
+DailyVault 是一个 Daily-first 的个人每日记录库。`Daily/YYYY/YYYYMMDD.md` 是唯一的日常事实来源（按年分子目录）；计划、输入、输出、生活片段、学习和复盘都直接写在当天页面。Dataview 和周期复盘只从 `Daily/` 派生，不要求维护第二套资料元数据。
 
 ## 核心规则
 
@@ -16,7 +16,7 @@ DailyVault 是一个 Daily-first 的个人每日记录库。`Daily/YYYYMMDD.md` 
 
 ## 活跃目录
 
-- `Daily/`：唯一日常记录源。
+- `Daily/`：唯一日常记录源，按年分子目录（`Daily/2026/20260817.md`）。
 - `Clippings/`：Obsidian Web Clipper 的原文快照。
 - `Summaries/`：从 Daily 派生的周/月/季/年复盘与 Dataview 汇总。
 - `Templates/`：Daily 和周期复盘模板。
@@ -41,7 +41,7 @@ QuickAdd 只提供“创建今天”和“追加到今天”。当天记录保�
 
 ### 每日收尾
 
-当用户要求“daily 总结 / 收尾 / 复盘 / closeout”时，先读相应的 `Daily/YYYYMMDD.md`；只有 Daily 中有明确的 Clippings 链接时才读取对应剪藏。输出今日主线、输入、输出、计划完成情况、生活片段、学到、复盘、迁移项和明日最重要三件事建议。没有证据时写“未观察到”。
+当用户要求“daily 总结 / 收尾 / 复盘 / closeout”时，先读相应的 `Daily/YYYY/YYYYMMDD.md`；只有 Daily 中有明确的 Clippings 链接时才读取对应剪藏。输出今日主线、输入、输出、计划完成情况、生活片段、学到、复盘、迁移项和明日最重要三件事建议。没有证据时写“未观察到”。
 
 ### 周期复盘与 Dataview
 

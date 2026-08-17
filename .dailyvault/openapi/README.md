@@ -1,6 +1,6 @@
 # DailyVault OpenAPI
 
-DailyVault 的隐藏支持模块，不属于 Obsidian 内容目录。它只提供对 `Daily/YYYYMMDD.md` 的本地读写能力（HTTP + MCP 双入口），不创建其他类型的记录。
+DailyVault 的隐藏支持模块，不属于 Obsidian 内容目录。它只提供对 `Daily/YYYY/YYYYMMDD.md` 的本地读写能力（HTTP + MCP 双入口），不创建其他类型的记录。
 
 ## 目录结构
 

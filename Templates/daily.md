@@ -1,3 +1,10 @@
+<%*
+const year = tp.date.now("YYYY");
+const stem = tp.date.now("YYYYMMDD");
+if (!tp.file.path(true).startsWith(`Daily/${year}/`)) {
+  await tp.file.move(`Daily/${year}/${stem}`);
+}
+%>
 ---
 date: {{date:YYYY-MM-DD}}
 weekday: {{date:dddd}}

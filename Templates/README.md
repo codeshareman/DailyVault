@@ -2,7 +2,7 @@
 
 | 模板 | 用途 |
 | --- | --- |
-| `daily.md` | 每日计划、记录和收尾。 |
+| `daily.md` | 每日计划、记录和收尾；首行 Templater 命令自动把文件按年归入 `Daily/YYYY/`（QuickAdd 创建到 `Daily/` 根后自动移动）。 |
 | `weekly-review.md` | 基于 Daily 的周复盘。 |
 | `monthly-review.md` | 基于 Daily 的月复盘。 |
 | `quarterly-review.md` | 基于 Daily 的季度复盘。 |

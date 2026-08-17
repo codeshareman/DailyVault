@@ -36,7 +36,7 @@
       "type": "Capture",
       "command": true,
       "captureToActiveFile": false,
-      "captureToFileName": "Daily/{{DATE:YYYYMMDD}}.md",
+      "captureToFileName": "Daily/{{DATE:YYYY}}/{{DATE:YYYYMMDD}}.md",
       "createFileIfItDoesntExist": {
         "enabled": false,
         "createWithTemplate": false,

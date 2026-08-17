@@ -40,7 +40,7 @@ test('HTTP append with dry_run=false writes to the temp vault and records audit'
     const payload = await response.json();
     assert.equal(response.status, 200);
     assert.equal(payload.saved, true);
-    const markdown = await readFile(join(vaultRoot, 'Daily', '20260817.md'), 'utf8');
+    const markdown = await readFile(join(vaultRoot, 'Daily', '2026', '20260817.md'), 'utf8');
     assert.match(markdown, /## 输出\n- saved #kind\/decision/);
 
     const auditFiles = await listDir(join(vaultRoot, '.dailyvault', 'openapi', 'logs', 'audit'));

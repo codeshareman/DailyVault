@@ -1,11 +1,11 @@
 # DailyVault
 
-DailyVault 是一个日期优先的个人记录库。每天只写一份 `Daily/YYYYMMDD.md`；文章、工具、想法、行动、结果和生活片段都以当天的语境记录。Dataview 再从这些 Daily 页面生成周/月/季/年汇总。
+DailyVault 是一个日期优先的个人记录库。每天只写一份 `Daily/YYYY/YYYYMMDD.md`（按年分子目录）；文章、工具、想法、行动、结果和生活片段都以当天的语境记录。Dataview 再从这些 Daily 页面生成周/月/季/年汇总。
 
 ## 日常目录
 
 ```text
-Daily/       # 唯一日常记录源
+Daily/       # 唯一日常记录源，按年分子目录（Daily/2026/20260817.md）
 Clippings/   # Web Clipper 原文快照
 Summaries/   # 从 Daily 派生的复盘与 Dataview 汇总
 Templates/   # Daily 和复盘模板
@@ -15,7 +15,7 @@ Templates/   # Daily 和复盘模板
 
 ## 每天怎么写
 
-1. 用 QuickAdd 创建 `Daily/YYYYMMDD.md`。
+1. 用 QuickAdd 创建 `Daily/YYYY/YYYYMMDD.md`（自动落到当年子目录）。
 2. 今日计划最多写三项；白天的临时内容都追加到“随手记录”。
 3. 文章、工具、课程和反馈写在“输入”；实际结果写在“输出”；生活经历写在“生活时间线”。
 4. 晚上补“学到”“复盘”和“明日 / 迁移”。空白可以留空。
@@ -57,6 +57,7 @@ Obsidian Web Clipper 直接写入 `Clippings/`。需要在 Daily 中提及时，
 
 - 页面覆盖和日期属性；
 - 未完成任务；
-- “随手记录”（闪念）、“输入”“输出”“生活时间线”章节中的列表项。
+- “随手记录”（闪念）、“输入”“输出”“学到”“复盘”“生活时间线”章节中的列表项；
+- 剪藏输入（按 `Clippings/` 的 `created` 字段归集）。
 
 这让 Daily 保持人可读，同时仍可按周、月、季、年回看。
