@@ -94,6 +94,15 @@ WHERE quarter = this.quarter AND meta(item.section).subpath = "输入" AND item.
 SORT date ASC
 ```
 
+### 剪藏输入（自动）
+
+```dataview
+TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
+FROM "Clippings"
+WHERE created.year = this.year AND created.quarter = number(split(this.quarter, "-Q")[1])
+SORT file.name ASC
+```
+
 ### 输出
 
 ```dataview

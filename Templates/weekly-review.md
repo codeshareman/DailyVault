@@ -96,6 +96,15 @@ WHERE week = this.week AND meta(item.section).subpath = "输入" AND item.text
 SORT date ASC
 ```
 
+### 剪藏输入（自动）
+
+```dataview
+TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
+FROM "Clippings"
+WHERE created.weekYear = number(split(this.week, "-")[0]) AND created.weekNumber = number(split(this.week, "-W")[1])
+SORT file.name ASC
+```
+
 ### 输出
 
 ```dataview

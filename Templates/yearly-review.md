@@ -93,6 +93,15 @@ WHERE year = this.year AND meta(item.section).subpath = "输入" AND item.text
 SORT date ASC
 ```
 
+### 剪藏输入（自动）
+
+```dataview
+TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
+FROM "Clippings"
+WHERE created.year = this.year
+SORT file.name ASC
+```
+
 ### 输出
 
 ```dataview

@@ -25,6 +25,15 @@ note_type: daily-log
 <!-- 外部信息（文章/工具/课程/对话/反馈），行尾带类型标签，如：- 读了 [[Clippings/某篇]] #kind/article -->
 - 
 
+### 今日剪藏输入（自动）
+
+```dataview
+TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
+FROM "Clippings"
+WHERE created = this.date
+SORT file.name ASC
+``` 
+
 ## 输出
 <!-- 交付物/决定/明确结果，可带 #kind/decision | #kind/project -->
 - 

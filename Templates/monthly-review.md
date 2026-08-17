@@ -95,6 +95,15 @@ WHERE month = this.month AND meta(item.section).subpath = "输入" AND item.text
 SORT date ASC
 ```
 
+### 剪藏输入（自动）
+
+```dataview
+TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
+FROM "Clippings"
+WHERE created.year = number(split(this.month, "-")[0]) AND created.month = number(split(this.month, "-")[1])
+SORT file.name ASC
+```
+
 ### 输出
 
 ```dataview
