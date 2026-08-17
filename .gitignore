@@ -14,7 +14,6 @@
 .dailyvault/openapi/logs/audit/*.jsonl
 .dailyvault/openapi/.env
 _bmad/
-Notes/Product Operating System.md
 .claudian/
 .smart-env/
 .omc/
