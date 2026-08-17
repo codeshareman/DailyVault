@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { appendDaily, appendToSection, createDailyMarkdown } from '../src/vault/daily.js';
+import { appendDaily, appendToSection, createDailyMarkdown, readDaily } from '../src/vault/daily.js';
 
 test('appendToSection appends within an existing section', () => {
   const original = '# 2026-08-17\n\n## 输入\n- old\n\n## 输出\n- done\n';
@@ -36,6 +36,41 @@ test('appendDaily rejects unsupported sections and non-boolean dry_run', async (
     () => appendDaily({ date: '2026-08-17', section: '输入', content: '- nope', dry_run: 'false' }),
     { statusCode: 400 }
   );
+});
+
+test('appendToSection creates the section at the end when missing', () => {
+  const original = '# 2026-08-17\n\n## 输入\n- old\n';
+  const next = appendToSection(original, '学到', '- insight');
+  assert.match(next, /## 输入\n- old\n\n## 学到\n- insight/);
+});
+
+test('readDaily returns 404 for a missing Daily', async () => {
+  await withTempVault(async () => {
+    await assert.rejects(() => readDaily('2026-08-01'), { statusCode: 404 });
+  });
+});
+
+test('appendDaily rejects invalid dates with 400', async () => {
+  await withTempVault(async () => {
+    await assert.rejects(
+      () => appendDaily({ date: '2026-8-1', section: '输入', content: '- nope' }),
+      { statusCode: 400 }
+    );
+  });
+});
+
+test('appendDaily creates the Daily from template when it does not exist', async () => {
+  await withTempVault(async (vaultRoot) => {
+    const dailyPath = join(vaultRoot, 'Daily', '20260817.md');
+    const saved = await appendDaily({ date: '2026-08-17', section: '随手记录', content: '- 闪念 #kind/idea', dry_run: false });
+    assert.equal(saved.saved, true);
+    const markdown = await readFile(dailyPath, 'utf8');
+    assert.match(markdown, /note_type: daily-log/);
+    assert.match(markdown, /## 随手记录\n- 闪念 #kind\/idea/);
+    for (const section of ['今日计划', '输入', '输出', '生活时间线', '学到', '复盘', '明日 / 迁移']) {
+      assert.match(markdown, new RegExp(`## ${section}`));
+    }
+  });
 });
 
 test('createDailyMarkdown matches the shared Daily template structure', () => {

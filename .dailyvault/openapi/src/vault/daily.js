@@ -1,12 +1,11 @@
 /**
- * Daily Markdown 读写与追加工具。
- * by AI.Coding
+ * Daily 读写与追加：本模块唯一的事实来源是 Daily/YYYYMMDD.md。
  */
 import { readFile } from 'node:fs/promises';
 import { resolveVaultPath, toVaultRelative } from '../config/paths.js';
 import { atomicWriteFile } from './atomic-write.js';
 import { chineseWeekday, dailyFileStem, formatDate, isoWeek, normalizeDate } from '../util/dates.js';
-import { appendAudit } from '../policy/audit.js';
+import { appendAudit } from '../audit.js';
 
 export const DAILY_SECTIONS = ['今日计划', '随手记录', '输入', '输出', '生活时间线', '学到', '复盘', '明日 / 迁移'];
 
@@ -53,7 +52,7 @@ export function dailyPath(date = formatDate()) {
 }
 
 /**
- * 读取 Daily；不存在时用低摩擦模板生成内容。
+ * 读取 Daily；不存在时用与 Templates/daily.md 一致的低摩擦模板生成内容。
  */
 async function readOrCreateDaily(date) {
   try {
@@ -66,6 +65,7 @@ async function readOrCreateDaily(date) {
 
 /**
  * 在指定章节末尾追加内容；没有章节时追加到文件末尾并创建章节。
+ * 追加前会清掉章节尾部的空占位项（模板中的 `- `），避免留下孤立空行。
  */
 export function appendToSection(markdown, section, content) {
   const heading = `## ${section}`;
@@ -79,12 +79,23 @@ export function appendToSection(markdown, section, content) {
   const afterHeading = headingIndex + heading.length + 1;
   const nextHeading = markdown.indexOf('\n## ', afterHeading);
   if (nextHeading === -1) {
-    return `${markdown.replace(/\s*$/, '\n')}${normalizedContent}`;
+    const before = stripTrailingEmptyItems(markdown.slice(afterHeading).replace(/\s*$/, '\n'));
+    return `${markdown.slice(0, afterHeading)}${before}${normalizedContent}`;
   }
 
-  const before = markdown.slice(0, nextHeading).replace(/\s*$/, '\n');
+  const before = stripTrailingEmptyItems(markdown.slice(0, nextHeading).replace(/\s*$/, '\n'));
   const after = markdown.slice(nextHeading);
   return `${before}${normalizedContent}${after}`;
+}
+
+/**
+ * 移除文本末尾的空行和空占位列表项（`- `、`-`、`* `），返回以换行结尾的干净文本。
+ */
+function stripTrailingEmptyItems(text) {
+  const lines = text.split('\n');
+  while (lines.length > 1 && lines[lines.length - 1] === '') lines.pop();
+  while (lines.length > 0 && /^[-*] ?$/.test(lines[lines.length - 1])) lines.pop();
+  return lines.length ? `${lines.join('\n')}\n` : '';
 }
 
 function assertAppendInput({ section, content, dry_run }) {
@@ -106,7 +117,7 @@ function assertAppendInput({ section, content, dry_run }) {
 }
 
 /**
- * 用 Server 内置最小模板创建 Daily，保持低摩擦且 Dataview 友好。
+ * 用与 Templates/daily.md 一致的模板创建 Daily，保持低摩擦且 Dataview 友好。
  */
 export function createDailyMarkdown(dateInput) {
   const date = normalizeDate(dateInput);

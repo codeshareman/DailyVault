@@ -1,6 +1,5 @@
 /**
- * DailyVault 路径与安全边界工具。
- * by AI.Coding
+ * 路径与安全边界：解析 Vault / 模块根目录，并阻止路径穿越。
  */
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';

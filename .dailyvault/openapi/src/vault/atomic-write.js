@@ -1,6 +1,5 @@
 /**
- * 原子写入工具，避免 Markdown 写一半导致 Vault 损坏。
- * by AI.Coding
+ * 原子写入：先写同目录临时文件再 rename，避免 Markdown 写一半导致 Vault 损坏。
  */
 import { rename, unlink, writeFile } from 'node:fs/promises';
 import { ensureParentDir } from '../config/paths.js';

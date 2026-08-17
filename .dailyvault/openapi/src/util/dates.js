@@ -1,6 +1,5 @@
 /**
- * DailyVault 日期格式工具。
- * by AI.Coding
+ * Daily 日期工具：统一接受 YYYY-MM-DD 或 YYYYMMDD，并输出模板所需的格式。
  */
 
 /**
@@ -14,23 +13,14 @@ export function formatDate(date = new Date()) {
 }
 
 /**
- * 把 Date 转成 YYYYMMDD。
+ * 把 Date 转成 YYYYMMDD，用于审计日志文件名。
  */
 export function formatCompactDate(date = new Date()) {
   return formatDate(date).replaceAll('-', '');
 }
 
 /**
- * 把 Date 转成 YYYYMMDDHHmm。
- */
-export function formatTimestamp(date = new Date()) {
-  const hour = String(date.getHours()).padStart(2, '0');
-  const minute = String(date.getMinutes()).padStart(2, '0');
-  return `${formatCompactDate(date)}${hour}${minute}`;
-}
-
-/**
- * 规范化用户传入日期，接受 YYYY-MM-DD 或 YYYYMMDD。
+ * 规范化用户传入日期，接受 YYYY-MM-DD 或 YYYYMMDD；无效时抛 statusCode=400。
  */
 export function normalizeDate(input = formatDate()) {
   if (/^\d{8}$/.test(input)) {
@@ -39,7 +29,9 @@ export function normalizeDate(input = formatDate()) {
   if (/^\d{4}-\d{2}-\d{2}$/.test(input)) {
     return input;
   }
-  throw new Error(`日期无效，期望 YYYY-MM-DD 或 YYYYMMDD：${input}`);
+  const error = new Error(`日期无效，期望 YYYY-MM-DD 或 YYYYMMDD：${input}`);
+  error.statusCode = 400;
+  throw error;
 }
 
 /**

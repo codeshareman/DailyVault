@@ -8,7 +8,7 @@
     "mcp": "node src/mcp/server.js",
     "http": "node src/http/server.js",
     "test": "node --test tests/*.test.js",
-    "check": "node --check src/mcp/server.js && node --check src/http/server.js && node --test tests/*.test.js"
+    "check": "node --check src/audit.js && node --check src/config/paths.js && node --check src/util/dates.js && node --check src/util/response.js && node --check src/vault/atomic-write.js && node --check src/vault/daily.js && node --check src/http/server.js && node --check src/mcp/server.js && node --test tests/*.test.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",

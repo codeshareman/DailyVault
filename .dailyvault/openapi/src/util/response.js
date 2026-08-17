@@ -1,8 +1,6 @@
 /**
- * MCP / HTTP 返回值格式化工具。
- * by AI.Coding
+ * MCP / HTTP 响应与请求体处理工具。
  */
-
 const MAX_JSON_BODY_BYTES = 256 * 1024;
 
 /**
