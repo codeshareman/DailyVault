@@ -17,3 +17,5 @@ Summaries/
 **全自动（AI 生成内容）**：让 AI 调用 `period-review` skill——它读取该周期全部 `Daily/`（唯一证据源），从真实记录提炼本期总结和下期重点，再带上 Dataview 汇总块，直接生成复盘笔记。
 
 模板只读取 Daily 的日期属性、任务、固定章节和 `#kind/...` 标签。复盘笔记的 `week` / `month` / `quarter` / `year` frontmatter 决定它归属哪个周期；Dataview 查询用 `this.*` 引用它，因此**创建时的日期填充必须准确**。
+
+模板自带的 Dataview 统计：章节条目统计、每日活跃度、计划完成情况（今日计划 checkbox）、未完成任务、`#kind/...` 条目分类，以及闪念/输入/输出/学到/复盘/生活时间线的内容归集表。
