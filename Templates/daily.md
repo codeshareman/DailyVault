@@ -4,7 +4,7 @@ const stem = tp.date.now("YYYY-MM-DD");
 if (!tp.file.path(true).startsWith(`${year}/`)) {
   await tp.file.move(`${year}/${stem}`);
 }
-%>
+-%>
 ---
 date: {{date:YYYY-MM-DD}}
 weekday: {{date:dddd}}
