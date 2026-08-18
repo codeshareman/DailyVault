@@ -149,6 +149,45 @@ if (!months.length) {
 }
 ```
 
+## 年度计划完成率
+
+<!-- 年度计划文件（YYYY/Yearly/YYYY.md）「本期计划」的完成情况：目标层统计，看今年立的目标完成了几项。口径与月度一致：取消（[-]）不计入分母；未填计划时显示提示。 -->
+
+```dataviewjs
+const y = dv.current().year;
+const yearlyPages = dv.pages('"' + y + '/Yearly"').where(p => p.note_type === "summary" && p.period_type === "yearly" && p.year === y);
+if (!yearlyPages.length) {
+  dv.paragraph("还没有年度计划文件。");
+} else {
+  const plan = yearlyPages.flatMap(p => p.file.lists.filter(l => l.task && l.text.trim() && l.section?.subpath === "本期计划"));
+  const done = plan.filter(l => l.status === "x");
+  const todo = plan.filter(l => l.status === " " || l.status === "");
+  const cancelled = plan.filter(l => l.status === "-");
+  const total = done.length + todo.length;
+  if (!total) {
+    dv.paragraph("年度计划还没填写「本期计划」。");
+  } else {
+    const pct = Math.round(done.length / total * 100);
+    const show = (s, n = 60) => s.length > n ? s.slice(0, n) + "…" : s;
+    const clean = (s) => s.replace(/^[-*]\s*\[[ x-]\]\s*/, "").replace(/^[-*]\s*/, "");
+    // 条目文本 → 可点击链接：纯文本包 wikilink 指向年度计划文件；含内链/URL 时保留原样
+    const cell = (l) => {
+      const t = show(clean(l.text));
+      if (l.text.includes("[[") || l.text.includes("http")) return t;
+      return `[[${l.page.file.link.path}|${t}]]`;
+    };
+    const container = dv.container.createEl("div", { attr: { style: "margin:4px 0" } });
+    const row = container.createEl("div", { attr: { style: "display:flex;align-items:center;gap:8px;margin:3px 0;width:100%" } });
+    row.createEl("div", { text: String(y) + " 年度计划", attr: { style: "width:110px;font-size:12px;flex-shrink:0;color:#555" } });
+    const track = row.createEl("div", { attr: { style: "flex:1;background:#eee;border-radius:3px;height:14px;overflow:hidden;min-width:40px" } });
+    track.createEl("div", { attr: { style: `width:${pct}%;background:${pct >= 70 ? "#4caf50" : pct >= 40 ? "#ff9800" : "#f44336"};height:100%;border-radius:3px` } });
+    row.createEl("div", { text: `${done.length}/${total} = ${pct}%`, attr: { style: "width:110px;font-size:12px;text-align:right;flex-shrink:0;color:#555" } });
+    // 明细：条目可点击跳转年度计划文件
+    dv.table(["年度计划", "状态"], plan.map(l => [cell(l), l.status === "x" ? "✅ 完成" : l.status === "-" ? "❌ 取消" : "⏳ 待办"]));
+  }
+}
+```
+
 ## 月度计划完成率
 
 <!-- 每月今日计划的完成/待办进度条：衡量执行力的月度波动。 -->
