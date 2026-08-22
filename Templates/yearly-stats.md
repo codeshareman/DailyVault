@@ -9,7 +9,7 @@ period_type: yearly
 
 > [[{{date:YYYY}}]]
 
-<!-- 年度统计只做一次，从每日记录（note_type: daily-log）派生。统计口径：任务按 status 精确区分（[x]完成 / [ ]待办 / [-]取消 / 其他状态），只统计真正的待办为未完成；计划类章节不参与内容统计，任务意义在"做了什么/没做了什么"。 -->
+<!-- 年度统计只从每日记录（note_type: daily-log）派生；仅统计有效任务。全任务完成率与任务总数统计每日全部有效任务；今日计划达标率只统计「今日计划」；月度计划完成率统计本月每日记录中的全部有效任务。 -->
 
 ## 年度概览
 
@@ -18,12 +18,11 @@ const y = dv.current().year;
 const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && p.year === y).sort(p => p.date);
 const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
 const items = lists.filter(l => l.text && l.text.trim() && !l.task);
-const tasks = lists.filter(l => l.task && l.text && l.text.trim());
+const tasks = lists.filter(l => l.task && l.text && l.text.trim() && l.status !== "-");
 const done = tasks.filter(l => l.status === "x");
 const todo = tasks.filter(l => l.status === " " || l.status === "");
-const cancelled = tasks.filter(l => l.status === "-");
-const other = tasks.length - done.length - todo.length - cancelled.length;
-const planTasks = tasks.filter(l => l.section?.subpath === "今日计划" && l.status !== "-");
+const other = tasks.length - done.length - todo.length;
+const planTasks = tasks.filter(l => l.section?.subpath === "今日计划");
 const planDone = planTasks.filter(l => l.status === "x");
 const inCount = items.filter(l => l.section?.subpath === "输入").length;
 const outCount = items.filter(l => l.section?.subpath === "输出").length;
@@ -40,8 +39,8 @@ dv.table(
   [
     ["记录天数", pages.length + " 天"],
     ["总条目数", items.length + " 条"],
-    ["任务总数", tasks.length + "（完成 " + done.length + " / 待办 " + todo.length + " / 取消 " + cancelled.length + " / 其他 " + other + "）"],
-    ["任务完成率", rate(done.length, tasks.length)],
+    ["任务总数", tasks.length + "（完成 " + done.length + " / 待办 " + todo.length + " / 其他 " + other + "）"],
+    ["全任务完成率", rate(done.length, tasks.length)],
     ["今日计划达标率", rate(planDone.length, planTasks.length)],
     ["最长连续记录", best + " 天"],
     ["输入 / 输出", inCount + " / " + outCount],
@@ -79,7 +78,7 @@ dv.table(["成果", "来源"], rows.length ? rows : [["（今年还没有已完�
 
 ## 今年没做什么
 
-<!-- 真正的未完成待办（[ ]）与取消项（[-]）。条目文本可点击跳转回来源的每日记录；文本内的 [[内链]] 直接指向对应笔记；来源列同样可跳转。 -->
+<!-- 未完成待办（[ ]）。条目文本可点击跳转回来源的每日记录；文本内的 [[内链]] 直接指向对应笔记；来源列同样可跳转。 -->
 
 ```dataviewjs
 const y = dv.current().year;
@@ -87,23 +86,18 @@ const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && 
 const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
 const show = (s, n = 80) => s.length > n ? s.slice(0, n) + "…" : s;
 const clean = (s) => s.replace(/^[-*]\s*\[[ x-]\]\s*/, "").replace(/^[-*]\s*/, "");
-// 条目文本 → 可点击链接：纯文本包 wikilink 指向 daily；含内链/URL 时保留原样（Dataview 渲染为可点击）
 const cell = (l) => {
   const t = show(clean(l.text));
   if (l.text.includes("[[") || l.text.includes("http")) return t;
   return `[[${l.page.file.link.path}|${t}]]`;
 };
 const todo = lists.filter(l => l.task && (l.status === " " || l.status === "") && l.text.trim());
-const cancelled = lists.filter(l => l.task && l.status === "-" && l.text.trim());
-const rows = [];
-for (const t of todo) rows.push(["⏳ " + cell(t), t.page.file.link]);
-for (const c of cancelled) rows.push(["❌ " + cell(c), c.page.file.link]);
-dv.table(["未完成（⏳待办 / ❌取消）", "来源"], rows.length ? rows : [["（今年没有未完成或取消的任务）", ""]]);
+const rows = todo.map(t => ["⏳ " + cell(t), t.page.file.link]);
+dv.table(["未完成（⏳待办）", "来源"], rows.length ? rows : [["（今年没有未完成的任务）", ""]]);
 ```
-
 ## 月度活跃趋势
 
-<!-- 每月条目数柱状图：一眼看出全年节奏（哪几个月活跃、哪几个月停滞）。 -->
+<!-- 每月有效条目数柱状图：一眼看出全年节奏（哪几个月活跃、哪几个月停滞）。 -->
 
 ```dataviewjs
 const y = dv.current().year;
@@ -112,7 +106,7 @@ const counts = {};
 for (const p of pages) {
   const m = p.date ? p.date.toFormat("yyyy-MM") : String(p.month || "").slice(0, 7);
   if (!m || !/^\d{4}-\d{2}$/.test(m)) continue;
-  counts[m] = (counts[m] || 0) + p.file.lists.filter(l => l.text && l.text.trim()).length;
+  counts[m] = (counts[m] || 0) + p.file.lists.filter(l => l.text && l.text.trim() && !(l.task && l.status === "-")).length;
 }
 const months = Object.keys(counts).sort();
 if (!months.length) {
@@ -151,7 +145,7 @@ if (!months.length) {
 
 ## 年度计划完成率
 
-<!-- 年度计划文件（YYYY/Yearly/YYYY.md）「本期计划」的完成情况：目标层统计，看今年立的目标完成了几项。口径与月度一致：取消（[-]）不计入分母；未填计划时显示提示。 -->
+<!-- 年度计划文件（YYYY/Yearly/YYYY.md）「本期计划」的完成情况：目标层统计，看今年立的目标完成了几项；仅统计有效任务。未填计划时显示提示。 -->
 
 ```dataviewjs
 const y = dv.current().year;
@@ -159,10 +153,9 @@ const yearlyPages = dv.pages('"' + y + '/Yearly"').where(p => p.note_type === "s
 if (!yearlyPages.length) {
   dv.paragraph("还没有年度计划文件。");
 } else {
-  const plan = yearlyPages.flatMap(p => p.file.lists.filter(l => l.task && l.text.trim() && l.section?.subpath === "本期计划"));
+  const plan = yearlyPages.flatMap(p => p.file.lists.filter(l => l.task && l.text.trim() && l.section?.subpath === "本期计划" && l.status !== "-"));
   const done = plan.filter(l => l.status === "x");
   const todo = plan.filter(l => l.status === " " || l.status === "");
-  const cancelled = plan.filter(l => l.status === "-");
   const total = done.length + todo.length;
   if (!total) {
     dv.paragraph("年度计划还没填写「本期计划」。");
@@ -183,14 +176,14 @@ if (!yearlyPages.length) {
     track.createEl("div", { attr: { style: `width:${pct}%;background:${pct >= 70 ? "#4caf50" : pct >= 40 ? "#ff9800" : "#f44336"};height:100%;border-radius:3px` } });
     row.createEl("div", { text: `${done.length}/${total} = ${pct}%`, attr: { style: "width:110px;font-size:12px;text-align:right;flex-shrink:0;color:#555" } });
     // 明细：条目可点击跳转年度计划文件
-    dv.table(["年度计划", "状态"], plan.map(l => [cell(l), l.status === "x" ? "✅ 完成" : l.status === "-" ? "❌ 取消" : "⏳ 待办"]));
+    dv.table(["年度计划", "状态"], plan.map(l => [cell(l), l.status === "x" ? "✅ 完成" : "⏳ 待办"]));
   }
 }
 ```
 
 ## 月度计划完成率
 
-<!-- 每月今日计划的完成/待办进度条：衡量执行力的月度波动。 -->
+<!-- 每月计划的完成/待办进度条：统计本月每日记录中的全部有效任务，完成率反映计划兑现率。 -->
 
 ```dataviewjs
 const y = dv.current().year;
@@ -199,7 +192,7 @@ const monthly = {};
 for (const p of pages) {
   const m = p.date ? p.date.toFormat("yyyy-MM") : String(p.month || "").slice(0, 7);
   if (!m || !/^\d{4}-\d{2}$/.test(m)) continue;
-  const plan = p.file.lists.filter(l => l.task && l.text.trim() && l.section?.subpath === "今日计划" && l.status !== "-");
+  const plan = p.file.lists.filter(l => l.task && l.text.trim() && l.status !== "-");
   if (!plan.length) continue;
   const done = plan.filter(l => l.status === "x").length;
   if (!monthly[m]) monthly[m] = { done: 0, total: 0 };
@@ -290,7 +283,7 @@ const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && 
 const tags = {};
 for (const p of pages) {
   for (const l of p.file.lists) {
-    if (!l.text || !l.text.trim()) continue;
+    if (!l.text || !l.text.trim() || (l.task && l.status === "-")) continue;
     for (const t of (l.tags || [])) if (t.startsWith("#kind/")) tags[t] = (tags[t] || 0) + 1;
   }
 }
