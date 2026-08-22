@@ -22,8 +22,6 @@ note_type: daily-log
 ## 今日计划
 
 - [ ] 
-- [ ] 
-- [ ] 
 
 ## 随手记录
 <!-- 闪念：随时捕捉，不要求分类，直接写 -->
@@ -38,7 +36,8 @@ note_type: daily-log
 ```dataview
 TABLE WITHOUT ID file.link AS 剪藏, description AS 摘要
 FROM "Clippings"
-WHERE created = this.date
+WHERE this.file.path != "Templates/daily.md"
+WHERE this.date != null AND ((created != null AND created = this.date) OR (clipped_at != null AND clipped_at = this.date))
 SORT file.name ASC
 ``` 
 
