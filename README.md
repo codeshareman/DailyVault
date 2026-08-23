@@ -11,7 +11,9 @@ DailyVault 是一个日期优先的个人记录库。每天只写一份 `YYYY/YY
 ├── Monthly/        # 月计划与复盘（如 2026-08.md）
 ├── Quarterly/      # 季计划与复盘（如 2026-Q3.md）
 └── Yearly/         # 年计划与复盘 + 年度统计（如 2026.md、2026 统计.md）
+Outputs/            # 当前工程产出的文章、地址和交付物
 Clippings/          # Web Clipper 原文快照
+Tools/              # 工具介绍卡片
 Templates/          # 每日、周期和年度统计模板
 ```
 
@@ -50,6 +52,10 @@ Templates/          # 每日、周期和年度统计模板
 ```
 
 常用类型只有：`article`、`tool`、`course`、`book`、`video`、`podcast`、`movie`、`music`、`place`、`fitness`、`decision`、`project`。主题需要长期追踪时，才额外添加 `#topic/...`；不要为每条记录补一组字段。
+
+## Outputs
+
+当前工程产出的文章、地址和交付物统一保存在 `Outputs/`；Daily 的「输出」表格按 `created`/`date` 自动归集，不在 Daily 中重复记录正文。
 
 ## Clippings
 

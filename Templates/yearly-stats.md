@@ -9,7 +9,7 @@ period_type: yearly
 
 > [[{{date:YYYY}}]]
 
-<!-- 年度统计只从每日记录（note_type: daily-log）派生；仅统计有效任务。全任务完成率与任务总数统计每日全部有效任务；今日计划达标率只统计「今日计划」；月度计划完成率统计本月每日记录中的全部有效任务。 -->
+<!-- 年度统计只从每日记录（note_type: daily-log）、输入来源和 Outputs/ 输出文件派生；仅统计有效任务。网页剪藏和 Tools/ 工具介绍均属于输入，Outputs/ 中的输出文件按完成日期计入。 -->
 
 ## 年度概览
 
@@ -17,15 +17,26 @@ period_type: yearly
 const y = dv.current().year;
 const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && p.year === y).sort(p => p.date);
 const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
-const items = lists.filter(l => l.text && l.text.trim() && !l.task);
+const dateText = (value) => value && value.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
+const inYear = (...values) => values.some(value => dateText(value).startsWith(String(y) + "-"));
+const sourcePages = [
+  ...dv.pages('"Clippings"').where(p => inYear(p.created, p.clipped_at)).map(page => ({ page, type: "剪藏" })),
+  ...dv.pages('"Tools"').where(p => inYear(p.created, p.captured_at)).map(page => ({ page, type: "工具" })),
+];
+const outputPages = dv.pages('"Outputs"').where(p => inYear(p.created, p.date));
+const linkedSource = (l) => /\[\[(?:Clippings|Tools)\//.test(String(l.text || ""));
+const dailyItems = lists.filter(l => l.text && l.text.trim() && !l.task);
+const dailyInputs = dailyItems.filter(l => l.section?.subpath === "输入");
+const manualInputs = dailyInputs.filter(l => !linkedSource(l));
+const items = dailyItems.filter(l => l.section?.subpath !== "输入" || !linkedSource(l)).length + sourcePages.length + outputPages.length;
 const tasks = lists.filter(l => l.task && l.text && l.text.trim() && l.status !== "-");
 const done = tasks.filter(l => l.status === "x");
 const todo = tasks.filter(l => l.status === " " || l.status === "");
 const other = tasks.length - done.length - todo.length;
 const planTasks = tasks.filter(l => l.section?.subpath === "今日计划");
 const planDone = planTasks.filter(l => l.status === "x");
-const inCount = items.filter(l => l.section?.subpath === "输入").length;
-const outCount = items.filter(l => l.section?.subpath === "输出").length;
+const inCount = manualInputs.length + sourcePages.length;
+const outCount = outputPages.length;
 let streak = 0, best = 0, prev = null;
 for (const p of pages) {
   const d = p.date;
@@ -47,10 +58,9 @@ dv.table(
   ]
 );
 ```
-
 ## 今年做了什么
 
-<!-- 完成的任务、输出交付物与学到的认识——年度成果清单。条目文本可点击跳转回来源的每日记录；文本内的 [[内链]] 直接指向对应笔记；#kind/... 标签可点击搜索。来源列同样可跳转。 -->
+<!-- 完成的任务、Outputs/ 输出文件与学到的认识——年度成果清单。输出文件直接可点击；任务和学到条目可跳转回来源 Daily。 -->
 
 ```dataviewjs
 const y = dv.current().year;
@@ -58,20 +68,20 @@ const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && 
 const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
 const show = (s, n = 80) => s.length > n ? s.slice(0, n) + "…" : s;
 const clean = (s) => s.replace(/^[-*]\s*\[[ x-]\]\s*/, "").replace(/^[-*]\s*/, "");
-// 条目文本 → 可点击链接：纯文本包 wikilink 指向 daily；含内链/URL 时保留原样（Dataview 渲染为可点击）
 const cell = (l) => {
   const t = show(clean(l.text));
   if (l.text.includes("[[") || l.text.includes("http")) return t;
   return `[[${l.page.file.link.path}|${t}]]`;
 };
-// 完成的任务
+const dateText = (value) => value && value.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
+const outputPages = dv.pages('"Outputs"')
+  .where(p => dateText(p.created || p.date).startsWith(String(y) + "-"))
+  .sort(p => p.created || p.date);
 const doneTasks = lists.filter(l => l.task && l.status === "x" && l.text.trim());
-// 输出与学到条目
-const outs = lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === "输出");
 const learned = lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === "学到");
 const rows = [];
 for (const t of doneTasks) rows.push(["✅ " + cell(t), t.page.file.link]);
-for (const o of outs) rows.push(["📦 " + cell(o), o.page.file.link]);
+for (const output of outputPages) rows.push(["📦 " + output.file.link, output.file.link]);
 for (const l of learned) rows.push(["💡 " + cell(l), l.page.file.link]);
 dv.table(["成果", "来源"], rows.length ? rows : [["（今年还没有已完成任务、输出或学到条目）", ""]]);
 ```
@@ -243,8 +253,18 @@ if (!months.length) {
 const y = dv.current().year;
 const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && p.year === y);
 const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
-const count = (sec) => lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === sec).length;
-const inN = count("输入"), learnN = count("学到"), outN = count("输出");
+const dateText = (value) => value && value.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
+const inYear = (...values) => values.some(value => dateText(value).startsWith(String(y) + "-"));
+const sourceInputs = [
+  ...dv.pages('"Clippings"').where(p => inYear(p.created, p.clipped_at)),
+  ...dv.pages('"Tools"').where(p => inYear(p.created, p.captured_at)),
+];
+const outputPages = dv.pages('"Outputs"').where(p => inYear(p.created, p.date));
+const linkedSource = (l) => /\[\[(?:Clippings|Tools)\//.test(String(l.text || ""));
+const inputLists = lists.filter(l => !l.task && l.text && l.text.trim() && l.section?.subpath === "输入");
+const inN = inputLists.filter(l => !linkedSource(l)).length + sourceInputs.length;
+const learnN = lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === "学到").length;
+const outN = outputPages.length;
 if (!inN && !learnN && !outN) {
   dv.paragraph("今年还没有内容记录。");
 } else {
@@ -262,7 +282,6 @@ if (!inN && !learnN && !outN) {
     const track = row.createEl("div", { attr: { style: "flex:1;background:#eee;border-radius:3px;height:16px;overflow:hidden;min-width:40px" } });
     track.createEl("div", { attr: { style: `width:${Math.max(Math.round(s.n / max * 100), s.n ? 4 : 0)}%;background:${s.color};height:100%;border-radius:3px` } });
     row.createEl("div", { text: s.n + " 条", attr: { style: "width:50px;font-size:12px;text-align:right;flex-shrink:0;color:#555" } });
-    // 转化率箭头（在每两段之间）
     if (i < 2) {
       const next = stages[i + 1];
       const r = s.n ? Math.round(next.n / s.n * 100) : 0;
@@ -272,7 +291,6 @@ if (!inN && !learnN && !outN) {
   });
 }
 ```
-
 ## 条目分类
 
 <!-- 按 #kind/... 标签统计投入结构，带分布条形图。 -->
@@ -280,11 +298,26 @@ if (!inN && !learnN && !outN) {
 ```dataviewjs
 const y = dv.current().year;
 const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && p.year === y);
+const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
+const dateText = (value) => value?.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
+const inYear = (...values) => values.some(value => dateText(value).startsWith(String(y) + "-"));
+const sourcePages = [
+  ...dv.pages('"Clippings"').where(p => inYear(p.created, p.clipped_at)),
+  ...dv.pages('"Tools"').where(p => inYear(p.created, p.captured_at)),
+];
+const linkedSource = (l) => /\[\[(?:Clippings|Tools)\//.test(String(l.text || ""));
 const tags = {};
 for (const p of pages) {
   for (const l of p.file.lists) {
     if (!l.text || !l.text.trim() || (l.task && l.status === "-")) continue;
+    if (l.section?.subpath === "输入" && linkedSource(l)) continue;
     for (const t of (l.tags || [])) if (t.startsWith("#kind/")) tags[t] = (tags[t] || 0) + 1;
+  }
+}
+for (const p of sourcePages) {
+  for (const raw of (p.tags || [])) {
+    const tag = String(raw).startsWith("#") ? String(raw) : "#" + raw;
+    if (tag.startsWith("#kind/")) tags[tag] = (tags[tag] || 0) + 1;
   }
 }
 const entries = Object.entries(tags).sort((a, b) => b[1] - a[1]);
@@ -297,10 +330,8 @@ if (!entries.length) {
   for (const [tag, n] of entries) {
     const pct = Math.round(n / total * 100);
     const row = container.createEl("div", { attr: { style: "display:flex;align-items:center;gap:8px;margin:3px 0;width:100%" } });
-    // 原生 tag 渲染：文本必须带 #（否则 Obsidian 不识别为 tag，会显示放大镜的未解析链接图标）。
-    // href 用 #，点击事件用 app.workspace 打开搜索面板并设置查询 tag:kind/article。
     const tagLink = row.createEl("a", {
-      text: tag,  // #kind/article（带 # 触发 tag 样式）
+      text: tag,
       cls: "tag",
       attr: { style: "width:110px;font-size:12px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center" }
     });
@@ -309,7 +340,7 @@ if (!entries.length) {
     tagLink.setAttribute("rel", "noopener");
     tagLink.addEventListener("click", async (e) => {
       e.preventDefault();
-      const query = "tag:" + tag.slice(1);  // tag:kind/article
+      const query = "tag:" + tag.slice(1);
       let leaf = app.workspace.getLeavesOfType("search")[0];
       if (!leaf) {
         leaf = app.workspace.getRightLeaf(false);
@@ -330,52 +361,54 @@ if (!entries.length) {
 
 ## 输入
 
-<!-- 每一天 daily「输入」章节的完整输入：文章/工具/课程/对话/反馈等外部信息。剪藏（[[Clippings/...]] 内链）是输入的子集，随条目一起呈现；纯 URL 地址、链接都可点击。条目文本可点击跳转回来源的每日记录；含内链/URL 的条目保留原样由 Dataview 渲染为可点击。 -->
+<!-- 每一天 daily「输入」章节的完整输入；网页剪藏和 Tools/ 工具介绍也属于输入。链接到来源页面的 Daily 输入行不与来源页面重复计数；纯 URL 地址、链接都可点击。 -->
 
 ```dataviewjs
 const y = dv.current().year;
 const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && p.year === y).sort(p => p.date);
 const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
-const show = (s, n = 80) => s.length > n ? s.slice(0, n) + "…" : s;
-const clean = (s) => s.replace(/^[-*]\s*\[[ x-]\]\s*/, "").replace(/^[-*]\s*/, "");
-// 条目文本 → 可点击链接：纯文本包 wikilink 指向 daily；含内链/URL 时保留原样（Dataview 渲染为可点击）
+const show = (s, n = 80) => String(s || "").length > n ? String(s || "").slice(0, n) + "…" : String(s || "");
+const clean = (s) => String(s || "").replace(/^[-*]\s*\[[ x-]\]\s*/, "").replace(/^[-*]\s*/, "");
 const cell = (l) => {
   const t = show(clean(l.text));
-  if (l.text.includes("[[") || l.text.includes("http")) return t;
+  if (String(l.text || "").includes("[[") || String(l.text || "").includes("http")) return t;
   return `[[${l.page.file.link.path}|${t}]]`;
 };
-const inputs = lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === "输入");
-if (!inputs.length) {
+const dateText = (value) => value?.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
+const inYear = (...values) => values.some(value => dateText(value).startsWith(String(y) + "-"));
+const linkedSource = (l) => /\[\[(?:Clippings|Tools)\//.test(String(l.text || ""));
+const dailyInputs = lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === "输入");
+const sourcePages = [
+  ...dv.pages('"Clippings"').where(p => inYear(p.created, p.clipped_at)).map(page => ({ page, type: "剪藏" })),
+  ...dv.pages('"Tools"').where(p => inYear(p.created, p.captured_at)).map(page => ({ page, type: "工具" })),
+];
+const rows = [
+  ...dailyInputs.filter(l => !linkedSource(l)).map(l => [cell(l), "", "Daily 输入", l.page.file.link, ""]),
+  ...sourcePages.map(({ page, type }) => [page.file.link, show(page.description || page.title), type, page.file.link, page.url || page.source || ""]),
+];
+if (!rows.length) {
   dv.paragraph("今年还没有输入记录。");
 } else {
-  const rows = [];
-  for (const l of inputs) rows.push([cell(l), l.page.file.link]);
-  dv.table(["输入（剪藏是输入的子集）", "来源"], rows);
+  dv.table(["输入", "摘要", "类型", "来源", "网站"], rows);
 }
 ```
 
 ## 输出
 
-<!-- 每一天 daily「输出」章节的完整输出：交付物/决定/明确结果。输出可能是一篇文章、一个地址（URL）、一个交付物；链接都可点击。条目文本可点击跳转回来源的每日记录；含内链/URL 的条目保留原样由 Dataview 渲染为可点击。 -->
+<!-- Outputs/ 中的输出文件完整清单；输出文件按 created/date 归属年份。 -->
 
 ```dataviewjs
 const y = dv.current().year;
-const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && p.year === y).sort(p => p.date);
-const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
-const show = (s, n = 80) => s.length > n ? s.slice(0, n) + "…" : s;
-const clean = (s) => s.replace(/^[-*]\s*\[[ x-]\]\s*/, "").replace(/^[-*]\s*/, "");
-// 条目文本 → 可点击链接：纯文本包 wikilink 指向 daily；含内链/URL 时保留原样（Dataview 渲染为可点击）
-const cell = (l) => {
-  const t = show(clean(l.text));
-  if (l.text.includes("[[") || l.text.includes("http")) return t;
-  return `[[${l.page.file.link.path}|${t}]]`;
-};
-const outs = lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === "输出");
-if (!outs.length) {
+const dateText = (value) => value && value.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
+const outputs = dv.pages('"Outputs"')
+  .where(page => dateText(page.created || page.date).startsWith(String(y) + "-"))
+  .sort(page => page.created || page.date);
+if (!outputs.length) {
   dv.paragraph("今年还没有输出记录。");
 } else {
-  const rows = [];
-  for (const l of outs) rows.push([cell(l), l.page.file.link]);
-  dv.table(["输出（文章 / 地址 / 交付物）", "来源"], rows);
+  dv.table(
+    ["输出", "类型", "完成日期"],
+    outputs.map(page => [page.file.link, page.type || "output", dateText(page.created || page.date)])
+  );
 }
 ```
