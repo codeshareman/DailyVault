@@ -29,11 +29,23 @@ const dailyItems = lists.filter(l => l.text && l.text.trim() && !l.task);
 const dailyInputs = dailyItems.filter(l => l.section?.subpath === "输入");
 const manualInputs = dailyInputs.filter(l => !linkedSource(l));
 const items = dailyItems.filter(l => l.section?.subpath !== "输入" || !linkedSource(l)).length + sourcePages.length + outputPages.length;
-const tasks = lists.filter(l => l.task && l.text && l.text.trim() && l.status !== "-");
+// 同一任务迁移到后续 Daily 时，以最新记录的状态计数；完成日期与优先级不影响任务身份。
+const taskKey = (l) => String(l.text || "")
+  .replace(/^[-*]\s*\[[ x-]\]\s*/, "")
+  .replace(/^(?:\p{Extended_Pictographic}|\s)+/gu, "")
+  .replace(/\s*✅\s*\d{4}-\d{2}-\d{2}\s*$/, "")
+  .replace(/\s+/g, " ")
+  .trim();
+const latestTaskByKey = new Map();
+for (const l of lists.filter(l => l.task && l.text && l.text.trim())) {
+  latestTaskByKey.set(taskKey(l), l);
+}
+const tasks = Array.from(latestTaskByKey.values()).filter(l => l.status !== "-");
 const done = tasks.filter(l => l.status === "x");
 const todo = tasks.filter(l => l.status === " " || l.status === "");
 const other = tasks.length - done.length - todo.length;
-const planTasks = tasks.filter(l => l.section?.subpath === "今日计划");
+// 计划兑现率衡量每日「今日计划」的执行，不混入「明日 / 迁移」。
+const planTasks = lists.filter(l => l.task && l.text && l.text.trim() && l.status !== "-" && l.section?.subpath === "今日计划");
 const planDone = planTasks.filter(l => l.status === "x");
 const inCount = manualInputs.length + sourcePages.length;
 const outCount = outputPages.length;
@@ -49,7 +61,7 @@ dv.table(
   ["指标", "数值"],
   [
     ["记录天数", pages.length + " 天"],
-    ["总条目数", items.length + " 条"],
+    ["总条目数", items + " 条"],
     ["任务总数", tasks.length + "（完成 " + done.length + " / 待办 " + todo.length + " / 其他 " + other + "）"],
     ["全任务完成率", rate(done.length, tasks.length)],
     ["今日计划达标率", rate(planDone.length, planTasks.length)],
@@ -77,18 +89,29 @@ const dateText = (value) => value && value.toFormat ? value.toFormat("yyyy-MM-dd
 const outputPages = dv.pages('"Outputs"')
   .where(p => dateText(p.created || p.date).startsWith(String(y) + "-"))
   .sort(p => p.created || p.date);
-const doneTasks = lists.filter(l => l.task && l.status === "x" && l.text.trim());
+// 成果清单与年度概览共用“同一任务以最新状态为准”的口径。
+const taskKey = (l) => String(l.text || "")
+  .replace(/^[-*]\s*\[[ x-]\]\s*/, "")
+  .replace(/^(?:\p{Extended_Pictographic}|\s)+/gu, "")
+  .replace(/\s*✅\s*\d{4}-\d{2}-\d{2}\s*$/, "")
+  .replace(/\s+/g, " ")
+  .trim();
+const latestTaskByKey = new Map();
+for (const l of lists.filter(l => l.task && l.text && l.text.trim())) {
+  latestTaskByKey.set(taskKey(l), l);
+}
+const doneTasks = Array.from(latestTaskByKey.values()).filter(l => l.status === "x");
 const learned = lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === "学到");
 const rows = [];
 for (const t of doneTasks) rows.push(["✅ " + cell(t), t.page.file.link]);
-for (const output of outputPages) rows.push(["📦 " + output.file.link, output.file.link]);
+for (const output of outputPages) rows.push(["📦 输出：" + output.file.link, output.file.link]);
 for (const l of learned) rows.push(["💡 " + cell(l), l.page.file.link]);
 dv.table(["成果", "来源"], rows.length ? rows : [["（今年还没有已完成任务、输出或学到条目）", ""]]);
 ```
 
 ## 今年没做什么
 
-<!-- 未完成待办（[ ]）。条目文本可点击跳转回来源的每日记录；文本内的 [[内链]] 直接指向对应笔记；来源列同样可跳转。 -->
+<!-- 未完成待办（[ ]），按任务文本去重并保留最近一次迁移记录。条目文本可点击跳转回来源的每日记录；文本内的 [[内链]] 直接指向对应笔记；来源列同样可跳转。 -->
 
 ```dataviewjs
 const y = dv.current().year;
@@ -101,7 +124,16 @@ const cell = (l) => {
   if (l.text.includes("[[") || l.text.includes("http")) return t;
   return `[[${l.page.file.link.path}|${t}]]`;
 };
-const todo = lists.filter(l => l.task && (l.status === " " || l.status === "") && l.text.trim());
+const taskKey = (l) => clean(l.text)
+  .replace(/^(?:\p{Extended_Pictographic}|\s)+/gu, "")
+  .replace(/\s*✅\s*\d{4}-\d{2}-\d{2}\s*$/, "")
+  .replace(/\s+/g, " ")
+  .trim();
+const latestTaskByKey = new Map();
+for (const l of lists.filter(l => l.task && l.text && l.text.trim())) {
+  latestTaskByKey.set(taskKey(l), l);
+}
+const todo = Array.from(latestTaskByKey.values()).filter(l => l.status === " " || l.status === "");
 const rows = todo.map(t => ["⏳ " + cell(t), t.page.file.link]);
 dv.table(["未完成（⏳待办）", "来源"], rows.length ? rows : [["（今年没有未完成的任务）", ""]]);
 ```
@@ -193,7 +225,7 @@ if (!yearlyPages.length) {
 
 ## 月度计划完成率
 
-<!-- 每月计划的完成/待办进度条：统计本月每日记录中的全部有效任务，完成率反映计划兑现率。 -->
+<!-- 每月计划的完成/待办进度条：只统计本月每日页面「今日计划」中的有效任务，完成率反映计划兑现率。 -->
 
 ```dataviewjs
 const y = dv.current().year;
@@ -202,7 +234,7 @@ const monthly = {};
 for (const p of pages) {
   const m = p.date ? p.date.toFormat("yyyy-MM") : String(p.month || "").slice(0, 7);
   if (!m || !/^\d{4}-\d{2}$/.test(m)) continue;
-  const plan = p.file.lists.filter(l => l.task && l.text.trim() && l.status !== "-");
+  const plan = p.file.lists.filter(l => l.task && l.text.trim() && l.status !== "-" && l.section?.subpath === "今日计划");
   if (!plan.length) continue;
   const done = plan.filter(l => l.status === "x").length;
   if (!monthly[m]) monthly[m] = { done: 0, total: 0 };
