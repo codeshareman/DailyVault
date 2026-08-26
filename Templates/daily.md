@@ -21,7 +21,51 @@ note_type: daily-log
 
 ## 今日计划
 
-- [ ] 
+<%*
+const currentDate = tp.file.title;
+const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+const isPendingTask = (line) => /^- \[ \] \S/.test(line);
+
+if (!datePattern.test(currentDate)) {
+  tR += '- [ ] \n';
+} else {
+  const previous = new Date(`${currentDate}T12:00:00`);
+  previous.setDate(previous.getDate() - 1);
+  const previousDate = [
+    previous.getFullYear(),
+    String(previous.getMonth() + 1).padStart(2, '0'),
+    String(previous.getDate()).padStart(2, '0'),
+  ].join('-');
+  const previousPath = `${previousDate.slice(0, 4)}/${previousDate}.md`;
+  const previousFile = app.vault.getAbstractFileByPath(previousPath);
+
+  if (!previousFile) {
+    tR += '- [ ] \n';
+  } else {
+    const previousContent = await app.vault.read(previousFile);
+    const lines = previousContent.split('\n');
+    const sectionStart = lines.findIndex((line) => line === '## 明日 / 迁移');
+    const sectionEnd = sectionStart === -1
+      ? -1
+      : lines.findIndex((line, index) => index > sectionStart && /^##\s+/.test(line));
+    const migrationLines = sectionStart === -1
+      ? []
+      : lines.slice(sectionStart + 1, sectionEnd === -1 ? lines.length : sectionEnd);
+    const pendingTasks = migrationLines.filter(isPendingTask);
+
+    if (!pendingTasks.length) {
+      tR += '- [ ] \n';
+    } else {
+      const cleanedContent = lines.filter((line, index) => {
+        const inMigrationSection = index > sectionStart && (sectionEnd === -1 || index < sectionEnd);
+        return !(inMigrationSection && isPendingTask(line));
+      }).join('\n');
+      await app.vault.modify(previousFile, cleanedContent);
+      tR += `${pendingTasks.join('\n')}\n`;
+    }
+  }
+}
+-%>
 
 ## 随手记录
 <!-- 闪念：随时捕捉，不要求分类，直接写 -->
