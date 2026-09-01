@@ -1,13 +1,28 @@
 ---
-title: "AI Isn’t Outthinking Mathematicians. It’s Out-Remembering Them."
-source: "https://davidepiffer.com/p/ai-isnt-outthinking-mathematicians"
-author:
-  - "[[Davide Piffer]]"
-published: 2026-08-04
-created: 2026-08-17
-description: "The key advantage may not be superior reasoning, but a virtually unlimited symbolic working memory."
+title: AI Isn’t Outthinking Mathematicians. It’s Out-Remembering Them.
+type: clipping
+dc_type: Text
+identifier: https://davidepiffer.com/p/ai-isnt-outthinking-mathematicians
+source: https://davidepiffer.com/p/ai-isnt-outthinking-mathematicians
+canonical_url: https://davidepiffer.com/p/ai-isnt-outthinking-mathematicians
+description: The key advantage may not be superior reasoning, but a virtually unlimited
+  symbolic working memory.
+category: ai
+subject:
+- ai
+- reasoning
+- mathematics
 tags:
-  - "clippings"
+- kind/article
+- topic/ai
+- topic/reasoning
+- topic/mathematics
+creator:
+- '[[Davide Piffer]]'
+issued: '2026-08-04'
+created: '2026-08-17'
+last_checked: '2026-09-01'
+status: active
 ---
 ![John Von Neumann : une définition de Ma petite encyclopédie](https://substackcdn.com/image/fetch/$s_!DIxw!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2e2e14e7-c536-49c0-9f27-79b1073dd527_1279x759.jpeg)
 

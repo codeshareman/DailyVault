@@ -1,9 +1,25 @@
 ---
-date: {{date:YYYY-MM-DD}}
-quarter: "{{date:YYYY}}-Q{{date:Q}}"
-year: {{date:YYYY}}
+title: '{{date:YYYY}}-Q{{date:Q}} 计划与复盘'
+type: period-review
+dc_type: Text
+identifier: dailyvault:quarterly:{{date:YYYY-MM-DD}}
+description: Quarterly plan and review.
+category: planning
+subject:
+- planning
+- review
+- quarterly
+tags:
+- topic/planning
+- topic/review
+- topic/quarterly
 note_type: summary
 period_type: quarterly
+date: '{{date:YYYY-MM-DD}}'
+quarter: '{{date:YYYY}}-Q{{date:Q}}'
+year: '{{date:YYYY}}'
+last_checked: '{{date:YYYY-MM-DD}}'
+status: active
 ---
 
 # {{date:YYYY}}-Q{{date:Q}} 计划与复盘
@@ -14,11 +30,11 @@ period_type: quarterly
 
 ## 本期计划
 
-- [ ] 
+- [ ]
 
 ## 本期总结
 
-- 
+-
 
 ## 下期重点
 

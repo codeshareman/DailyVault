@@ -1,0 +1,43 @@
+---
+title: JavaScript Standard Style
+type: clipping
+dc_type: Text
+identifier: https://standardjs.com/
+source: https://standardjs.com/
+canonical_url: https://standardjs.com/
+description: In addition to companies, many community members use standard on packages
+  that
+category: standards
+subject:
+- standards
+- javascript
+- web-standards
+tags:
+- kind/article
+- topic/standards
+- topic/javascript
+- topic/web-standards
+created: '2026-09-01'
+last_checked: '2026-09-01'
+status: active
+bookmark_source_folder: Learn / Industry_Standards
+---
+
+> [!abstract] 摘要
+> 该页面未公开返回元描述；书签原始标题为“JavaScript Standard Style”。
+
+[阅读原文](https://standardjs.com/)
+
+## 来源信息
+
+- 原书签位置：`Learn / Industry_Standards`
+- 本次读取日期：2026-09-01
+- 作者和发布日期：页面未公开返回，保留为未知而不作推断。
+
+## 适合什么时候回看
+
+- 当需要“学习、认证与标准参考”相关的一手参考时。
+
+## 适用边界
+
+- 本文件记录原始入口和网站公开元信息，不替代对正文、版本和适用范围的现场核验。

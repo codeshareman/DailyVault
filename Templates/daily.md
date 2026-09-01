@@ -6,13 +6,26 @@ if (!tp.file.path(true).startsWith(`${year}/`)) {
 }
 -%>
 ---
-date: {{date:YYYY-MM-DD}}
-weekday: {{date:dddd}}
-week: "{{date:GGGG-[W]WW}}"
-month: "{{date:YYYY-MM}}"
-quarter: "{{date:YYYY}}-Q{{date:Q}}"
-year: {{date:YYYY}}
+title: '{{date:YYYY-MM-DD}}'
+type: daily-log
+dc_type: Text
+identifier: dailyvault:{{date:YYYY}}/{{date:YYYY-MM-DD}}
+description: Daily-first factual log.
+category: daily-log
+subject:
+- daily-log
+tags:
+- topic/daily-log
 note_type: daily-log
+created: '{{date:YYYY-MM-DD}}'
+date: '{{date:YYYY-MM-DD}}'
+weekday: '{{date:dddd}}'
+week: '{{date:GGGG-[W]WW}}'
+month: '{{date:YYYY-MM}}'
+quarter: '{{date:YYYY}}-Q{{date:Q}}'
+year: '{{date:YYYY}}'
+last_checked: '{{date:YYYY-MM-DD}}'
+status: active
 ---
 
 # {{date:YYYY-MM-DD}}
@@ -70,12 +83,12 @@ if (!datePattern.test(currentDate)) {
 ## 随手记录
 <!-- 闪念：随时捕捉，不要求分类，直接写 -->
 
-- 
+-
 
 ## 输入
 <!-- 外部信息（文章/工具/课程/对话/反馈），行尾带类型标签，如：- 读了 [[Clippings/某篇]] #kind/article。下方表格自动归集当天的剪藏和工具介绍。 -->
 
-- 
+-
 
 ```dataviewjs
 const dateText = (value) => value && value.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
@@ -118,18 +131,18 @@ if (!outputs.length) {
 ## 生活时间线
 <!-- 活动与片段，可带 #kind/fitness | #kind/place | #kind/movie | #kind/music -->
 
-- 
+-
 
 ## 学到
 <!-- 从输入或经历提炼的认识，可带来源类型标签 #kind/article | #kind/course | #kind/book -->
 
-- 
+-
 
 ## 复盘
 <!-- 对行动过程的评价；明天的动作放“明日 / 迁移” -->
 
-- 
+-
 
 ## 明日 / 迁移
 
-- [ ] 
+- [ ]

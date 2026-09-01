@@ -1,3 +1,20 @@
+---
+title: AGENTS.md
+type: documentation
+dc_type: Text
+identifier: dailyvault:AGENTS.md
+description: Operating rules for work in this vault.
+category: operations
+subject:
+- operations
+- agent-instructions
+tags:
+- topic/operations
+- topic/agent-instructions
+last_checked: '2026-09-01'
+status: active
+---
+
 # AGENTS.md
 
 DailyVault 是一个 Daily-first 的个人每日记录库。`YYYY/YYYY-MM-DD.md` 是唯一的日常事实来源；计划、输入、输出、生活片段、学习和复盘都直接写在当天页面。Dataview 和周期复盘只从每日页面派生，不要求维护第二套资料元数据。
@@ -14,6 +31,7 @@ DailyVault 是一个 Daily-first 的个人每日记录库。`YYYY/YYYY-MM-DD.md`
 8. 除非用户明确要求，否则不要删除、归档、发布或导出用户笔记。
 9. 章节标题是 Dataview 统计的标识契约：今日计划、随手记录、输入、输出、生活时间线、学到、复盘、明日 / 迁移 必须与 `Templates/daily.md` 完全一致，不要改名、加前缀或加空格；行尾 `#kind/...` 标签是细粒度标识，用于文章、工具、课程等类型的分类统计。
 10. 所有日期一律用 `YYYY-MM-DD` 纯日期格式（frontmatter 的 date/created/published 等字段、文件命名、Templater/QuickAdd 格式符），禁止 ISO 8601 带时区格式（如 `2026-08-17T00:00:00+08:00`）。Obsidian 属性面板可能把日期改写为 ISO 格式，编辑后需确认仍是 `YYYY-MM-DD`。
+11. 资源卡、剪藏、输出、Daily、周期与统计文件均使用各自的完整 frontmatter schema。资源主题以 `subject` 受控列表表示；`category` 必须等于首个 subject，`tags` 必须含每个 subject 对应的 `#topic/...` 投影，资源另保留对应的 `#kind/...` 标签。`title`、`description`、`creator`、`issued`、`created`、`source`、`identifier`、`subject` 与 `dc_type` 对齐 Dublin Core 语义；`dc_type` 仅用 `Text`、`Service`、`Software` 或 `Dataset`。可选字段未知时省略，禁止写 `unknown`、空字符串或推断值。
 
 ## 活跃目录
 
@@ -68,3 +86,17 @@ QuickAdd 只提供“创建今天”和“追加到今天”。当天记录保�
 2. 修改模板后，确认 QuickAdd 的“追加到今天”仍定位到 `## 随手记录`。
 3. 修改 JSON 配置后，确认仍能解析。
 4. 不改写历史每日记录，也不恢复已退役的 Source/Note 默认流程。
+
+## 智能体技能
+
+### 事项跟踪
+
+本仓库的事项与规格使用 GitHub Issues 跟踪。详见 `docs/agents/issue-tracker.md`。
+
+### 分流标签
+
+使用 `needs-triage`、`needs-info`、`ready-for-agent`、`ready-for-human` 和 `wontfix` 五个标准分流标签。详见 `docs/agents/triage-labels.md`。
+
+### 领域文档
+
+本仓库采用 single-context 领域文档布局。详见 `docs/agents/domain.md`。

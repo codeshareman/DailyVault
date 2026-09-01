@@ -1,14 +1,28 @@
 ---
-title: "Post by @yanliudreamer on X"
-source: "https://x.com/yanliudreamer/status/2086270888593486233"
-author:
-  - "[[@yanliudreamer]]"
-published: 2026-08-02
-created: 2026-08-09
-description: "在外网疯传的：《如何重新爱上你的生活》 每天出门，到街上。 在修整其他任何事情之前，先改善你的睡眠。 你无法爱上一个让你精疲力尽的生活。睡 5 个小时，再喝 3 杯咖啡，并不能定义你的个性。那是一个警报信号。你的情绪、能量、动力、耐心……一切都取决于你的睡眠。 从最基本的东"
+title: Post by @yanliudreamer on X
+type: clipping
+dc_type: Text
+identifier: https://x.com/yanliudreamer/status/2086270888593486233
+source: https://x.com/yanliudreamer/status/2086270888593486233
+canonical_url: https://x.com/yanliudreamer/status/2086270888593486233
+description: 在外网疯传的：《如何重新爱上你的生活》 每天出门，到街上。 在修整其他任何事情之前，先改善你的睡眠。 你无法爱上一个让你精疲力尽的生活。睡
+  5 个小时，再喝 3 杯咖啡，并不能定义你的个性。那是一个警报信号。你的情绪、能量、动力、耐心……一切都取决于你的睡眠。 从最基本的东
+category: personal-development
+subject:
+- personal-development
+- sleep
+- wellbeing
 tags:
-  - "clippings"
-  - "生活哲学"
+- kind/article
+- topic/personal-development
+- topic/sleep
+- topic/wellbeing
+creator:
+- '[[@yanliudreamer]]'
+issued: '2026-08-02'
+created: '2026-08-09'
+last_checked: '2026-09-01'
+status: active
 ---
 
 在外网疯传的：《如何重新爱上你的生活》
@@ -255,11 +269,11 @@ tags:
 分享它，让更多人看到
 
 > **Ivanchet76 @HumanoCuriosoXx** · 2026-08-02
-> 
+>
 > How to fall in love with your life again:
-> 
+>
 > 1\. Go out onto the street every day.
-> 
+>
 > ![Image](https://pbs.twimg.com/media/HOsMnxyWMAA_mvb?format=jpg&name=large) ![Image](https://pbs.twimg.com/media/HOsMnv8WQAEHA9z?format=jpg&name=large)
 
 ---
@@ -267,17 +281,17 @@ tags:
 ## Comments
 
 > **Mark Campbell @MarkCampbe16176** · [2026-08-09](https://x.com/MarkCampbe16176/status/2086272119680221693)
-> 
+>
 > 说实话 谁不想呢 每天累得只想躺平
 
 > **阿星OKX50高返Visa领取 @HyonHumbles** · [2026-08-09](https://x.com/HyonHumbles/status/2086272313809334547)
-> 
+>
 > 睡够了确实心情好很多 真的
-> 
+>
 > How to fall in love with your life again:
-> 
+>
 > 1\. Go out onto the street every day.
-> 
+>
 > ![Image](https://pbs.twimg.com/media/HOsMnxyWMAA_mvb?format=jpg&name=large) ![Image](https://pbs.twimg.com/media/HOsMnv8WQAEHA9z?format=jpg&name=large)
 
 ---
@@ -285,9 +299,9 @@ tags:
 ## Comments
 
 > **Mark Campbell @MarkCampbe16176** · [2026-08-09](https://x.com/MarkCampbe16176/status/2086272119680221693)
-> 
+>
 > 说实话 谁不想呢 每天累得只想躺平
 
 > **阿星OKX50高返Visa领取 @HyonHumbles** · [2026-08-09](https://x.com/HyonHumbles/status/2086272313809334547)
-> 
+>
 > 睡够了确实心情好很多 真的

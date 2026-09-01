@@ -1,33 +1,29 @@
 ---
 title: Whatships
 type: tool-introduction
+dc_type: Service
+identifier: https://whatships.com/
 source_type: website
 url: https://whatships.com/
 canonical_url: https://whatships.com/
-description: "一个从 X/Twitter 汇集初创公司产品发布视频、产品演示和使用 walkthrough 的精选目录。"
-category: product-discovery
-subcategories:
-  - startup
-  - product-launch
-  - product-demo
-audience:
-  - founders
-  - product-managers
-  - designers
-  - developers
-platform: X/Twitter
-content_scope: "startup launch videos, demos, and walkthroughs"
-creator: unknown
-pricing: unknown
-update_frequency: unknown
-screenshot: "assets/whatships.png"
-captured_at: 2026-08-23
-last_checked: 2026-08-23
-status: active
+description: 一个从 X/Twitter 汇集初创公司产品发布视频、产品演示和使用 walkthrough 的精选目录。
+category: product
+subject:
+- product
+- discovery
+- startups
 tags:
-  - kind/tool
-  - kind/website
-  - topic/product-discovery
+- kind/tool
+- topic/product
+- topic/discovery
+- topic/startups
+platform: X/Twitter
+content_scope: startup launch videos, demos, and walkthroughs
+screenshot: assets/whatships.png
+captured_at: '2026-08-23'
+last_checked: '2026-09-01'
+status: active
+source: https://whatships.com/
 ---
 
 # 从 X 上发现初创公司的产品发布视频
@@ -69,5 +65,3 @@ Whatships 是一个从 X/Twitter 汇集初创公司产品发布视频、产品�
 ## 我的判断
 
 这是一个适合持续浏览的产品发布案例库。它的价值不只是发现产品，也在于观察不同团队如何用很短的视频解释产品、展示功能并制造兴趣。
-
-#kind/tool #kind/website #topic/product-discovery

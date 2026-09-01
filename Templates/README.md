@@ -1,3 +1,20 @@
+---
+title: Templates
+type: documentation
+dc_type: Text
+identifier: dailyvault:Templates/README.md
+description: Templates for DailyVault notes and derived records.
+category: knowledge-management
+subject:
+- knowledge-management
+- templates
+tags:
+- topic/knowledge-management
+- topic/templates
+last_checked: '2026-09-01'
+status: active
+---
+
 # Templates
 
 | 模板 | 用途 |

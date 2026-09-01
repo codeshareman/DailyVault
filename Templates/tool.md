@@ -1,55 +1,50 @@
 ---
 title: <% tp.file.title %>
 type: tool-introduction
+dc_type: Service
 source_type: website
-url:
-canonical_url:
-description:
-category:
-subcategories: []
-audience: []
-platform:
-content_scope:
-creator: unknown
-pricing: unknown
-update_frequency: unknown
-screenshot:
-captured_at: {{date:YYYY-MM-DD}}
-last_checked: {{date:YYYY-MM-DD}}
-status: active
+description: 待根据来源页面填写可验证摘要。
+category: inbox
+subject:
+- inbox
 tags:
-  - kind/tool
-  - kind/website
+- kind/tool
+- topic/inbox
+platform: Web
+content_scope: 待分类
+captured_at: '{{date:YYYY-MM-DD}}'
+last_checked: '{{date:YYYY-MM-DD}}'
+status: draft
+identifier: <required-identifier>
+source: <required-source-url>
+url: <required-source-url>
+canonical_url: <required-canonical-url>
 ---
 
 # <% tp.file.title %>
 
 [官方网站]()
 
-<!-- 将产品截图保存到 Tools/assets/，并把相对路径填入 frontmatter 的 screenshot 字段。 -->
 
 ## 基本信息
 
 | 项目 | 信息 |
 | --- | --- |
-| 平台 |  |
+| 平台 | Web |
+| 分类 | `category` 与 `tags` |
 | 内容 |  |
-| 浏览方式 |  |
-| 定价 | 未知 |
-| 创建者 | 未知 |
+| 浏览方式 | 直接访问公开页面 |
+| 来源 | `url` |
 
 ## 它是什么
 
 
 ## 为什么值得收藏
 
-- 
+-
 
 ## 适合什么时候使用
 
-- 
+-
 
 ## 我的判断
-
-
-#kind/tool #kind/website

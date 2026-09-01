@@ -1,15 +1,31 @@
 ---
-date: {{date:YYYY-MM-DD}}
-year: {{date:YYYY}}
+title: '{{date:YYYY}} 计划与复盘'
+type: period-review
+dc_type: Text
+identifier: dailyvault:yearly:{{date:YYYY-MM-DD}}
+description: Yearly plan and review.
+category: planning
+subject:
+- planning
+- review
+- yearly
+tags:
+- topic/planning
+- topic/review
+- topic/yearly
 note_type: summary
 period_type: yearly
+date: '{{date:YYYY-MM-DD}}'
+year: '{{date:YYYY}}'
+last_checked: '{{date:YYYY-MM-DD}}'
+status: active
 ---
 
 # {{date:YYYY}} 计划与复盘
 
 > 年度统计：[[{{date:YYYY}} 统计]]
 
-<%* 
+<%*
 const statsFolder = app.vault.getAbstractFileByPath(tp.file.folder(true));
 const statsT = tp.file.find_tfile("Templates/yearly-stats.md");
 const statsName = tp.date.now("YYYY") + " 统计";
@@ -22,11 +38,11 @@ if (statsT && statsFolder && !(await tp.file.exists(statsFolder.path + "/" + sta
 
 ## 本期计划
 
-- [ ] 
+- [ ]
 
 ## 本期总结
 
-- 
+-
 
 ## 下期重点
 

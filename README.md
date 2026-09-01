@@ -1,3 +1,20 @@
+---
+title: DailyVault
+type: documentation
+dc_type: Text
+identifier: dailyvault:README.md
+description: Documentation for the DailyVault knowledge base.
+category: knowledge-management
+subject:
+- knowledge-management
+- daily-vault
+tags:
+- topic/knowledge-management
+- topic/daily-vault
+last_checked: '2026-09-01'
+status: active
+---
+
 # DailyVault
 
 DailyVault 是一个日期优先的个人记录库。每天只写一份 `YYYY/YYYY-MM-DD.md`；文章、工具、想法、行动、结果和生活片段都以当天的语境记录。Dataview 再从这些每日页面生成统计与周期复盘。
@@ -52,6 +69,20 @@ Templates/          # 每日、周期和年度统计模板
 ```
 
 常用类型只有：`article`、`tool`、`course`、`book`、`video`、`podcast`、`movie`、`music`、`place`、`fitness`、`decision`、`project`。主题需要长期追踪时，才额外添加 `#topic/...`；不要为每条记录补一组字段。
+
+## 资源元数据
+
+`Tools/`、`Clippings/` 与 `Outputs/` 使用类型化 frontmatter。`title`、`description`、`creator`、`issued`、`created`、`source`、`identifier`、`subject` 与 `dc_type` 分别对齐 Dublin Core 的资源描述语义；`dc_type` 仅使用 `Text`、`Service`、`Software` 或 `Dataset`。
+
+`subject` 是受控主题词列表，首项必须等于 `category`；`tags` 是同一主题词的 Obsidian 搜索投影：保留一个 `kind/...` 标签，并为每个 subject 保留对应的 `topic/...` 标签。例如：
+
+```yaml
+category: ai
+subject: [ai, models]
+tags: [kind/tool, topic/ai, topic/models]
+```
+
+可选元数据只有在来源可验证时填写；不要写入 `unknown`、空字符串、空数组或推测值。工具与剪藏必须保留可解析的源 URL 和 canonical URL；Daily、周期文件和统计文件保留各自的 Dataview 日期与 `note_type` 契约。
 
 ## Outputs
 

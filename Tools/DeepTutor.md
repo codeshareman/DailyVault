@@ -1,29 +1,30 @@
 ---
 title: DeepTutor
 type: tool-introduction
+dc_type: Software
+identifier: https://deeptutor.info/
 source_type: website
 url: https://deeptutor.info/zh-cn/
 canonical_url: https://deeptutor.info/
-description: "开源的 agent-native 个性化学习伴侣，将对话、知识库、记忆、写作与可复用学习资产置于同一运行时上下文。"
+description: 开源的 agent-native 个性化学习伴侣，将对话、知识库、记忆、写作与可复用学习资产置于同一运行时上下文。
 category: learning
-subcategories:
-  - personal-knowledge-management
-  - ai-agent
-  - collaborative-writing
-  - learning
-platform: Web / local application / CLI
-content_scope: "personalized learning, knowledge management, agent-assisted writing"
-creator: 香港大学数据智能实验室（HKUDS）
-pricing: "开源；Apache 2.0 协议"
-update_frequency: unknown
-captured_at: 2026-08-30
-last_checked: 2026-08-30
-status: active
+subject:
+- learning
+- ai
+- knowledge-management
 tags:
-  - kind/tool
-  - kind/website
-  - topic/learning
-  - topic/personal-knowledge-management
+- kind/tool
+- topic/learning
+- topic/ai
+- topic/knowledge-management
+platform: Web / local application / CLI
+content_scope: personalized learning, knowledge management, agent-assisted writing
+creator: 香港大学数据智能实验室（HKUDS）
+pricing: 开源；Apache 2.0 协议
+captured_at: '2026-08-30'
+last_checked: '2026-09-01'
+status: active
+source: https://deeptutor.info/zh-cn/
 ---
 
 # 将个人知识库变成可持续使用的学习环境
@@ -66,5 +67,3 @@ DeepTutor 是一个开源的 agent-native 个性化学习伴侣。主页、伙�
 - 它是完整的本地学习工作区，不是轻量的单次问答工具；仅需临时聊天或简单记笔记时，部署和配置成本未必合算。
 - 是否能稳定接入 Claude Code、Codex 或其他本地工具，取决于本机环境与相应配置。
 - 官网列出 PyPI、Docker、源码和 CLI 四种安装方式；具体安装与运行要求应以[官方文档](https://docs.deeptutor.info/zh-cn/get-started/)为准。
-
-#kind/tool #kind/website #topic/learning #topic/personal-knowledge-management

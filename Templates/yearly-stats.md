@@ -1,8 +1,22 @@
 ---
-date: {{date:YYYY-MM-DD}}
-year: {{date:YYYY}}
+title: '{{date:YYYY}} 统计'
+type: yearly-statistics
+dc_type: Dataset
+identifier: dailyvault:statistics:{{date:YYYY}}
+description: Annual statistics derived from daily records.
+category: statistics
+subject:
+- statistics
+- year-review
+tags:
+- topic/statistics
+- topic/year-review
 note_type: stats
 period_type: yearly
+date: '{{date:YYYY-MM-DD}}'
+year: '{{date:YYYY}}'
+last_checked: '{{date:YYYY-MM-DD}}'
+status: active
 ---
 
 # {{date:YYYY}} 统计

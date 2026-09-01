@@ -1,19 +1,29 @@
 ---
-title: "Agent评测漫谈 —— 由浅入深讲解Agent评测 | 美团 · 技术团队"
+title: Agent评测漫谈 —— 由浅入深讲解Agent评测 | 美团 · 技术团队
 type: clipping
-source: "https://tech.meituan.com/2026/08/07/Agent-Evaluation.html"
-author: "美团技术团队"
-published: 2026-08-07
-created: 2026-08-23
-description: "文章系统介绍 Agent 评测的目标、指标体系和实践流程，强调以观测为基础，同时评估结果、过程、效率与风险，并讨论长程 Agent 和 Skill 生态对评测基础设施、自动化与回归机制提出的新要求。"
+dc_type: Text
+identifier: https://tech.meituan.com/2026/08/07/Agent-Evaluation.html
+source: https://tech.meituan.com/2026/08/07/Agent-Evaluation.html
+canonical_url: https://tech.meituan.com/2026/08/07/Agent-Evaluation.html
+description: 文章系统介绍 Agent 评测的目标、指标体系和实践流程，强调以观测为基础，同时评估结果、过程、效率与风险，并讨论长程 Agent 和 Skill
+  生态对评测基础设施、自动化与回归机制提出的新要求。
+category: ai
+subject:
+- ai
+- agents
+- evaluation
+- observability
 tags:
-  - "clippings"
-  - "AI"
-  - "Agent"
-  - "评测"
-  - "可观测性"
-  - "长程Agent"
-  - "Skill"
+- kind/article
+- topic/ai
+- topic/agents
+- topic/evaluation
+- topic/observability
+creator: 美团技术团队
+issued: '2026-08-07'
+created: '2026-08-23'
+last_checked: '2026-09-01'
+status: active
 ---
 > [!abstract] 摘要
 > 这篇文章将 Agent 评测从“给答案打分”重新定义为对整个任务系统的工程化验证：评测对象不只是模型，还包括 Prompt、Skill、工具链、记忆、状态管理和业务流程。可靠的评测需要以 Trace/Trajectory 观测为基础，同时覆盖任务结果、执行过程、效率成本和安全风险，回答 Agent 哪里做得好、哪里失败，以及下一轮应该如何迭代。

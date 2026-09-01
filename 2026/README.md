@@ -1,3 +1,20 @@
+---
+title: '2026'
+type: documentation
+dc_type: Text
+identifier: dailyvault:2026/README.md
+description: Guide to the year-specific daily records.
+category: knowledge-management
+subject:
+- knowledge-management
+- daily-records
+tags:
+- topic/knowledge-management
+- topic/daily-records
+last_checked: '2026-09-01'
+status: active
+---
+
 # 2026
 
 2026 年的每日记录与周期计划/复盘均存放在此目录；每日记录 `2026/YYYY-MM-DD.md` 是唯一事实来源，周期文件只从这些页面派生。
