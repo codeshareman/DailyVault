@@ -162,12 +162,15 @@ dv.table(["未完成（⏳待办）", "来源"], rows.length ? rows : [["（今�
 const y = dv.current().year;
 const pages = dv.pages('"' + y + '"').where(p => p.note_type === "daily-log" && p.year === y).sort(p => p.date);
 const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
-const show = (s, n = 120) => String(s || "").length > n ? String(s || "").slice(0, n) + "…" : String(s || "");
+const show = (s, n = 120) => {
+  const text = String(s || "").replace(/\s+/g, " ").trim();
+  return text.length > n ? text.slice(0, n) + "…" : text;
+};
 const clean = (s) => String(s || "").replace(/^[-*]\s*/, "");
 const cell = (l) => {
   const t = show(clean(l.text));
   if (String(l.text || "").includes("[[") || String(l.text || "").includes("http")) return t;
-  return `[[${l.page.file.link.path}|${t}]]`;
+  return dv.fileLink(l.page.file.path, false, t);
 };
 const rows = lists
   .filter(l => !l.task && l.text && l.text.trim() && l.section?.subpath === "随手记录")
