@@ -29,7 +29,7 @@ DailyVault 是一个日期优先的个人记录库。每天只写一份 `YYYY/YY
 ├── Quarterly/      # 季计划与复盘（如 2026-Q3.md）
 └── Yearly/         # 年计划与复盘 + 年度统计（如 2026.md、2026 统计.md）
 Outputs/            # 当前工程产出的文章、地址和交付物
-Clippings/          # Web Clipper 原文快照
+Inputs/             # Web Clipper 原文快照
 Tools/              # 工具介绍卡片
 Templates/          # 每日、周期和年度统计模板
 ```
@@ -45,7 +45,7 @@ Templates/          # 每日、周期和年度统计模板
 
 ```markdown
 ## 输入
-- 读了 [[Clippings/在花大钱之前，先花一笔小钱验证你的决策]]，其中的小成本验证思路值得尝试。
+- 读了 [[Inputs/在花大钱之前，先花一笔小钱验证你的决策]]，其中的小成本验证思路值得尝试。
 - 发现了 [某个任务工具](https://example.com)，准备在本周试用。
 
 ## 输出
@@ -72,7 +72,7 @@ Templates/          # 每日、周期和年度统计模板
 
 ## 资源元数据
 
-`Tools/`、`Clippings/` 与 `Outputs/` 使用类型化 frontmatter。`title`、`description`、`creator`、`issued`、`created`、`source`、`identifier`、`subject` 与 `dc_type` 分别对齐 Dublin Core 的资源描述语义；`dc_type` 仅使用 `Text`、`Service`、`Software` 或 `Dataset`。
+`Tools/`、`Inputs/` 与 `Outputs/` 使用类型化 frontmatter。`title`、`description`、`creator`、`issued`、`created`、`source`、`identifier`、`subject` 与 `dc_type` 分别对齐 Dublin Core 的资源描述语义；`dc_type` 仅使用 `Text`、`Service`、`Software` 或 `Dataset`。
 
 `subject` 是受控主题词列表，首项必须等于 `category`；`tags` 是同一主题词的 Obsidian 搜索投影：保留一个 `kind/...` 标签，并为每个 subject 保留对应的 `topic/...` 标签。例如：
 
@@ -88,9 +88,9 @@ tags: [kind/tool, topic/ai, topic/models]
 
 当前工程产出的文章、地址和交付物统一保存在 `Outputs/`；Daily 的「输出」表格按 `created`/`date` 自动归集，不在 Daily 中重复记录正文。
 
-## Clippings
+## Inputs
 
-Obsidian Web Clipper 直接写入 `Clippings/`。需要在每日记录中提及时，添加一个可读链接和当天的判断；不要为剪藏再创建第二份资料记录。
+Obsidian Web Clipper 直接写入 `Inputs/`。需要在每日记录中提及时，添加一个可读链接和当天的判断；不要为剪藏再创建第二份资料记录。
 
 ## 周期计划与复盘（一期一文件）
 

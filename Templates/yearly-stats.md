@@ -34,11 +34,11 @@ const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
 const dateText = (value) => value && value.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
 const inYear = (...values) => values.some(value => dateText(value).startsWith(String(y) + "-"));
 const sourcePages = [
-  ...dv.pages('"Clippings"').where(p => inYear(p.created, p.clipped_at)).map(page => ({ page, type: "剪藏" })),
+  ...dv.pages('"Inputs"').where(p => inYear(p.created, p.clipped_at)).map(page => ({ page, type: "剪藏" })),
   ...dv.pages('"Tools"').where(p => inYear(p.created, p.captured_at)).map(page => ({ page, type: "工具" })),
 ];
 const outputPages = dv.pages('"Outputs"').where(p => inYear(p.created, p.date));
-const linkedSource = (l) => /\[\[(?:Clippings|Tools)\//.test(String(l.text || ""));
+const linkedSource = (l) => /\[\[(?:Inputs|Tools)\//.test(String(l.text || ""));
 const dailyItems = lists.filter(l => l.text && l.text.trim() && !l.task);
 const dailyInputs = dailyItems.filter(l => l.section?.subpath === "输入");
 const manualInputs = dailyInputs.filter(l => !linkedSource(l));
@@ -329,11 +329,11 @@ const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
 const dateText = (value) => value && value.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
 const inYear = (...values) => values.some(value => dateText(value).startsWith(String(y) + "-"));
 const sourceInputs = [
-  ...dv.pages('"Clippings"').where(p => inYear(p.created, p.clipped_at)),
+  ...dv.pages('"Inputs"').where(p => inYear(p.created, p.clipped_at)),
   ...dv.pages('"Tools"').where(p => inYear(p.created, p.captured_at)),
 ];
 const outputPages = dv.pages('"Outputs"').where(p => inYear(p.created, p.date));
-const linkedSource = (l) => /\[\[(?:Clippings|Tools)\//.test(String(l.text || ""));
+const linkedSource = (l) => /\[\[(?:Inputs|Tools)\//.test(String(l.text || ""));
 const inputLists = lists.filter(l => !l.task && l.text && l.text.trim() && l.section?.subpath === "输入");
 const inN = inputLists.filter(l => !linkedSource(l)).length + sourceInputs.length;
 const learnN = lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === "学到").length;
@@ -375,10 +375,10 @@ const lists = pages.flatMap(p => p.file.lists.map(l => ({ ...l, page: p })));
 const dateText = (value) => value?.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
 const inYear = (...values) => values.some(value => dateText(value).startsWith(String(y) + "-"));
 const sourcePages = [
-  ...dv.pages('"Clippings"').where(p => inYear(p.created, p.clipped_at)),
+  ...dv.pages('"Inputs"').where(p => inYear(p.created, p.clipped_at)),
   ...dv.pages('"Tools"').where(p => inYear(p.created, p.captured_at)),
 ];
-const linkedSource = (l) => /\[\[(?:Clippings|Tools)\//.test(String(l.text || ""));
+const linkedSource = (l) => /\[\[(?:Inputs|Tools)\//.test(String(l.text || ""));
 const tags = {};
 for (const p of pages) {
   for (const l of p.file.lists) {
@@ -449,10 +449,10 @@ const cell = (l) => {
 };
 const dateText = (value) => value?.toFormat ? value.toFormat("yyyy-MM-dd") : String(value || "").slice(0, 10);
 const inYear = (...values) => values.some(value => dateText(value).startsWith(String(y) + "-"));
-const linkedSource = (l) => /\[\[(?:Clippings|Tools)\//.test(String(l.text || ""));
+const linkedSource = (l) => /\[\[(?:Inputs|Tools)\//.test(String(l.text || ""));
 const dailyInputs = lists.filter(l => !l.task && l.text.trim() && l.section?.subpath === "输入");
 const sourcePages = [
-  ...dv.pages('"Clippings"').where(p => inYear(p.created, p.clipped_at)).map(page => ({ page, type: "剪藏" })),
+  ...dv.pages('"Inputs"').where(p => inYear(p.created, p.clipped_at)).map(page => ({ page, type: "剪藏" })),
   ...dv.pages('"Tools"').where(p => inYear(p.created, p.captured_at)).map(page => ({ page, type: "工具" })),
 ];
 const rows = [
