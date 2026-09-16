@@ -18,8 +18,8 @@ _bmad/
 .smart-env/
 .omc/
 
-
-
+# Skill-creator eval workspaces (grading, benchmarks, iteration dumps)
+.agents/skills/*-workspace/
 
 # Ignore Smart Environment folder
 .smart-env
