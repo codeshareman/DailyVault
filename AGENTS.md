@@ -38,6 +38,7 @@ DailyVault 是一个 Daily-first 的个人每日记录库。`YYYY/YYYY-MM-DD.md`
 - `YYYY/`：每个年份一个顶层目录；每日记录直接存放于 `YYYY/YYYY-MM-DD.md`，周期计划与复盘（一期一文件）位于 `YYYY/{Weekly,Monthly,Quarterly,Yearly}/`，年度统计文件 `YYYY/Yearly/{YYYY} 统计.md` 在创建年度文件时自动生成。
 - `Outputs/`：当前工程产出的文章、地址和交付物；Daily 只链接输出文件，不复制正文。
 - `Inputs/`：Obsidian Web Clipper 的原文快照。
+- `Drafts/收入机会拆解/`：具体商品、服务和平台案例；`框架/` 保存短期、中期、长期判断方法论，`机会池/` 保存对应候选机会清单。
 - `Tools/`：工具介绍卡片及其资源。
 - `Templates/`：Daily 和周期复盘模板。
 
@@ -86,6 +87,12 @@ QuickAdd 只提供“创建今天”和“追加到今天”。当天记录保�
 2. 修改模板后，确认 QuickAdd 的“追加到今天”仍定位到 `## 随手记录`。
 3. 修改 JSON 配置后，确认仍能解析。
 4. 不改写历史每日记录，也不恢复已退役的 Source/Note 默认流程。
+
+## 项目技能
+
+- `.agents/skills/vault-link-curator/SKILL.md`：解析用户发来的单个或批量链接，抓取公开元信息，路由到 `Tools/`（工具卡）或 `Inputs/`（文章剪藏），并生成符合 frontmatter 契约的 Markdown 描述文档。当用户粘贴 URL、要求整理/收录/归档链接、或为 GitHub 仓库、npm 包、产品站生成介绍时使用。
+- `.agents/skills/income-opportunity-research/SKILL.md`：用 ego-browser 研究商品、服务、平台和渠道样本，拆解成本、收益、机会发现、货源、获客成交、履约及短期／中期／长期价值。
+  当用户提供闲鱼、电商、服务或数字产品链接并要求分析赚钱方式、来源、成本、收益或渠道时使用。
 
 ## 智能体技能
 

@@ -1,0 +1,23 @@
+{
+  "skill_name": "vault-link-curator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我整理这个链接：https://github.com/genymobile/scrcpy",
+      "expected_output": "在 Tools/ 新建 scrcpy 工具卡，含 Software frontmatter、README 摘要、Android 投屏用途说明",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "收录这几个：\nhttps://github.com/ast-grep/ast-grep\nhttps://ast-grep.github.io/\nhttps://overreacted.io/a-chain-is-as-strong-as-its-weakest-link/",
+      "expected_output": "前两条合并或分别路由到 Tools/（工具+文档站），文章到 Inputs/；三条各自有 md 文件，汇总表汇报",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "https://www.goofish.com/item?id=123456 分析一下能不能做",
+      "expected_output": "不执行本技能；应转 income-opportunity-research 或提示用户改用收入机会技能",
+      "files": []
+    }
+  ]
+}

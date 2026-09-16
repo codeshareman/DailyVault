@@ -28,11 +28,15 @@ DailyVault 是一个日期优先的个人记录库。每天只写一份 `YYYY/YY
 ├── Monthly/        # 月计划与复盘（如 2026-08.md）
 ├── Quarterly/      # 季计划与复盘（如 2026-Q3.md）
 └── Yearly/         # 年计划与复盘 + 年度统计（如 2026.md、2026 统计.md）
+Drafts/收入机会拆解/  收入机会框架、机会池与具体案例
 Outputs/            # 当前工程产出的文章、地址和交付物
 Inputs/             # Web Clipper 原文快照
 Tools/              # 工具介绍卡片
 Templates/          # 每日、周期和年度统计模板
 ```
+- `Drafts/收入机会拆解/框架/`：短期、中期、长期收入判断方法论。
+- `Drafts/收入机会拆解/机会池/`：按时间视角整理的候选机会清单。
+- `Drafts/收入机会拆解/` 根目录：具体商品、服务和平台案例拆解。
 
 本地 HTTP/MCP 支持代码位于隐藏目录 `.dailyvault/openapi/`，与 Obsidian 内容层分开；其 OpenAPI 契约也保留在该目录中。
 
