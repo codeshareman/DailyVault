@@ -31,7 +31,7 @@ DailyVault 是一个日期优先的个人记录库。每天只写一份 `YYYY/YY
 Drafts/收入机会拆解/  收入机会框架、机会池与具体案例
 Outputs/            # 当前工程产出的文章、地址和交付物
 Inputs/             # Web Clipper 原文快照
-Tools/              # 工具介绍卡片
+Tools/              # 工具介绍卡片（入口 README.md）
 Templates/          # 每日、周期和年度统计模板
 ```
 - `Drafts/收入机会拆解/框架/`：短期、中期、长期收入判断方法论。

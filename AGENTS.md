@@ -39,7 +39,7 @@ DailyVault 是一个 Daily-first 的个人每日记录库。`YYYY/YYYY-MM-DD.md`
 - `Outputs/`：当前工程产出的文章、地址和交付物；Daily 只链接输出文件，不复制正文。
 - `Inputs/`：Obsidian Web Clipper 的原文快照。
 - `Drafts/收入机会拆解/`：具体商品、服务和平台案例；`框架/` 保存短期、中期、长期判断方法论，`机会池/` 保存对应候选机会清单。
-- `Tools/`：工具介绍卡片及其资源。
+- `Tools/`：工具介绍卡片及其资源；目录入口为 `Tools/README.md`。
 - `Templates/`：Daily 和周期复盘模板。
 
 `.dailyvault/openapi/` 是独立的本地 HTTP/MCP 支持模块；除非任务涉及 API，不要改动其中代码。
