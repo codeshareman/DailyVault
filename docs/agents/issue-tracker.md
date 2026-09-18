@@ -17,7 +17,7 @@ status: active
 
 # 事项跟踪：GitHub
 
-本仓库的事项与规格记录在 GitHub Issues 中。所有操作使用 `gh` CLI。
+本仓库的事项与规格记录在 GitHub Issues 中。所有操作使用 `gh` CLI。规格正文以仓库内 [docs/spec.md](../spec.md) 为准；Issue 只是 tracker 入口，不是规格原文。
 
 ## 约定
 

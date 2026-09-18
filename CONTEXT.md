@@ -1,6 +1,23 @@
-# DailyVault 收入机会研究
+# DailyVault
 
-本工程用收入机会清单记录广泛的方向，用收入机会拆解记录具体商品、服务或平台样本。词汇重点是把赚钱机制、供给来源、获客路径和时间视角分开，避免把一个低价成交误判成稳定生意。
+DailyVault 是日期优先的个人记录库。每日页面是当天事实的唯一源；工具卡是软件名称、摘要和网址的唯一源。收入机会研究有自己的一套判断词汇，不和公开软件推荐混用。
+
+## 公开软件推荐
+
+**工具卡**：一篇 `type: tool-introduction` 的记录。它是软件名称、摘要和网址的唯一源。
+_Avoid_: 每日待办、输入输出清单、手写公开清单
+
+**公开软件推荐**：从工具卡筛出、可写入 MRZZZ `recommendations.tools` 信封的公开肯定子集。推荐态只有 `recommended`、`situational`、`exploring`。
+_Avoid_: 收藏目录、当前在用、书签导出
+
+**公开推荐声明**：工具卡上的 `public_recommendation` 字段。取值 `recommended`、`situational`、`exploring`；省略即不上公开清单。人只写 Markdown 和这一个字段，不手写 `toolId`，默认模板也不留覆盖位。
+_Avoid_: 手写 toolId、单独名单、从每日记录倒灌
+
+**派生身份**：写入信封的 `toolId`。脚本从工具卡 `canonical_url` 生成；撞了失败闭合，那一张卡才允许可选覆盖。
+_Avoid_: 手写 slug、默认模板里的覆盖字段
+
+**发布闸**：ZNorth 对 Catalog 的显式同步。本仓脚本把派生快照写入 ZNorth；保存工具卡或 git push 都不发网，也不直连数据权威。
+_Avoid_: 自动发布、Backend 直写
 
 ## 机会与样本
 
