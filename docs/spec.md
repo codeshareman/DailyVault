@@ -20,9 +20,90 @@ MRZZZ 首页「软件推荐」现在只显示一份公开 Catalog（目前只有
 
 工具卡是唯一源。要上首页，只在卡上写 `public_recommendation`。本仓脚本读这些声明，从 `canonical_url` 生成派生身份，拼出完整非空的 Catalog 快照，写入 ZNorth。人再按发布闸。MRZZZ 的 `pnpm start` 只拉已经发布的信封。
 
-```text
-工具卡 ── public_recommendation ──► 派生脚本 ──► ZNorth 快照 ──► 发布闸 ──► 数据权威 ──► MRZZZ 快照 ──► 首页软件推荐
+```mermaid
+flowchart LR
+  subgraph DailyVault["DailyVault 唯一源"]
+    Cards["Tools/*.md 工具卡"]
+    Field["可选 public_recommendation"]
+    Cards --> Field
+  end
+  subgraph Derive["本仓派生脚本"]
+    Filter{"已声明且合法?"}
+    Snap["完整非空 Catalog 快照"]
+    Fail["失败闭合 不覆盖"]
+    Field --> Filter
+    Filter -->|是| Snap
+    Filter -->|否或非法| Fail
+  end
+  subgraph ZNorth["ZNorth 发布闸"]
+    File["Publishing/MRZZZ/recommendations.tools.json"]
+    Gate["人按 publish_catalog.py"]
+    Snap --> File --> Gate
+  end
+  subgraph Authority["数据权威"]
+    Worker["publication worker"]
+    Env["data.mrzzz.top 信封"]
+    Gate --> Worker --> Env
+  end
+  subgraph MRZZZ["MRZZZ"]
+    Start["pnpm start → sync-all"]
+    Gen["src/data/generated/recommendations.tools.json"]
+    Home["首页 ToolsModule"]
+    Env --> Start --> Gen --> Home
+  end
 ```
+
+`pnpm start` 不读 DailyVault，也不读 ZNorth 工作树。它只拉已经发布的信封。保存工具卡或 git push 都不发网。
+
+筛选规则：
+
+```mermaid
+flowchart TD
+  Read["读 Tools/*.md，跳过 README"] --> Type{"type 是 tool-introduction?"}
+  Type -->|否| Omit["不上清单"]
+  Type -->|是| Rec{"有 public_recommendation?"}
+  Rec -->|否| Omit
+  Rec -->|非法值| Fail["整份失败闭合"]
+  Rec -->|recommended / situational / exploring| Retired{"status 是 retired?"}
+  Retired -->|是| Fail
+  Retired -->|否| Shape{"title、description、canonical_url 齐全且访客安全 HTTPS，分类是 slug?"}
+  Shape -->|否| Fail
+  Shape -->|是| Id["从 canonical_url 派生 toolId"]
+  Id --> Dup{"身份撞车?"}
+  Dup -->|是| Fail
+  Dup -->|否| Keep["进入快照"]
+  Keep --> Empty{"公开集合为空?"}
+  Empty -->|是| FailEmpty["empty_public_set，不覆盖上一份"]
+  Empty -->|否| Write["写入 ZNorth 生成物"]
+```
+
+发布之后，`pnpm start` 怎么更新首页：
+
+```mermaid
+sequenceDiagram
+  actor Author as 作者
+  participant DV as DailyVault 脚本
+  participant ZN as ZNorth 生成物
+  participant Pub as CatalogPublisher
+  participant DA as 数据权威
+  participant Web as MRZZZ pnpm start
+  Author->>DV: 在工具卡写 public_recommendation
+  Author->>DV: make tools
+  alt 零条声明或非法
+    DV-->>ZN: 失败，不覆盖上一份
+  else 完整非空快照
+    DV->>ZN: 写入 recommendations.tools.json
+    Author->>Pub: python3 Tools/Automation/publish_catalog.py publish ...
+    Pub->>DA: ingest 完整快照
+    Note over Pub,DA: 写出本身不调用 ingest
+    DA->>DA: worker 生成 v6 信封
+    Web->>DA: GET /data/v1/recommendations.tools.json
+    DA-->>Web: fresh 信封
+    Web->>Web: 与 projects、skills 同组写入 generated
+    Web->>Web: ToolsModule 只渲染 fresh/stale 的 items
+  end
+```
+
 
 ## User Stories
 
@@ -88,3 +169,16 @@ MRZZZ 首页「软件推荐」现在只显示一份公开 Catalog（目前只有
 ## Further Notes
 
 当前数据权威上的 pnpm 条目不在工具卡里。本管线生效后，除非补卡并声明，否则它不会再出现在派生快照中。这是源边界的后果，不是遗漏。
+
+### 2026-09-18 管线验证
+
+父票 [#1](https://github.com/codeshareman/DailyVault/issues/1) 在第一批公开点名经发布闸落到信封之前保持开放。本轮验证了提取、筛选和 `pnpm start` 的 Catalog 同步，没有按发布闸，也没有给真实工具卡写 `public_recommendation`。
+
+- 真实 `Tools/`：408 个 Markdown，406 张 `tool-introduction`，0 条 `public_recommendation`。`make tools` / 派生得到 `empty_public_set`，不写出文件。没有名为 pnpm 的工具卡。
+- 临时目录混入真实卡（ChatGPT 声明 `recommended`，Dribbble / Daylio 省略）：快照只有 ChatGPT；`toolId` 为 `chatgpt-com`；文案和分类跟卡走。
+- 该快照通过 ZNorth `CatalogPublisher._validate_items`。空 `items` 被 `publish_snapshot` 拒绝。
+- 把同一 `items` 包进 v6 信封后，MRZZZ `parseRecommendationsToolsV6Envelope` 与首页 resolver 接受；裸 Catalog 快照（没有信封包装）被拒绝。这是故意的：`pnpm start` 吃信封，不吃 ZNorth 文件。
+- 在 MRZZZ 仓对 `https://data.mrzzz.top` 运行 `sync-publication-catalogs-from-backend`（`pnpm start` → `sync-all` 的 Catalog 步）：`profile.projects`、`profile.skills`、`recommendations.tools` 均为 `fresh`。本地 `src/data/generated/recommendations.tools.json` 仍是 2026-09-10 的 pnpm 信封，`changed=false`。
+
+因此：文件能提取和筛选；`pnpm start` 能从已发布信封更新（或确认未变）首页数据。首页要换成 DailyVault 派生结果，还差两步本规格故意留给人：点名至少一张卡，再按发布闸。
+

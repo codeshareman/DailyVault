@@ -130,3 +130,17 @@ make tools
 
 `make tools` 等价于 `.venv/bin/dailyvault tools`。可用 `ZNORTH_ROOT` 覆盖根目录，`--output` 改具体文件。派生失败不覆盖上一份文件。当前尚未点名任何工具卡，所以对真实 `Tools/` 运行会得到 `empty_public_set`。这是预期。
 
+同步只在人按闸之后发生。`pnpm start` 不读本仓：
+
+```mermaid
+flowchart LR
+  A["改工具卡"] --> B["make tools"]
+  B -->|失败| C["不覆盖 ZNorth 文件"]
+  B -->|成功| D["写入 ZNorth 生成物"]
+  D --> E["人按 publish_catalog.py"]
+  E --> F["数据权威信封"]
+  F --> G["MRZZZ pnpm start / sync-all"]
+  G --> H["首页软件推荐"]
+```
+
+更完整的筛选与发布时序见 [`docs/spec.md`](docs/spec.md)。
