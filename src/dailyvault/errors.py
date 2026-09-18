@@ -50,3 +50,7 @@ class InvalidCategoryError(DeriveToolsError):
 
 class InvalidCardShapeError(DeriveToolsError):
     code = "invalid_card_shape"
+
+
+class SnapshotWriteError(DeriveToolsError):
+    code = "snapshot_write_error"

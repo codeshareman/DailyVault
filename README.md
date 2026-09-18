@@ -11,7 +11,7 @@ subject:
 tags:
 - topic/knowledge-management
 - topic/daily-vault
-last_checked: '2026-09-01'
+last_checked: '2026-09-18'
 status: active
 ---
 
@@ -116,3 +116,17 @@ Obsidian Web Clipper 直接写入 `Inputs/`。需要在每日记录中提及时�
 - **输入与输出完整清单**：从每日「输入」「输出」章节派生，条目可点击跳转来源 daily，含 `[[内链]]`/URL 的条目保留可点击；剪藏是输入的子集，随条目呈现，不单独归集。
 
 周期粒度的统计不单独建文件——要看某月/某周的数字，翻每日记录或由复盘摘录。这让每日记录保持人可读，周期文件保持聚焦，统计只在年度做一个全局视角。
+
+## 公开软件推荐
+
+工具卡上的可选 `public_recommendation`（`recommended` / `situational` / `exploring`）是公开肯定声明。省略即不上公开清单。本仓脚本把完整 Catalog 快照写到并列仓 ZNorth 的 `Publishing/MRZZZ/recommendations.tools.json`。该文件是生成物，禁止手改。保存工具卡或 git push 都不发网；人再按 ZNorth 现有 Catalog 发布闸。零条公开声明会失败，不会清空首页。
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e '.[dev]'
+.venv/bin/pytest
+make tools
+```
+
+`make tools` 等价于 `.venv/bin/dailyvault tools`。可用 `ZNORTH_ROOT` 覆盖根目录，`--output` 改具体文件。派生失败不覆盖上一份文件。当前尚未点名任何工具卡，所以对真实 `Tools/` 运行会得到 `empty_public_set`。这是预期。
+
