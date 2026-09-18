@@ -22,3 +22,31 @@ class DeriveToolsError(DailyVaultError):
 
 class EmptyPublicSetError(DeriveToolsError):
     code = "empty_public_set"
+
+
+class DuplicateIdentityError(DeriveToolsError):
+    code = "duplicate_identity"
+
+
+class RetiredPublicDeclarationError(DeriveToolsError):
+    code = "retired_public_declaration"
+
+
+class InvalidRecommendationError(DeriveToolsError):
+    code = "invalid_recommendation"
+
+
+class UnsafeUrlError(DeriveToolsError):
+    code = "unsafe_url"
+
+
+class MissingCanonicalUrlError(DeriveToolsError):
+    code = "missing_canonical_url"
+
+
+class InvalidCategoryError(DeriveToolsError):
+    code = "invalid_category"
+
+
+class InvalidCardShapeError(DeriveToolsError):
+    code = "invalid_card_shape"
