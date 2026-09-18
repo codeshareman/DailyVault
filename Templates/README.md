@@ -11,7 +11,7 @@ subject:
 tags:
 - topic/knowledge-management
 - topic/templates
-last_checked: '2026-09-01'
+last_checked: '2026-09-18'
 status: active
 ---
 
@@ -25,7 +25,7 @@ status: active
 | `quarterly.md` | 季计划与复盘（一期一文件）。 |
 | `yearly.md` | 年计划与复盘（一期一文件）；创建时自动生成配对年度统计。 |
 | `yearly-stats.md` | 年度统计（`note_type: stats`），只做全年一次：KPI 概览、做了什么/没做什么、月度图表趋势、知识转化漏斗、`#kind/` 分类分布、输入与 `Outputs/` 输出完整清单。 |
-| `tool.md` | 工具介绍卡片：网站链接、产品截图、简介、分类、适用人群、定价和标签。目录统计见 `Tools/README.md`。 |
+| `tool.md` | 工具介绍卡片：网站链接、产品截图、简介、分类、适用人群、定价和标签。可选 `public_recommendation`（`recommended` / `situational` / `exploring`）；省略则不上公开清单，不要写 `toolId`。目录统计见 `Tools/README.md`。 |
 
 Daily 模板保持低摩擦：最多三项计划，其他章节只保留一个自由记录入口。模板在每个章节标题下内置一行 HTML 注释，说明该章节的用途和适用的 `#kind/...` 标签——编辑时可见、阅读时隐藏、不进入 Dataview 统计。“输入”和“输出”章节都内置 DataviewJS 表格：输入自动归集当天的 `Inputs/` 剪藏和 `Tools/` 工具介绍，输出自动归集 `Outputs/` 中 `created`/`date` 为当天的输出文件；Daily 不重复保存输出正文。
 

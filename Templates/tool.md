@@ -19,6 +19,7 @@ identifier: <required-identifier>
 source: <required-source-url>
 url: <required-source-url>
 canonical_url: <required-canonical-url>
+# public_recommendation: recommended  # 可选：recommended | situational | exploring；省略则不上公开清单
 ---
 
 # <% tp.file.title %>
